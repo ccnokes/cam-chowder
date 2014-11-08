@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-	_ = require('underscore'),
+	_ = require('lodash'),
 	async = require('async');
 
 

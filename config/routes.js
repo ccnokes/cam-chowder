@@ -6,8 +6,8 @@ module.exports = function(app) {
 
 
 	var getCtrl = function(str) {
-		var ctrlpath = '../app/controllers/',
-			uri = path.join(ctrlpath, str +'.js');
+		var ctrlpath = app.get('controllers'),
+			uri = path.join(ctrlpath, str +'.js');	
 
 		return require(uri);
 	};
@@ -32,7 +32,7 @@ module.exports = function(app) {
 
 
 
-	//router.route('/').get( getCtrl('home') );
+	router.route('/').get( getCtrl('home') );
 
 	router.route('/api/articles')
 		.all( getCtrl('blog') );
