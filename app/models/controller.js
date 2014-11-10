@@ -68,8 +68,6 @@ Controller.prototype = {
 
 	getAPI: function() {
 		var self = this;
-		
-		console.error(this.req.params);
 
 		if( !_.isEmpty(this.req.params) ) {
 			this.queryItem(this.req.params, function(item) {
@@ -151,14 +149,18 @@ Controller.prototype = {
 
 	queryItems: function(params, cb) {
 		var self = this,
-			params = params || {};
+			params = params || {},
+			limit;
+
+		if(params.limit) {
+			limit = params.limit;
+		}
 
 		this.collection
 		.find(params)
 		.sort({date: 'desc'})
 		.exec(function(err, items) {
 			if(err) {
-				//throw new Error(err);
 				self.returnError(err);
 			}
 			if(cb) {
