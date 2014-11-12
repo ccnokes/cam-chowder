@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	slugify = require('../utilities/slugify.js');
+	slugify = require('../utilities/utils.js').slugify;
 
 
 var ArticleSchema = new Schema({
