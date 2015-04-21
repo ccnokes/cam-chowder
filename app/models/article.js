@@ -1,7 +1,11 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	slugify = require('../utilities/utils.js').slugify;
+	slugify = require('../utilities/utils.js').slugify,
+	_ = require('lodash');
 
+/**
+ * Schema
+ */
 
 var ArticleSchema = new Schema({
 	slug: String,
@@ -37,5 +41,16 @@ ArticleSchema.pre('save', function(next) {
 
 ArticleSchema.set('toObject', { getters: true });
 
+var Article = mongoose.model('Article', ArticleSchema);
 
-mongoose.model('Article', ArticleSchema);
+
+/**
+ * Validation
+ */
+
+function checkForEmptyString(str) {
+	return _.isString(str) && str.length > 0;
+}
+
+Article.schema.path('title').validate(checkForEmptyString, 'Title can\'t be empty');
+Article.schema.path('text').validate(checkForEmptyString, 'Text can\'t be empty');

@@ -41,7 +41,7 @@ function autoLoad(directories, cb) {
 				//capture export in var
 				var mod = require(filepath);
 				if(cb) {
-					cb(filepath, mod);
+					cb(mod, filepath);
 				}
 			}
 		});

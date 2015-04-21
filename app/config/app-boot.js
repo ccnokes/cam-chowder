@@ -38,7 +38,13 @@ require('./middlewares');
 
 //do some auto-loading
 //path is relative to app/
-autoload(['models', 'controllers']);
+autoload('models');
+//mount router defined in controllers to app
+autoload('controllers', function(mod, file) {
+	if(mod.router) {
+		app.use(mod.router);
+	}
+});
 
 
 
