@@ -8,14 +8,20 @@ module.exports = {
 
 	slugify: function(text) {
 		if(text) {
-			var slug = text.toString().toLowerCase()
+			var slug = text.toString();
+			
+			//limit word 
+			var words = slug.split(' ');
+			if(words.length > 5) {
+				slug = words.splice(0,4).join(' ');
+			}
+
+			return slug.toLowerCase()
 				.replace(/\s+/g, '-')        // Replace spaces with -
 				.replace(/[^\w\-]+/g, '')    // Remove all non-word chars
 				.replace(/\-\-+/g, '-')      // Replace multiple - with single -
 				.replace(/^-+/, '')          // Trim - from start of text
 				.replace(/-+$/, '');         // Trim - from end of text
-
-			return slug;
 		}
 		else {
 			return '';

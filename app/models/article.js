@@ -1,7 +1,9 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	slugify = require('../utilities/utils.js').slugify,
-	_ = require('lodash');
+	_ = require('lodash'),
+	mongoosePaginate = require('mongoose-paginate');
+
 
 /**
  * Schema
@@ -16,17 +18,12 @@ var ArticleSchema = new Schema({
 	title: String,
 	text: String,
 	teaser: String,
-	modifiedDate: Date
-});
-
-
-ArticleSchema.virtual('date').get(function() {
-	return this._id.getTimestamp();
-});
-
-
-ArticleSchema.virtual('url').get(function() {
-	return '/blog/' + this.slug;
+	modifiedDate: Date,
+	createdDate: Date,
+	appreciates: {
+		type: Number,
+		default: 0
+	}
 });
 
 
@@ -34,12 +31,13 @@ ArticleSchema.pre('save', function(next) {
 	if(!this.slug) {
 		this.slug = slugify(this.title);
 	}
-	this.modifiedDate = new Date().toISOString();
+	this.modifiedDate = this.createdDate = new Date().toISOString();
 	next();
 });
 
-
 ArticleSchema.set('toObject', { getters: true });
+
+ArticleSchema.plugin(mongoosePaginate);
 
 var Article = mongoose.model('Article', ArticleSchema);
 
