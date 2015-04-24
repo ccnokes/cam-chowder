@@ -38,9 +38,10 @@ require('./middlewares');
 
 //do some auto-loading
 //path is relative to app/
-autoload('models');
+autoload('**/*-model.js');
 //mount router defined in controllers to app
-autoload('controllers', function(mod, file) {
+autoload('**/*-ctrl.js', function(mod, file) {
+	//*note: this means that controller routers should not be order dependent
 	if(mod.router) {
 		app.use(mod.router);
 	}
@@ -55,7 +56,9 @@ var router = express.Router();
 router.use(function(req, res) {
 	//if expecting JSON, send that
 	if(req.headers['content-type'] === 'application/json') {
-		res.status(404).json({success: false, error: true, msg: 'Resource does not exist.'});
+		res.status(404).json({
+			message: 'Resource does not exist.'
+		});
 	} 
 	//otherwise send 404.html
 	else {
