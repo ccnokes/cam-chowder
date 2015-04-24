@@ -4,10 +4,14 @@ var express = require('express'),
 	compression = require('compression'),
 	appConstants = require('./app-constants'),
 	app = require('./app-boot'),
-	paginate = require('express-paginate');
+	paginate = require('express-paginate'),
+	helmet = require('helmet');
 
-//TODO if env === 'dev'
-require('node-monkey').start();
+
+//mirror browser console to node console
+if(appConstants.env === 'dev') {
+	require('node-monkey').start();	
+}
 
 //adds response time header to response
 app.use(responseTime());
@@ -26,3 +30,19 @@ app.use(bodyParser.json());
 //app.use(express.favicon(config.root + '/public/img/favicon.ico'));
 
 app.use(paginate.middleware());
+
+//security
+app.use(helmet.xssFilter());
+app.use(helmet.frameguard());
+app.use(helmet.noSniff());
+
+//CSP
+app.use(helmet.contentSecurityPolicy({
+	defaultSrc: ["'self'"],
+	scriptSrc: ["'self'", "'nonce-" + appConstants.cspHash + "'", "'unsafe-eval'"],
+	styleSrc: ["'self'", "'unsafe-inline'"],
+	imgSrc: ["'self'", 'data:'],
+	connectSrc: ["'self'", "ws:"],
+	reportUri: '/csp-violation',
+	setAllHeaders: false // set to true if you want to set all headers (X-Webkit-Content-Security-Policy, etc...)
+}));

@@ -2,7 +2,8 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	slugify = require('../utilities/utils.js').slugify,
 	_ = require('lodash'),
-	mongoosePaginate = require('mongoose-paginate');
+	mongoosePaginate = require('mongoose-paginate'),
+	validators = require('../utilities/validators');
 
 
 /**
@@ -46,9 +47,5 @@ var Article = mongoose.model('Article', ArticleSchema);
  * Validation
  */
 
-function checkForEmptyString(str) {
-	return _.isString(str) && str.length > 0;
-}
-
-Article.schema.path('title').validate(checkForEmptyString, 'Title can\'t be empty');
-Article.schema.path('text').validate(checkForEmptyString, 'Text can\'t be empty');
+Article.schema.path('title').validate(validators.isNotEmpty, 'Title can\'t be empty');
+Article.schema.path('text').validate(validators.isNotEmpty, 'Text can\'t be empty');

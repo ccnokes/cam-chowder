@@ -1,6 +1,7 @@
 var path = require('path'),
 	fs = require('fs'),
-	crypto = require('crypto');
+	crypto = require('crypto'),
+	env = process.env.NODE_ENV || 'dev';
 
 var root = path.normalize(__dirname + '/../..');
 
@@ -12,14 +13,13 @@ try {
 }
 
 const constants = {
+	env: env,
 	version: version,
 	cspHash: crypto.createHash('sha256').update('kittens!' + version).digest('hex'),
 	rootPath: root,
 	appPath: path.join(root, 'app'),
 	publicPath: path.join(root, 'public'),
-	modelsPath: path.join(root, '/app/models'),
-	viewsPath: path.join(root, 'app/views'),
-	controllersPath: path.join(root, '/app/controllers')
+	viewsPath: path.join(root, 'app/views')
 };
 
 module.exports = constants;
