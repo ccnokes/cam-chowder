@@ -1,9 +1,22 @@
 {
-  "name": "express",
-  "version": "0.0.1",
+  "name": "cam-chowder",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ccnokes/cam-chowder",
+  "authors": [
+    "Cameron Nokes"
+  ],
+  "license": "Private",
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
-  ]
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.2",
+    "reflux": "~0.2.7"
+  }
 }

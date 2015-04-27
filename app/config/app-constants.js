@@ -19,6 +19,7 @@ const constants = {
 	rootPath: root,
 	appPath: path.join(root, 'app'),
 	publicPath: path.join(root, 'public'),
+	distPath: path.join(root, 'dist'),
 	viewsPath: path.join(root, 'app/views')
 };
 

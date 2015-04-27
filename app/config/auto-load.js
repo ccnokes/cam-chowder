@@ -17,7 +17,6 @@ var fixPath = function(dirPath) {
  */
 function autoLoad(_patterns, cb) {
 	var patterns = [];
-	var loadedFiles = [];
 	
 	//set dirs array
 	if(_.isString(_patterns)) {
@@ -45,7 +44,7 @@ function autoLoad(_patterns, cb) {
 
 	files.forEach(load);
 	
-	return loadedFiles;
+	return files;
 }
 
 module.exports = autoLoad;

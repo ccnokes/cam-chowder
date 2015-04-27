@@ -22,7 +22,7 @@ app.use(compression({
 }));
 
 //serve public as web root
-app.use(express.static(appConstants.publicPath));
+app.use(express.static(appConstants.distPath));
 
 // parse application/json
 app.use(bodyParser.json());
