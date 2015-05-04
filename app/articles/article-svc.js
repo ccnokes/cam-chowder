@@ -38,6 +38,10 @@ articleSvc.getArticleById = function(id) {
 	return Article.findById(id).exec();
 };
 
+articleSvc.getArticleBySlug = function(slug) {
+	return Article.findOne({slug: slug}).exec();
+};
+
 
 articleSvc.createArticle = function(articleObj) {
 	var post = new Article(articleObj);
