@@ -15,4 +15,4 @@ viewCtrl.render = function(req, res) {
 	});
 };
 
-router.route(['/', '/blog']).all(viewCtrl.render);
+router.route(['/', '/blog/*']).all(viewCtrl.render);

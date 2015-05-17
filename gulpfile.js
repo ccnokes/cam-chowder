@@ -4,7 +4,8 @@ var watch = require('gulp-watch');
 var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-
+var less = require('gulp-less');
+var del = require('del');
 
 
 var webpackConfig = require('./webpack.config');
@@ -13,16 +14,19 @@ var webpackConfig = require('./webpack.config');
 var paths = {
 	src: {
 		main: 'public',
-		scripts: 'public/scripts/**/*.js'
+		scripts: 'public/scripts/**/*.js',
+		stylesMain: 'public/styles/main.less',
+		styles: 'public/styles/**/*.less'
 	},
 	
 	dist: {
-		scripts: 'dist/scripts/**/*'
+		scripts: 'dist/scripts/',
+		styles: 'dist/styles/'
 	}
 };
 
 
-gulp.task('webpack', function(done) {
+gulp.task('webpack', ['cleanScripts'], function(done) {
 	webpack(webpackConfig, function(err, stats) {
         if(err) {
         	console.error(err);
@@ -36,12 +40,11 @@ gulp.task('webpack', function(done) {
 
 
 gulp.task('cleanScripts', function(done) {
-	del([dist.scripts], done);
+	del([paths.dist.scripts], done);
 });
 
 
 gulp.task('lint', function() {
-	//exclude manually imported ui-bootstrap modules
 	var stream = gulp.src(paths.src.main + '/scripts/**/*.js');
 	stream.pipe(jshint())
 		.pipe(jshint.reporter(stylish));
@@ -50,10 +53,28 @@ gulp.task('lint', function() {
 });
 
 
+gulp.task('less', function() {
+	return gulp.src(paths.src.stylesMain)
+		.pipe(less())
+		.pipe( gulp.dest(paths.dist.styles) )
+});
+
+
 
 
 gulp.task('watch', function() {
-	watch(paths.src.scripts, function() {
+	watch([paths.src.scripts, paths.src.main + '/scripts/**/*.jsx'], function() {
 		runSequence(['webpack']);
 	});
+
+	watch(paths.src.styles, function() {
+		runSequence(['less']);
+	});
 });
+
+
+gulp.task('default', [
+	'less',
+	'webpack',
+	'watch'
+]);

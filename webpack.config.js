@@ -1,6 +1,6 @@
 module.exports = {
 
-	entry: "./public/scripts/main.js",
+	entry: './public/scripts/main.js',
 
 	stats: {
 		colors: true,
@@ -9,7 +9,7 @@ module.exports = {
 
 	output: {
 		path: 'dist/scripts',
-		filename: "bundle.js"
+		filename: 'bundle.js'
 	},
 
 	module: {

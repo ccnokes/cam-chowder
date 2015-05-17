@@ -1,0 +1,18 @@
+{
+  "name": "cam-chowder",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ccnokes/cam-chowder",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}

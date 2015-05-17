@@ -14,6 +14,14 @@ var App = React.createClass({
 				<header className="header">
 					<h2>Cameron Nokes</h2>
 					<p><small>A website about front-end web development, UX, and cheesecake.</small></p>
+					<ul className="no-list">
+						<li>
+							About
+						</li>
+						<li>
+							Contact
+						</li>
+					</ul>
 				</header>
 				
 

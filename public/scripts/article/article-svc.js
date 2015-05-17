@@ -4,16 +4,32 @@ var request = require('reqwest'),
 function ArticleSvc() {
 
 	var resourceUrl = appConst.apiUrl + 'articles';
+	var cache;
 
 	return {
 		
 		getAll: function() {
-			return request({
-				url: resourceUrl,
-				type: 'json',
-				method: 'get',
-				contentType: 'application/json'
-			});
+			if(cache){
+				//TODO
+				//fake out immediately resolved promise here
+				return {
+					then: function(cb) {
+						return cb(cache);
+					}
+				};
+			}
+			else {
+				return request({
+					url: resourceUrl,
+					type: 'json',
+					method: 'get',
+					contentType: 'application/json'
+				})
+				.then(function(data) {
+					cache = data;
+					return data;
+				});
+			}
 		},
 
 		getArticleBySlug: function(slug) {
@@ -23,6 +39,15 @@ function ArticleSvc() {
 				method: 'get',
 				contentType: 'application/json',
 
+			});
+		},
+
+		appreciateArticle: function(id) {
+			return request({
+				url: resourceUrl + '/' + id + '/appreciate',
+				type: 'json',
+				method: 'post',
+				contentType: 'application/json'
 			});
 		}
 

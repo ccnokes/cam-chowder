@@ -18,7 +18,8 @@ var PostLI = React.createClass({
 				<Link to="single-post" params={post} onClick={this.handleClick}>
 					{post.title}
 				</Link>
-				<p>{post.text}</p>
+				<p>{post.createdDate || post.modifiedDate}</p>
+				// <p>{post.teaser}</p>
 			</div>
 		);
 	}

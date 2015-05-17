@@ -35,16 +35,14 @@ var PostList = React.createClass({
 		
 		var posts = this.state.posts.map(function(post) {
 			return (
-				<PostLI post={post}></PostLI>
+				<PostLI post={post} key={post._id}></PostLI>
 			);
 		});
 
 		return (
-			<section className="sidebar">
-				<ul>
-					{posts}
-				</ul>
-			</section>
+			<ul className="no-list">
+				{posts}
+			</ul>
 		);
 	}
 
