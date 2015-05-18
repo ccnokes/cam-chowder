@@ -40,7 +40,7 @@ var PostList = React.createClass({
 		});
 
 		return (
-			<ul className="no-list">
+			<ul className="list-group">
 				{posts}
 			</ul>
 		);

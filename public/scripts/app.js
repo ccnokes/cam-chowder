@@ -11,17 +11,24 @@ var App = React.createClass({
 		return (
 			
 			<div className="page-container">
-				<header className="header">
-					<h2>Cameron Nokes</h2>
-					<p><small>A website about front-end web development, UX, and cheesecake.</small></p>
-					<ul className="no-list">
-						<li>
-							About
-						</li>
-						<li>
-							Contact
-						</li>
-					</ul>
+				<header className="header row">
+					<div className="col-md-6">
+						<h2 className="header-title">Cameron Nokes</h2>
+						<p><small>A website about front-end web development, UX, and cheesecake.</small></p>
+					</div>
+					<nav className="collapse navbar-collapse col-md-6 pull-right">
+						<ul className="nav navbar-nav">
+							<li>
+								<a>Blog</a>
+							</li>
+							<li>
+								<a>About</a>
+							</li>
+							<li>
+								<a>Contact</a>
+							</li>
+						</ul>
+					</nav>
 				</header>
 				
 

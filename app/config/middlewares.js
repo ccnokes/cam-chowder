@@ -40,7 +40,8 @@ app.use(helmet.noSniff());
 app.use(helmet.contentSecurityPolicy({
 	defaultSrc: ["'self'"],
 	scriptSrc: ["'self'", "'nonce-" + appConstants.cspHash + "'", "'unsafe-eval'"],
-	styleSrc: ["'self'", "'unsafe-inline'"],
+	styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+	fontSrc: ["'self'", 'fonts.gstatic.com'],
 	imgSrc: ["'self'", 'data:'],
 	connectSrc: ["'self'", "ws:"],
 	reportUri: '/csp-violation',

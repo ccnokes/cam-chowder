@@ -1,26 +1,40 @@
 var React = require('react'),
-	Link = require('react-router').Link;
+	Link = require('react-router').Link,
+	filters = require('./config/filters'),
+	State = require('react-router').State;
 
 
 var PostLI = React.createClass({
-	
-	handleClick: function() {
-		console.log( this.props.post._id );
 
+	mixins: [State],
+	
+	getInitialState: function() {
+		var post = this.props.post;		
+
+		var state = {};
+		state.postUrl = '/blog/' + post.slug;
+		state.isActive = (this.getPathname() === state.postUrl);
+		state.postDate = filters.formatDate(post.modifiedDate);
+
+		state.className = ['list-group-item'];
+
+		// if(state.isActive) {
+		// 	state.className.push('active');
+		// }
+
+		return state;
 	},
 
 	render: function() {
 		var post = this.props.post;
-		post.url = '/blog/' + post.slug;
 
-		return (
-			<div>
-				<Link to="single-post" params={post} onClick={this.handleClick}>
-					{post.title}
-				</Link>
-				<p>{post.createdDate || post.modifiedDate}</p>
-				// <p>{post.teaser}</p>
-			</div>
+		return (			
+			<Link to="single-post" params={post} className="list-group-item">
+				<div>
+					<small>{this.state.postDate}</small>
+				</div>
+				<p className="list-group-item-heading">{post.title}</p>
+			</Link>
 		);
 	}
 });

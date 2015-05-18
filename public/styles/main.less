@@ -28,7 +28,7 @@
 // @import "pagination.less";
 // @import "pager.less";
 @import "@{bower}/bootstrap/less/labels.less";
-// @import "badges.less";
+@import "@{bower}/bootstrap/less/badges.less";
 // @import "jumbotron.less";
 // @import "thumbnails.less";
 // @import "alerts.less";
@@ -51,11 +51,18 @@
 @import "@{bower}/bootstrap/less/responsive-utilities.less";
 
 
+@stdSpace: 2em;
 
 
 body {
-	font-family: sans-serif;
+	font-family: 'Hind', sans-serif;
 	font-size: 16px;
+}
+
+.page-container {
+	margin: 0 auto;
+	padding: @stdSpace;
+	max-width: 1200px;
 }
 
 .no-list {	
@@ -69,7 +76,34 @@ body {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: 'Montserrat', sans-serif;
 	margin-top: 0;
 }
 
 
+.list-group {
+	border-right: 1px solid #bababa;
+}
+
+.list-group-item {
+	border: 0;
+	border-radius: 0;
+
+	&:first-child {
+		border-radius: 0;
+	}
+
+	// &.active {
+	// 	background-color: #888;
+	// 	color: white;
+	// }
+}
+
+
+.header {
+	margin-bottom: @stdSpace;
+}
+
+.header-title {
+	font-size: 1.2em;
+}

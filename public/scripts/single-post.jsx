@@ -54,8 +54,15 @@ var SinglePost = React.createClass({
 				<article className="blog-post col-md-9">
 					<h1>{post.title}</h1>
 					<p>{post.text}</p>
-					<p>{this.state.appreciateCount}</p>
-					<button onClick={this.appreciate}>Appreciate this</button>
+					
+					<div>
+						<button onClick={this.appreciate} className="btn btn-primary">
+							Appreciate this &nbsp;
+							<span className="badge">{this.state.appreciateCount}</span>
+						</button>
+						
+					</div>
+
 				</article>
 			</div>
 		);
