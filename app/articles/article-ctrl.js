@@ -65,7 +65,7 @@ articleCtrl.createArticle = function(req, res) {
 			res.status(201).json(article);
 		},
 		function err(e) {
-			res.status(404).end();
+			res.status(400).json({message: e});
 		}
 	)
 };

@@ -3,8 +3,7 @@ var mongoose = require('mongoose'),
 	slugify = require('../utilities/utils.js').slugify,
 	_ = require('lodash'),
 	mongoosePaginate = require('mongoose-paginate'),
-	validators = require('../utilities/validators'),
-	count = 1;
+	validators = require('../utilities/validators');
 
 
 /**
@@ -45,11 +44,15 @@ ArticleSchema.pre('save', function(next) {
 	this.constructor.findOne({slug: this.slug}, function(err, article) {        
 		if(article) {
 			//presumably, adding this would be enough to eliminate the possibility of dupe slugs
-			self.slug += '-' + count++;
+			//self.slug += '-' + count++;
+			
+			//throw error
+			next(new Error('No duplicate slugs allowed'));
+		}
+		else {
+			next();
 		}
 	});
-
-	next();
 });
 
 ArticleSchema.set('toObject', { getters: true });
@@ -65,3 +68,4 @@ var Article = mongoose.model('Article', ArticleSchema);
 
 Article.schema.path('title').validate(validators.isNotEmpty, 'Title can\'t be empty');
 Article.schema.path('text').validate(validators.isNotEmpty, 'Text can\'t be empty');
+

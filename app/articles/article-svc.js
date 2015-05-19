@@ -49,7 +49,7 @@ articleSvc.createArticle = function(articleObj) {
 
 	post.save(function(err) {
 		if(err) {
-			dfd.reject(err);
+			dfd.reject(err.message);
 		}
 		else {
 			dfd.resolve(post);
