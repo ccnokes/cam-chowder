@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
 	slugify = require('../utilities/utils.js').slugify,
 	_ = require('lodash'),
 	mongoosePaginate = require('mongoose-paginate'),
-	validators = require('../utilities/validators');
+	validators = require('../utilities/validators'),
+	count = 1;
 
 
 /**
@@ -29,6 +30,8 @@ var ArticleSchema = new Schema({
 
 
 ArticleSchema.pre('save', function(next) {
+	var self = this;
+
 	if(!this.slug) {
 		this.slug = slugify(this.title);
 	}
@@ -37,6 +40,14 @@ ArticleSchema.pre('save', function(next) {
 	if(!this.teaser) {
 		this.teaser = this.text.split(' ').splice(0, 5).join(' ') + '...';
 	}
+
+	//ensure there are no duplicate slugs created
+	this.constructor.findOne({slug: this.slug}, function(err, article) {        
+		if(article) {
+			//presumably, adding this would be enough to eliminate the possibility of dupe slugs
+			self.slug += '-' + count++;
+		}
+	});
 
 	next();
 });

@@ -6,14 +6,15 @@ module.exports = {
 	    return Math.floor(Math.random()*(max-min+1)+min);
 	},
 
-	slugify: function(text) {
+	slugify: function(text, _wordCount) {
+		var wordCount = _wordCount ? _wordCount : 4;
 		if(text) {
 			var slug = text.toString();
 			
 			//limit word 
 			var words = slug.split(' ');
 			if(words.length > 5) {
-				slug = words.splice(0,4).join(' ');
+				slug = words.splice(0, wordCount).join(' ');
 			}
 
 			return slug.toLowerCase()
