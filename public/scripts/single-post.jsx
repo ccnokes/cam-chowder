@@ -1,12 +1,16 @@
 var React = require('react'),
 	articleSvc = require('./article/article-svc'),
-	PostList = require('./post-list.jsx');;
+	filters = require('./config/filters'),
+	PostList = require('./post-list.jsx');
 
 
 var SinglePost = React.createClass({
 
 	appreciate: function() {
-		this.setState({ appreciateCount: ++this.state.appreciateCount });
+		this.setState({ 
+			appreciateCount: ++this.state.appreciateCount,
+			disableAppreciate: true
+		});
 		return articleSvc.appreciateArticle(this.state.post._id);
 	},
 
@@ -31,12 +35,17 @@ var SinglePost = React.createClass({
 	getInitialState: function() {
 		return {
 			post: {},
-			appreciateCount: 0
+			appreciateCount: 0,
+			disableAppreciate: false
 		};
 	},
 
 	componentWillReceiveProps: function(newProps) {
 		this.getData(newProps);
+		//reset it when a new post is loaded
+		this.setState({
+			disableAppreciate: false
+		});
 	},
 
 	componentDidMount: function() {
@@ -53,14 +62,17 @@ var SinglePost = React.createClass({
 				</div>
 				<article className="blog-post col-md-9">
 					<h1>{post.title}</h1>
+					<div className="blog-post-meta small">
+						<p>Published: {filters.formatDate(post.createdDate)}</p>
+					</div>
 					<p>{post.text}</p>
 					
 					<div>
-						<button onClick={this.appreciate} className="btn btn-primary">
+						<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
 							Appreciate this &nbsp;
 							<span className="badge">{this.state.appreciateCount}</span>
 						</button>
-						
+						<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
 					</div>
 
 				</article>

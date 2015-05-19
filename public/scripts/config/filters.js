@@ -8,5 +8,5 @@ filters.formatDate = function(date) {
 	if( !(date instanceof Date) ) {
 		date = new Date(date);
 	}
-	return monthNames[date.getMonth()] + ' ' + date.getFullYear();
+	return monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 };

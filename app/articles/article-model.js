@@ -33,6 +33,11 @@ ArticleSchema.pre('save', function(next) {
 		this.slug = slugify(this.title);
 	}
 	this.modifiedDate = this.createdDate = new Date().toISOString();
+
+	if(!this.teaser) {
+		this.teaser = this.text.split(' ').splice(0, 5).join(' ') + '...';
+	}
+
 	next();
 });
 

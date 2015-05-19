@@ -27,7 +27,7 @@ articleSvc.getArticles = function(page, limit) {
 		}
 	}, {
 		//return in descending order (last made come first)
-		sortBy: { date: -1 }
+		sortBy: { createdDate: -1 }
 	});	
 
 	return dfd.promise;
