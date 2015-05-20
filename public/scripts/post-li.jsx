@@ -12,7 +12,7 @@ var PostLI = React.createClass({
 	mixins: [State],
 
 	postIsActive: function(postUrl) {
-		return this.getPathname() === postUrl;
+		return this.getPathname() === this.state.postUrl;
 	},
 
 	getInitialState: function() {
@@ -21,40 +21,22 @@ var PostLI = React.createClass({
 		var state = {};
 		state.postUrl = '/blog/' + post.slug;
 		state.postDate = filters.formatDate(post.createdDate);
-		state.className = elClass;
-
-		if(this.postIsActive(state.postUrl)) {
-			state.className += ' ' + activeClass;
-		}
 
 		return state;
-	},
-
-	//react router's <Link> auto-detect if state is active doesn't seem to work
-	//so we handle that behavior manually
-	componentWillReceiveProps: function() {
-		if(this.isMounted()) {
-			//it's active
-			if(this.postIsActive(this.state.postUrl)) {
-				var className = elClass + ' ' + activeClass;
-				this.setState({
-					className: className
-				});
-			}
-			//it's not
-			else {
-				this.setState({
-					className: elClass
-				});
-			}
-		}
 	},
 
 	render: function() {
 		var post = this.props.post;
 
+		//react router's <Link> auto-detect if state is active doesn't seem to work
+		//so we handle that behavior manually
+		var className = 'list-group-item';
+		if(this.postIsActive()) {
+			className += ' ' + activeClass;
+		}
+
 		return (			
-			<Link to="single-post" params={post} className={this.state.className}>
+			<Link to="single-post" params={post} className={className}>
 				<div>
 					<small className="list-group-item-small">{this.state.postDate}</small>
 				</div>
