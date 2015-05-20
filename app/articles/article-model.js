@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 	validators = require('../utilities/validators');
 
 
+
 /**
  * Schema
  */
@@ -55,7 +56,7 @@ ArticleSchema.pre('save', function(next) {
 	});
 });
 
-ArticleSchema.set('toObject', { getters: true });
+//ArticleSchema.set('toJSON', { virtuals: true });
 
 ArticleSchema.plugin(mongoosePaginate);
 

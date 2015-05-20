@@ -1,7 +1,24 @@
 var React = require('react'),
 	articleSvc = require('./article/article-svc'),
 	filters = require('./config/filters'),
-	PostList = require('./post-list.jsx');
+	PostList = require('./post-list.jsx'),
+	Remarkable = require('remarkable'),
+	hljs = require('highlight.js'),
+	md = new Remarkable({
+		highlight: function (str, lang) {
+			if (lang && hljs.getLanguage(lang)) {
+				try {
+					return hljs.highlight(lang, str).value;
+				} catch (err) {}
+			}
+
+			try {
+				return hljs.highlightAuto(str).value;
+			} catch (err) {}
+
+			return ''; // use external default escaping
+		}
+	});
 
 
 var SinglePost = React.createClass({
@@ -54,6 +71,7 @@ var SinglePost = React.createClass({
 
 	render: function() {
 		var post = this.state.post;
+		var html = md.render(post.text);
 
 		return (
 			<div className="row">
@@ -61,13 +79,16 @@ var SinglePost = React.createClass({
 					<PostList></PostList>
 				</div>
 				<article className="blog-post col-md-9">
-					<h1>{post.title}</h1>
-					<div className="blog-post-meta small">
-						<p>Published: {filters.formatDate(post.createdDate)}</p>
+					<div className="blog-post-header mg-btm">
+						<h1>{post.title}</h1>
+						<div className="blog-post-meta small">
+							<p>Published: {filters.formatDate(post.createdDate)}</p>
+						</div>
 					</div>
-					<p>{post.text}</p>
+
+					<div className="blog-post-body mg-btm" dangerouslySetInnerHTML={{__html: html}}></div>
 					
-					<div>
+					<div className="blog-post-footer">
 						<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
 							Appreciate this &nbsp;
 							<span className="badge">{this.state.appreciateCount}</span>
