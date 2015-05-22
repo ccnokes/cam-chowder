@@ -3,7 +3,8 @@ var React = require('react'),
 	RouteHandler = Router.RouteHandler,
 	Link = require('react-router').Link,
 	TransitionGroup = require('react/lib/ReactCSSTransitionGroup'),
-	articleSvc = require('./article/article-svc');
+	articleSvc = require('./article/article-svc'),
+	RandomTopic = require('./random-topic.jsx');
 
 
 var App = React.createClass({
@@ -17,7 +18,7 @@ var App = React.createClass({
 					<header className="header row">
 						<div className="col-md-6">
 							<h2 className="header-title">Cameron Nokes</h2>
-							<p><small>A website about front-end web development, UX, and cheesecake.</small></p>
+							<p className="header-sub"><small>A website about front-end web development, UX, and <RandomTopic/>.</small></p>
 						</div>
 						<nav className="collapse navbar-collapse col-md-6 pull-right">
 							<ul className="nav navbar-nav">

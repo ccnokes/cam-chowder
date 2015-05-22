@@ -6,6 +6,7 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var less = require('gulp-less');
 var del = require('del');
+var autoprefixer = require('gulp-autoprefixer');
 
 
 var webpackConfig = require('./webpack.config');
@@ -56,6 +57,7 @@ gulp.task('lint', function() {
 gulp.task('less', function() {
 	return gulp.src(paths.src.stylesMain)
 		.pipe(less())
+		.pipe(autoprefixer())
 		.pipe( gulp.dest(paths.dist.styles) )
 });
 

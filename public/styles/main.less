@@ -55,13 +55,21 @@
 
 
 @stdSpace: 2em;
-@priColor:;
+@priColor: #4384AF;
 @secColor: #454545;
 
+@footerHeight: 100px;
+
+
+html {
+	position: relative;
+    min-height: 100%;
+}
 
 body {
 	font-family: 'Hind', sans-serif;
 	font-size: 16px;
+	margin: 0 0 @footerHeight;
 }
 
 .page-container {
@@ -134,6 +142,20 @@ pre {
 	font-size: 1.2em;
 }
 
+.header-sub {
+	user-select: none;
+	color: #999;
+}
+
+.random-topic {
+	cursor: pointer;
+	//border-bottom: 1px dashed @secColor;
+	
+	&:hover {
+		color: @priColor;
+	}
+}
+
 
 .btn {
 	margin-right: 8px;
@@ -141,6 +163,12 @@ pre {
 
 
 .footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: @footerHeight;
+	width: 100%;
+	
 	background: @secColor;
-	color: white;
+	color: rgba(255, 255, 255, 0.7);
 }
