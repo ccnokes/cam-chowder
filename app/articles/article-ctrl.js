@@ -90,7 +90,7 @@ articleCtrl.appreciateArticle = function(req, res) {
 	articleSvc.appreciateArticle(req.params.id)
 	.then(
 		function ok(article) {
-			res.json({message: 'Article updated.', appreciateCount: article.appreciates});
+			res.json({message: 'Article updated.', _id: article._id, appreciateCount: article.appreciates});
 		},
 		function err(e) {
 			res.status(404).end();

@@ -2,6 +2,7 @@ var React = require('react'),
 	articleSvc = require('./article/article-svc'),
 	filters = require('./config/filters'),
 	PostList = require('./post-list.jsx'),
+	Loader = require('./loader.jsx'),
 	Remarkable = require('remarkable'),
 	hljs = require('highlight.js'),
 	md = new Remarkable({
@@ -28,16 +29,22 @@ var SinglePost = React.createClass({
 			appreciateCount: ++this.state.appreciateCount,
 			disableAppreciate: true
 		});
+		
 		return articleSvc.appreciateArticle(this.state.post._id);
 	},
 
 	getData: function(props) {
+		this.setState({
+			loading: true
+		});
+
 		articleSvc.getArticleBySlug(props.params.slug)
 		.then(
 			function ok(data) {
 				if(this.isMounted()) {
 					this.setState({
 						post: data,
+						loading: false,
 						appreciateCount: data.appreciates
 					});
 				}
@@ -52,6 +59,7 @@ var SinglePost = React.createClass({
 	getInitialState: function() {
 		return {
 			post: {},
+			loading: false,
 			appreciateCount: 0,
 			disableAppreciate: false
 		};
@@ -78,7 +86,11 @@ var SinglePost = React.createClass({
 				<div className="sidebar col-md-3">
 					<PostList></PostList>
 				</div>
+
 				<article className="blog-post col-md-9">
+				
+					<Loader show={this.state.loading}></Loader>
+
 					<div className="blog-post-header mg-btm">
 						<h1>{post.title}</h1>
 						<div className="blog-post-meta small">
@@ -95,8 +107,8 @@ var SinglePost = React.createClass({
 						</button>
 						<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
 					</div>
-
 				</article>
+
 			</div>
 		);
 	}

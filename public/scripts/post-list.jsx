@@ -16,14 +16,11 @@ var PostList = React.createClass({
 		articleSvc.getAll()
 		.then(
 			function ok(data) {
-				console.log('getAll()', data);
-
 				if(this.isMounted()) {
 					this.setState({
 						posts: data.content
 					});
 				}
-
 			}.bind(this),
 			function err(e) {
 				console.error(e);

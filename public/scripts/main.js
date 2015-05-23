@@ -5,5 +5,5 @@ var routes = require('./config/routes');
 
 
 Router.run(routes, Router.HistoryLocation, function (Handler) {
-	React.render(<Handler/>, document.body);
+	React.render(<Handler/>, document.getElementById('appRoot'));
 });
