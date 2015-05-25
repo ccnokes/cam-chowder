@@ -1,4 +1,4 @@
-var validators = {
+module.exports = {
 
 	/**
 	 * check if string is empty
@@ -6,13 +6,9 @@ var validators = {
 	 * @return {Boolean}
 	 */
 	isEmptyString: function(str) {
-		return (typeof str === 'string' && str.trim().length === 0);
+		return (typeof str === 'string' && str.trim().length > 0);
 	},
 
-	//inverse of above, for convenience
-	isNotEmptyString: function(str) {
-		return !validators.isEmptyString(str);
-	},
 
 	/**
 	 * check if email is valid
@@ -25,5 +21,3 @@ var validators = {
 	}
 
 };
-
-module.exports = validators;

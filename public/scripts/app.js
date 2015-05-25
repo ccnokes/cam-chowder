@@ -31,7 +31,9 @@ var App = React.createClass({
 									<a>About</a>
 								</li>
 								<li>
-									<a>Contact</a>
+									<Link to="contact">
+										Contact
+									</Link>
 								</li>
 							</ul>
 						</nav>

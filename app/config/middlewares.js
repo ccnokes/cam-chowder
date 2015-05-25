@@ -47,3 +47,8 @@ app.use(helmet.contentSecurityPolicy({
 	reportUri: '/csp-violation',
 	setAllHeaders: false // set to true if you want to set all headers (X-Webkit-Content-Security-Policy, etc...)
 }));
+
+//fake latency for testing
+// app.use(function(req, res, next) {
+// 	setTimeout(next, 1000);
+// });

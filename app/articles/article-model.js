@@ -67,6 +67,6 @@ var Article = mongoose.model('Article', ArticleSchema);
  * Validation
  */
 
-Article.schema.path('title').validate(validators.isNotEmpty, 'Title can\'t be empty');
-Article.schema.path('text').validate(validators.isNotEmpty, 'Text can\'t be empty');
+Article.schema.path('title').validate(validators.isNotEmptyString, 'Title can\'t be empty');
+Article.schema.path('text').validate(validators.isNotEmptyString, 'Text can\'t be empty');
 

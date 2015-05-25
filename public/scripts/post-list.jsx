@@ -29,7 +29,6 @@ var PostList = React.createClass({
 	},
 
 	render: function() {
-		
 		var posts = this.state.posts.map(function(post) {
 			return (
 				<PostLI post={post} key={post._id}></PostLI>

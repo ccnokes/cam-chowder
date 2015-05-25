@@ -15,6 +15,6 @@ ContactSchema.plugin(mongoosePaginate);
 
 var Contact = mongoose.model('Contact', ContactSchema);
 
-Contact.schema.path('name').validate(validators.isNotEmpty, 'Name can\'t be empty');
-Contact.schema.path('email').validate(validators.checkEmail, 'Email must be valid');
-Contact.schema.path('message').validate(validators.isNotEmpty, 'Message can\'t be empty');
+Contact.schema.path('name').validate(validators.isNotEmptyString, 'Name can\'t be empty');
+Contact.schema.path('email').validate(validators.isValidEmail, 'Email must be valid');
+Contact.schema.path('message').validate(validators.isNotEmptyString, 'Message can\'t be empty');

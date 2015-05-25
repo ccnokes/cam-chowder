@@ -33,7 +33,7 @@ var PostIndex = React.createClass({
 	render: function() {
 		
 		var posts = this.state.posts.map(function(post) {
-			return (<PostLI post={post}></PostLI>);
+			return (<PostLI post={post} key={post._id}></PostLI>);
 		});
 
 		return (
