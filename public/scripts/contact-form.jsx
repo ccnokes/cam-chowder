@@ -1,9 +1,10 @@
 var React = require('react'),
-	validators = require('../../app/utilities/validators');
+	Hider = require('./hider.jsx'),
+	validators = require('../../app/utilities/validators'),
+	ContactSvc = require('./contact-svc');
 
 
-var Input = React.createClass({
-
+var FormControlMixin = {
 	propTypes: {
 		validators: React.PropTypes.array,
 		errorMessage: React.PropTypes.string,
@@ -15,30 +16,47 @@ var Input = React.createClass({
 	getDefaultProps: function() {
 		return {
 			type: 'text',
-			errorMessage: 'Field is invalid.'
+			errorMessage: 'This field is invalid.'
 		};
 	},
 
 	getInitialState: function() {
 		return {
 			isValid: false,
-			isPristine: true,
+			isFocused: false,
+			isComplete: false, //valid and blurred
 			value: ''
 		}	
 	},
 
-	// getValue: function() {
-	// 	return this.state.value;	
-	// },
-
-	// isValid: function() {
-	// 	return this.state.isValid;	
-	// },
+	getContainerClass: function() {
+		var classes = [this.props.className, 'infield-group'];
+		if(this.state.isFocused) {
+			classes.push('is-active');
+		}
+		if(this.state.isComplete) {
+			classes.push('is-complete');
+		}
+		if(this.shouldShowHelp()) {
+			classes.push('needs-help');
+		}
+		return classes.join(' ');
+	},
 
 	validate: function(val) {
-		return this.props.validators.every(function(validator) {
-			return validator(val);
-		});
+		var validators = this.props.validators;
+		if(validators && validators.length > 0) {
+			return validators.every(function(validator) {
+				return validator(val);
+			});
+		}
+		else {
+			return true;
+		}
+	},
+
+	shouldShowHelp: function() {
+		return (!this.state.isValid && this.state.value.length > 0);
 	},
 
 	onInteract: function(event) {
@@ -46,38 +64,62 @@ var Input = React.createClass({
 		var val = event.target.value;
 		var isValid = this.validate(val);
 
-		//set this regardless
 		this.setState({
-			isPristine: false,
-			isValid: isValid
+			isValid: isValid,
+			value: val
+		});		
+	},
+
+	onFocus: function(event) {
+		this.setState({
+			isFocused: true,
+			isComplete: false
+		});
+	},
+
+	onBlur: function() {
+		this.setState({
+			isFocused: false
 		});
 
-		//if valid, set value
-		if(isValid) {
+		if(this.state.isValid) {
 			this.setState({
-				value: val
+				isComplete: true
 			});
 		}
 	},
 
+	//the following are more for external consumers of these components
+	getValue: function() {
+		return this.state.value;	
+	},
+
+	isValid: function() {
+		return this.state.isValid;	
+	},
+};
+
+var Input = React.createClass({
+
+	mixins: [FormControlMixin],
+
 	render: function() {
-		var errorMessage = this.props.errorMessage;
-		var formHelpClass = 'form-help';
-		if(this.state.isValid || this.state.isPristine) {
-			formHelpClass += ' hidden';
-		}
-
-		console.log(this.state);
-
 		return (
-			<div className="form-group">
+			<div className={this.getContainerClass()}>
 				<label htmlFor={this.props.name}>
 					{this.props.label}
-					<input className="form-control" name={this.props.name} type={this.props.type} onChange={this.onInteract} />
+					<input 
+						className="form-control" 
+						name={this.props.name} 
+						type={this.props.type} 
+						onChange={this.onInteract} 
+						onFocus={this.onFocus}
+						onBlur={this.onBlur}
+					/>
 				</label>
-				<div className={formHelpClass}>
-					<p>{errorMessage}</p>
-				</div>
+				<Hider show={this.shouldShowHelp()} className="form-help">
+					<span>{this.props.errorMessage}</span>
+				</Hider>
 			</div>
 		);
 	}
@@ -85,68 +127,90 @@ var Input = React.createClass({
 });
 
 
+var TextArea = React.createClass({
+	mixins: [FormControlMixin],
+	
+	render: function() {
+		return (
+			<div className={this.getContainerClass()}>
+				<label htmlFor={this.props.name}>
+					{this.props.label}
+					<textarea 
+						className="form-control" 
+						name={this.props.name} 
+						onChange={this.onInteract} 
+						rows="8" 
+						onFocus={this.onFocus}
+						onBlur={this.onBlur}
+					/>
+				</label>
+				<Hider show={this.shouldShowHelp()} className="form-help">
+					<span>{this.props.errorMessage}</span>
+				</Hider>
+			</div>
+		);
+	}
+});
+
+
 var ContactForm = React.createClass({
 	
 	getInitialState: function () {
 	    return {
-	        name: '',
-	        email: '',
-	        message: ''  
+	    	isValid: true
 	    };
 	},
 
-	onControlInteract: function(event) {
-		var val = event.target.value;
-		var field = event.target.name;
-		var validator;
+	onFormSubmit: function(event) {
+		var formVals = {};
+		event.preventDefault();
+		
+		var len = Object.keys(this.refs).length;
+		var validCount = 0;
 
-		if(typeof val !== 'undefined') {
-			
-			if(field === 'name' || field === 'message') {
-				validator = validators.isNotEmpty;
-			}
-			else {
-				validator = validators.checkEmail;
-			}
-
-			if(validator(val)) {
-				var state = {};
-				state[field] = val;
-
-				this.setState(state);
-			}
-			//show UI error
-			else {
-				console.log('INVALID');
+		for(var key in this.refs) {
+			var ref = this.refs[key];
+			if(ref.isValid()) {
+				validCount++;
+				formVals[key] = ref.getValue();
 			}
 		}
-	},
 
-	onFormSubmit: function(event) {
-		console.log(arguments);
-		event.preventDefault();
+		if(validCount === len) {
+			this.setState({
+				isValid: true
+			});
 
-		console.log(this.state);
+			ContactSvc.postContact(formVals);
+		}
+		else {
+			this.setState({
+				isValid: false
+			});
+		}
 	},
 
 	render: function() {
 		return (
-			<form onSubmit={this.onFormSubmit} noValidate>
-
-				<Input label="Name" name="name" errorMessage="you stink" validators={[validators.isNotEmptyString]} />
-
-				<Input label="Email" name="email" type="email" errorMessage="you stink" validators={[validators.isValidEmail]} />
-
-				<div className="form-group">
-					<label>
-						Message
-						<textarea className="form-control" name="message" onBlur={this.onControlInteract} />
-					</label>
-				</div>
-
-				<input className="btn btn-primary" type="submit" />
-
-			</form>
+			<div>
+				<form className="infield-form" onSubmit={this.onFormSubmit} noValidate>
+					<div className="row">
+						<Input ref="name" className="col-md-6" label="Name" name="name" errorMessage="Your name can't be empty." validators={[validators.isNotEmptyString]} />
+						<Input ref="email" className="col-md-6" label="Email" name="email" type="email" errorMessage="This email looks invalid." validators={[validators.isValidEmail]} />
+					</div>
+					<div className="row mg-btm">
+						<TextArea ref="message" className="col-md-12" label="Message" name="message" errorMessage="Your message can't be empty." validators={[validators.isNotEmptyString]} />
+					</div>
+					<div className="row">
+						<input className="btn btn-primary" type="submit" value="Send Message" />
+					</div>
+					<Hider show={!this.state.isValid} className="row">
+						<div className="form-error">
+							<span>Please make sure everything is filled out correctly.</span>
+						</div>
+					</Hider>
+				</form>
+			</div>
 		);
 	}
 

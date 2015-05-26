@@ -160,6 +160,11 @@ pre {
 
 .btn {
 	margin-right: 8px;
+	border-radius: 1px;
+  	line-height: 1;
+  	font-size: 18px;
+  	padding: 0.95em 0.8em 0.8em 0.8em;
+  	text-transform: uppercase;
 }
 
 .loader-container {
@@ -180,6 +185,92 @@ pre {
 // 	left: 50%;
 // 	transform: translate(-50%, -50%);
 // }
+
+
+.infield-form {
+	margin-bottom: @stdSpace;
+	width: 80%;
+	padding: 0 15px 0 15px;
+
+	input,
+	textarea {
+		font-weight: normal;
+	}
+	
+	input[type="text"],
+	input[type="email"],
+	textarea,
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	textarea:focus {
+		border: 0;
+		box-shadow: none;
+		width: 100%;
+		border-radius: 0;
+		padding: 0;
+	}
+
+	label {
+		width: 100%;
+		text-transform: uppercase;
+		opacity: 0.8;
+	}
+}
+
+.infield-group {
+	position: relative;
+	border: 1px solid #bababa;
+	padding: 0.5em;
+	margin-bottom: -1px;
+	
+	&:first-child {
+		margin-right: -1px;
+	}
+
+	&.is-active {
+		@activeColor: #E2F4FF;
+		background: @activeColor;
+		border-color: darken(@activeColor, 10%);
+		
+		input[type="text"],
+		input[type="email"], 
+		textarea {
+			background: @activeColor;
+		}
+	}
+
+	&.is-complete {
+		opacity: 0.9;
+		background: #f7f7f7;
+		color: #B0B0B0;
+		input, 
+		textarea {
+			background: #f7f7f7;
+		}
+	}
+}
+
+.form-help {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;
+	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+	padding: 0.5em;
+	font-size: 85%;
+
+	@color: #FFF3CB;
+	background: @color;
+	color: darken(@color, 50%);
+}
+
+.form-error {
+	margin-top: @stdSpace;
+	padding: 1em;
+	border-radius: 1px;
+	@color: #FFC9C9;
+	background: @color;
+	color: darken(@color, 50%);	
+}
 
 
 .footer {
