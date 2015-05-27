@@ -1,0 +1,64 @@
+.no-list {	
+	margin: 0;
+	padding: 0;
+	li {
+		list-style: none;
+	}
+}
+
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 0;
+}
+
+.list-group {
+	border-right: 1px solid #bababa;
+}
+
+.list-group-item {
+	border: 0;
+	border-radius: 0;
+
+	&:first-child {
+		border-radius: 0;
+	}
+
+	&.active {
+		background: @secColor;
+		
+		&:hover, 
+		&:focus {
+			background: @secColor;
+		}
+	}
+}
+
+.list-group-item-heading {
+	font-weight: 600;
+}
+
+.list-group-item-small {
+	font-size: 80%;
+	opacity: 0.8;
+}
+
+pre {
+	border-radius: 0;
+	border: 0;
+}
+
+
+.header {
+	margin-bottom: @stdSpace;
+}
+
+.header-title {
+	font-size: 1.2em;
+}
+
+.header-sub {
+	user-select: none;
+	color: #999;
+}

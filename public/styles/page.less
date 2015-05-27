@@ -1,0 +1,41 @@
+html {
+	position: relative;
+    min-height: 100%;
+}
+
+body {
+	font-family: 'Hind', sans-serif;
+	font-size: 16px;
+	margin: 0 0 @footerHeight;
+}
+
+.page-container {
+	margin: 0 auto;
+	padding: @stdSpace;
+	max-width: 1200px;
+}
+
+.mg-btm {
+	margin-bottom: @stdSpace;
+}
+
+
+.random-topic {
+	cursor: pointer;
+	//border-bottom: 1px dashed @secColor;
+	
+	&:hover {
+		color: @priColor;
+	}
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: @footerHeight;
+	width: 100%;
+	
+	background: @secColor;
+	color: rgba(255, 255, 255, 0.7);
+}

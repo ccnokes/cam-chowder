@@ -1,0 +1,96 @@
+.infield-form {
+	margin-bottom: @stdSpace;
+	width: 80%;
+
+	input[type="text"],
+	input[type="email"],
+	textarea {
+		font-weight: normal;
+		font-size: 18px;
+		color: #333;
+	}
+	
+	input[type="text"],
+	input[type="email"],
+	textarea,
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	textarea:focus {
+		border: 0;
+		box-shadow: none;
+		width: 100%;
+		border-radius: 0;
+		padding: 0;
+	}
+
+	label {
+		width: 100%;
+		text-transform: uppercase;
+		opacity: 0.8;
+	}
+}
+
+.infield-form-inner {
+	border: 1px solid @borderColor;
+	padding: 0 15px 0 15px; //for BS
+}
+
+.infield-group {
+	position: relative;
+	border-bottom: 1px solid;
+	border-color: @borderColor;
+	padding: 0.5em;
+	margin-bottom: -1px;
+	
+	&:first-child {
+		border-right: 1px solid;
+		border-color: @borderColor;
+	}
+	&:last-child {
+		border-right: 0;
+	}
+
+	&.is-active {
+		@activeColor: #E2F4FF;
+		background: @activeColor;
+		//border-color: darken(@activeColor, 10%);
+		
+		input[type="text"],
+		input[type="email"], 
+		textarea {
+			background: @activeColor;
+		}
+	}
+
+	&.is-complete {
+		opacity: 0.6;
+		// background: #f7f7f7;
+		// color: #B0B0B0;
+		// input, 
+		// textarea {
+		// 	background: #f7f7f7;
+		// }
+	}
+}
+
+.form-help {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;
+	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+	padding: 0.5em;
+	font-size: 85%;
+
+	@color: #FFF3CB;
+	background: @color;
+	color: darken(@color, 50%);
+}
+
+.form-error {
+	margin-top: @stdSpace;
+	padding: 1em;
+	border-radius: 1px;
+	@color: #FFC9C9;
+	background: @color;
+	color: darken(@color, 50%);	
+}

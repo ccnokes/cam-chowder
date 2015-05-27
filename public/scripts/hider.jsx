@@ -6,24 +6,22 @@ var Hider = React.createClass({
 		show: React.PropTypes.bool.isRequired
 	},
 
-	getInitialState: function () {
-	    return {
-	        showing: false  
-	    };
+	componentWillMount: function() {
+		this.setState({
+			showing: this.props.show
+		});
 	},
 
 	componentWillReceiveProps: function (nextProps) {
-	    if(this.isMounted()) {
-	    	this.setState({
-	    		showing: nextProps.show
-	    	});
-	    }
+		this.setState({
+			showing: nextProps.show
+		});
 	},
 
 	render: function() {
 		var className = ( this.state.showing ? '' : 'hidden' );
 		return (
-			<div className={this.props.className + ' ' + className}>
+			<div className={ (this.props.className || '') + ' ' + className}>
 				{this.props.children}
 			</div>
 		);
