@@ -3,23 +3,7 @@ var React = require('react'),
 	filters = require('./config/filters'),
 	PostList = require('./post-list.jsx'),
 	Loader = require('./loader.jsx'),
-	Remarkable = require('remarkable'),
-	hljs = require('highlight.js'),
-	md = new Remarkable({
-		highlight: function (str, lang) {
-			if (lang && hljs.getLanguage(lang)) {
-				try {
-					return hljs.highlight(lang, str).value;
-				} catch (err) {}
-			}
-
-			try {
-				return hljs.highlightAuto(str).value;
-			} catch (err) {}
-
-			return ''; // use external default escaping
-		}
-	});
+	md = require('./md');
 
 
 var SinglePost = React.createClass({

@@ -38,7 +38,7 @@ ArticleSchema.pre('save', function(next) {
 	this.modifiedDate = this.createdDate = new Date().toISOString();
 
 	if(!this.teaser) {
-		this.teaser = this.text.split(' ').splice(0, 5).join(' ') + '...';
+		this.teaser = this.text.split(' ').splice(0, 20).join(' ') + '...';
 	}
 
 	//ensure there are no duplicate slugs created

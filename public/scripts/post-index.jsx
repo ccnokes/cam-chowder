@@ -1,34 +1,10 @@
 var React = require('react'),
 	articleSvc = require('./article/article-svc'),
-	PostLI = require('./post-li.jsx');
+	PostLI = require('./post-li.jsx'),
+	PostIndexMixin = require('./post-index-mixin');
 
 
 var PostIndex = React.createClass({
-
-	getInitialState: function() {
-		return {
-			posts: []
-		};
-	},
-
-	componentDidMount: function() {
-		articleSvc.getAll()
-		.then(
-			function ok(data) {
-				console.log('getAll()', data);
-
-				if(this.isMounted()) {
-					this.setState({
-						posts: data.content
-					});
-				}
-
-			}.bind(this),
-			function err(e) {
-				console.error(e);
-			}
-		);
-	},
 
 	render: function() {
 		

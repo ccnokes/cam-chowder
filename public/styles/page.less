@@ -4,15 +4,13 @@ html {
 }
 
 body {
-	font-family: 'Hind', sans-serif;
-	font-size: 16px;
 	margin: 0 0 @footerHeight;
 }
 
 .page-container {
 	margin: 0 auto;
 	padding: @stdSpace;
-	max-width: 1200px;
+	max-width: 1000px;
 }
 
 .mg-btm {
@@ -22,11 +20,24 @@ body {
 
 .random-topic {
 	cursor: pointer;
-	//border-bottom: 1px dashed @secColor;
+	border-bottom: 1px dashed #C5C5C5;
 	
 	&:hover {
 		color: @priColor;
 	}
+}
+
+.header {
+	margin-bottom: @stdSpace;
+}
+
+.header-title {
+	font-size: 1.2em;
+}
+
+.header-sub {
+	user-select: none;
+	color: #999;
 }
 
 .footer {
