@@ -8,6 +8,7 @@ module.exports = {
 	},
 
 	output: {
+		devtool: 'inline-source-map',
 		path: 'dist/scripts',
 		filename: 'bundle.js'
 	},

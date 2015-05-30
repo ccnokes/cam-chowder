@@ -5,7 +5,9 @@ var express = require('express'),
 	appConstants = require('./app-constants'),
 	app = require('./app-boot'),
 	paginate = require('express-paginate'),
-	helmet = require('helmet');
+	helmet = require('helmet'),
+	expressJwt = require('express-jwt'),
+	env = require('./env');
 
 
 //mirror browser console to node console
@@ -24,8 +26,36 @@ app.use(compression({
 //serve public as web root
 app.use(express.static(appConstants.distPath));
 
+//lock down access to current domain only
+// app.use(function(req, res, next) {
+// 	res.header('Access-Control-Allow-Origin', env.scheme + '//' + env.hostname);
+// 	next();
+// });
+
+//parse application/json
+app.use(bodyParser.json({
+	//parse csp-reports as JSON
+	type: ['json', 'application/csp-report']
+}));
+
 // parse application/json
 app.use(bodyParser.json());
+
+
+// app.use('/api',
+// 	expressJwt({secret: 'meow'})
+// );
+
+//handle above unauthorized responses
+app.use(function (err, req, res, next) {
+	if (err.name === 'UnauthorizedError') {
+		res.status(401).json({message: 'Invalid token, unauthorized.'});
+	}
+	else {
+		next();
+	}
+});
+
 
 //app.use(express.favicon(config.root + '/public/img/favicon.ico'));
 

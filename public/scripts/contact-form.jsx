@@ -212,7 +212,7 @@ var ContactForm = React.createClass({
 						</div>
 
 						<div>
-							<input className="btn btn-primary" type="submit" value="Send Message" />
+							<input className="btn btn-primary btn-contact" type="submit" value="Send Message" />
 						</div>
 						
 						<Hider show={!this.state.isValid}>
