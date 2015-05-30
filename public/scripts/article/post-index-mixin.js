@@ -1,5 +1,5 @@
 var React = require('react'),
-	articleSvc = require('./article/article-svc'),
+	articleSvc = require('./article-svc'),
 	PostLI = require('./post-li.jsx');
 
 

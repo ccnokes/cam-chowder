@@ -1,9 +1,9 @@
 var React = require('react'),
-	articleSvc = require('./article/article-svc'),
-	filters = require('./config/filters'),
+	articleSvc = require('./article-svc'),
+	filters = require('../config/filters'),
 	PostList = require('./post-list.jsx'),
-	Loader = require('./loader.jsx'),
-	md = require('./md');
+	Loader = require('../core/loader.jsx'),
+	md = require('../util/md');
 
 
 var SinglePost = React.createClass({

@@ -1,6 +1,6 @@
 var React = require('react'),
 	Link = require('react-router').Link,
-	filters = require('./config/filters'),
+	filters = require('../config/filters'),
 	State = require('react-router').State;
 
 

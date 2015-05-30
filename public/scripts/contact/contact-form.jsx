@@ -1,6 +1,6 @@
 var React = require('react'),
-	Hider = require('./hider.jsx'),
-	validators = require('../../app/utilities/validators'),
+	Hider = require('../core/hider.jsx'),
+	validators = require('../../../app/utilities/validators'),
 	ContactSvc = require('./contact-svc');
 
 

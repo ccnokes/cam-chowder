@@ -1,8 +1,8 @@
 var React = require('react'),
 	PostIndexMixin = require('./post-index-mixin'),
-	filters = require('./config/filters'),
+	filters = require('../config/filters'),
 	Link = require('react-router').Link,
-	md = require('./md');
+	md = require('../util/md');
 
 
 var BlogPage = React.createClass({

@@ -4,7 +4,7 @@ var React = require('react'),
 	Link = require('react-router').Link,
 	TransitionGroup = require('react/lib/ReactCSSTransitionGroup'),
 	articleSvc = require('./article/article-svc'),
-	RandomTopic = require('./random-topic.jsx');
+	RandomTopic = require('./header/random-topic.jsx');
 
 
 var App = React.createClass({

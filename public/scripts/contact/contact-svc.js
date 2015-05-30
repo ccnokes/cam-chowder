@@ -1,5 +1,5 @@
 var request = require('reqwest'),
-	appConst = require('./config/constants');
+	appConst = require('../config/constants');
 
 function ContactSvc() {
 
