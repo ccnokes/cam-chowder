@@ -18,5 +18,6 @@ viewCtrl.render = function(req, res) {
 router.route([
 	'/', 
 	'/blog/*', 
-	'/contact'
+	'/contact',
+	'/about'
 ]).all(viewCtrl.render);

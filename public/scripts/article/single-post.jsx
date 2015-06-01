@@ -67,11 +67,11 @@ var SinglePost = React.createClass({
 
 		return (
 			<div className="row">
-				<div className="sidebar col-md-3">
+				<div className="sidebar col-md-4">
 					<PostList></PostList>
 				</div>
 
-				<article className="blog-post col-md-9">
+				<article className="blog-post col-md-8">
 				
 					<Loader show={this.state.loading}></Loader>
 
