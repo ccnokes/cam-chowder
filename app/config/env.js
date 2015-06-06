@@ -10,8 +10,8 @@ var config = {
 	production: {
 		scheme: 'http:',
 		port: 8080,
-		hostname: 'cameronnokes.com',
-		db: 'mongodb://localhost/express-production'
+		hostname: '127.0.0.1',
+		db: 'mongodb://localhost/personal-site'
 	}
 };
 

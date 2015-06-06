@@ -27,19 +27,27 @@ router.route('/api/articles').get(articleCtrl.getArticles);
 
 
 articleCtrl.getArticle = function(req, res) {
-	var promise;
-	
-	//if ?slug=true, then search buy slug
-	if(!_.isEmpty(req.query) && req.query.slug) {
-		promise = articleSvc.getArticleBySlug(req.params.id);
-	}
-	//otherwise it's the article id
-	else {
-		promise = articleSvc.getArticleById(req.params.id);
-	}
+	return articleSvc.getArticleById(req.params.id)
+		.then(
+			function ok(article) {
+				if(article) {
+					res.json(article);
+				}
+				else {
+					res.status(404).end();
+				}
+			}, 
+			function err(e) {
+				res.status(404).end();
+			}
+		);
+};
+router.route('/api/articles/:id').get(articleCtrl.getArticle);
 
-	//handle both the same
-	promise.then(
+
+articleCtrl.getArticleBySlug = function(req, res) {
+	return articleSvc.getArticleBySlug(req.params.slug)
+		.then(
 		function ok(article) {
 			if(article) {
 				res.json(article);
@@ -53,8 +61,7 @@ articleCtrl.getArticle = function(req, res) {
 		}
 	);
 };
-router.route('/api/articles/:id').get(articleCtrl.getArticle);
-//?slug=true will get an article by slug
+router.route('/api/articles/slug/:slug').get(articleCtrl.getArticleBySlug);
 
 
 articleCtrl.createArticle = function(req, res) {

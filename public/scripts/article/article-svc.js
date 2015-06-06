@@ -34,11 +34,10 @@ function ArticleSvc() {
 
 		getArticleBySlug: function(slug) {
 			return request({
-				url: resourceUrl + '/' + slug + '?slug=true',
+				url: resourceUrl + '/slug/' + slug,
 				type: 'json',
 				method: 'get',
-				contentType: 'application/json',
-
+				contentType: 'application/json'
 			});
 		},
 
