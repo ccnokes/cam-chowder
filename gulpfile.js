@@ -80,3 +80,9 @@ gulp.task('default', [
 	'webpack',
 	'watch'
 ]);
+
+
+gulp.task('build', [
+	'less',
+	'webpack'
+]);
