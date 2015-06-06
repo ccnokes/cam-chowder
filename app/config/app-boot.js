@@ -11,13 +11,7 @@ var app = express();
 //make app instance available as export
 module.exports = app;
 
-
-
-//virtual host
-var vhostApp = express();
-vhostApp.use(vhost(env.hostname, app));
-vhostApp.listen(env.port);
-
+app.listen(env.port);
 console.log('server started at: ', env.hostname + ':' + env.port);
 
 //connect to DB

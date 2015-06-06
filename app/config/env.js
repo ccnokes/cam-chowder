@@ -3,7 +3,7 @@ var env = process.env.NODE_ENV || 'development';
 var config = {
 	development: {
 		scheme: 'http:',
-		hostname: 'cameron.dev',
+		hostname: 'localhost',
 		port: 9003,
 		db: 'mongodb://localhost/local'
 	},
