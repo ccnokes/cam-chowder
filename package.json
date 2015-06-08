@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node --harmony index.js"
+    "start-prod": "NODE_ENV=production nvm run 0.12.4 --harmony index.js",
+    "start": "nodemon --harmony index.js --watch app"
   },
   "dependencies": {
     "body-parser": "^1.8.3",
