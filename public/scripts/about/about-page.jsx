@@ -7,11 +7,16 @@ var About = React.createClass({
 				<h1>About Me</h1>
 				<p>
 				I’m an experienced front-end developer who loves a challenge (and cheesecake). 
-				I enjoy Javascript programming&amp;especially working in React, Angular, and Node.js.
+				I enjoy Javascript programming &amp; especially working in React, Angular, D3, and Node.js.
 				</p>
 
 				<h3>Stalk Me</h3>
-				// links to github, twitter, etc.
+				<ul>
+					<li><a href="https://twitter.com/@ccnokes" target="_blank">Twitter</a></li>
+					<li><a href="https://github.com/ccnokes" target="_blank">Github</a></li>
+					<li><a href="http://www.linkedin.com/pub/cameron-nokes/2a/47b/251" target="_blank">LinkedIn</a></li>
+				</ul>
+
 			</div>
 		);
 	}

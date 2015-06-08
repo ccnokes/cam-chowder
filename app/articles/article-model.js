@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
 	slugify = require('../utilities/utils.js').slugify,
 	_ = require('lodash'),
 	mongoosePaginate = require('mongoose-paginate'),
-	validators = require('../utilities/validators');
+	validators = require('../utilities/validators'),
+	md = require('../utilities/md');
 
 
 
@@ -21,11 +22,18 @@ var ArticleSchema = new Schema({
 	text: String,
 	teaser: String,
 	modifiedDate: Date,
-	createdDate: Date,
+	createdDate: {
+		type: Date,
+		default: Date.now
+	},
 	appreciates: {
 		type: Number,
 		default: 0
 	}
+},
+{
+	toObject: { virtuals: true },
+	toJSON: { virtuals: true }
 });
 
 
@@ -38,7 +46,7 @@ ArticleSchema.pre('save', function(next) {
 	this.modifiedDate = this.createdDate = new Date().toISOString();
 
 	if(!this.teaser) {
-		this.teaser = this.text.split(' ').splice(0, 80).join(' ') + '...';
+		this.teaser = this.text.split(' ').splice(0, 160).join(' ') + '...';
 	}
 
 	//ensure there are no duplicate slugs created
@@ -56,7 +64,9 @@ ArticleSchema.pre('save', function(next) {
 	});
 });
 
-//ArticleSchema.set('toJSON', { virtuals: true });
+ArticleSchema.virtual('html').get(function() {
+	return md.render(this.text);
+});
 
 ArticleSchema.plugin(mongoosePaginate);
 

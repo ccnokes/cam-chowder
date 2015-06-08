@@ -1,8 +1,7 @@
 var React = require('react'),
 	PostIndexMixin = require('./post-index-mixin'),
 	filters = require('../config/filters'),
-	Link = require('react-router').Link,
-	md = require('../util/md');
+	Link = require('react-router').Link;
 
 
 var BlogPage = React.createClass({
@@ -26,7 +25,7 @@ var BlogPage = React.createClass({
 					</h3>
 
 					<div className="blog-teaser">
-						<p dangerouslySetInnerHTML={{__html: md.render(post.teaser)}}></p>
+						<p>{post.teaser}</p>
 					</div>
 
 					<Link className="btn btn-default btn-readmore" to="single-post" params={post}>

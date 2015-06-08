@@ -2,8 +2,7 @@ var React = require('react'),
 	articleSvc = require('./article-svc'),
 	filters = require('../config/filters'),
 	PostList = require('./post-list.jsx'),
-	Loader = require('../core/loader.jsx'),
-	md = require('../util/md');
+	Loader = require('../core/loader.jsx');
 
 
 var SinglePost = React.createClass({
@@ -63,7 +62,9 @@ var SinglePost = React.createClass({
 
 	render: function() {
 		var post = this.state.post;
-		var html = md.render(post.text);
+		var html = function() {
+			return { __html: post.html || '' };
+		};
 
 		return (
 			<div className="row">
@@ -82,7 +83,7 @@ var SinglePost = React.createClass({
 						</div>
 					</div>
 
-					<div className="blog-post-body mg-btm" dangerouslySetInnerHTML={{__html: html}}></div>
+					<div className="blog-post-body mg-btm" dangerouslySetInnerHTML={html()}></div>
 					
 					<div className="blog-post-footer">
 						<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">

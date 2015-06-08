@@ -1,22 +1,55 @@
-module.exports = {
+var webpack = require('webpack');
 
-	entry: './public/scripts/main.js',
+function makeConfig(opts) {
+	var config = {
 
-	stats: {
-		colors: true,
-		reasons: true
-	},
+		entry: {
+			app: './public/scripts/main.js',
+			vendor: ['react', 'react-router', 'react/lib/ReactCSSTransitionGroup', 'reqwest', 'd3', 'lodash']
+		},
 
-	output: {
-		devtool: 'inline-source-map',
-		path: 'dist/scripts',
-		filename: 'bundle.js'
-	},
+		stats: {
+			colors: true,
+			reasons: true
+		},
 
-	module: {
-		loaders: [
-			{ test: /\.jsx?$/, loader: 'jsx-loader' }
-		]
+		output: {
+			devtool: (opts.env === 'dev' ? '#eval-source-map' : ''),
+			path: 'dist/scripts',
+			filename: 'bundle.js'
+		},
+
+		plugins: [
+			new webpack.DefinePlugin({
+				ENV: opts.env
+			}),
+			
+			new webpack.optimize.CommonsChunkPlugin(
+				/* chunkName= */ 'vendor',
+				/* filename= */ 'vendor.bundle.js'
+			)
+		],
+
+		module: {
+			loaders: [
+				{ test: /\.jsx?$/, loader: 'jsx-loader' }
+			]
+		}
+	};
+
+	if(opts.env === 'prod') {
+		config.plugins.push(
+			new webpack.optimize.UglifyJsPlugin({
+				compressor: {
+					warnings: false,
+					//minimize: true
+				}
+			}),
+			new webpack.optimize.DedupePlugin()
+		);
 	}
 
-};
+	return config;
+}
+
+module.exports = makeConfig;
