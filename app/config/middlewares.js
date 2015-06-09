@@ -57,10 +57,10 @@ app.use(helmet.noSniff());
 //CSP
 app.use(helmet.contentSecurityPolicy({
 	defaultSrc: ["'self'"],
-	scriptSrc: ["'self'", "'nonce-" + appConstants.cspHash + "'", "'unsafe-eval'"],
+	scriptSrc: ["'self'", "'unsafe-eval'", 'www.google-analytics.com'],
 	styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
 	fontSrc: ["'self'", 'fonts.gstatic.com'],
-	imgSrc: ["'self'", 'data:'],
+	imgSrc: ["'self'", 'data:', 'www.google-analytics.com'],
 	connectSrc: ["'self'", "ws:"],
 	reportUri: '/csp-violation',
 	setAllHeaders: false // set to true if you want to set all headers (X-Webkit-Content-Security-Policy, etc...)
