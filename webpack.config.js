@@ -39,12 +39,7 @@ function makeConfig(opts) {
 
 	if(opts.env === 'prod') {
 		config.plugins.push(
-			new webpack.optimize.UglifyJsPlugin({
-				compressor: {
-					warnings: false,
-					//minimize: true
-				}
-			}),
+			new webpack.optimize.UglifyJsPlugin(),
 			new webpack.optimize.DedupePlugin()
 		);
 	}

@@ -13,13 +13,22 @@ var mongoose = require('mongoose'),
  */
 
 var ArticleSchema = new Schema({
-	slug: String,
+	slug: {
+		type: String,
+		index: true
+	},
 	status: {
 		type: String,
 		default: 'active'
 	},
-	title: String,
-	text: String,
+	title: {
+		type: String,
+		required: true
+	},
+	text: {
+		type: String,
+		required: true
+	},
 	teaser: String,
 	modifiedDate: Date,
 	createdDate: {

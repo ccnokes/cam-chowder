@@ -5,12 +5,14 @@ var mongoose = require('mongoose'),
 	Q = require('q'),
 	_ = require('lodash'),
 	mongoosePaginate = require('mongoose-paginate'),
-	articleSvc = require('./article-svc');
+	articleSvc = require('./article-svc'),
+	authCtrl = require('../auth/auth-ctrl');
 
 
 var articleCtrl = exports;
 articleCtrl.router = router;
 
+const resourceUri = '/api/articles';
 
 articleCtrl.getArticles = function(req, res) {	
 	articleSvc.getArticles(req.query.page, req.query.limit)
@@ -23,7 +25,7 @@ articleCtrl.getArticles = function(req, res) {
 		}
 	);
 };
-router.route('/api/articles').get(articleCtrl.getArticles);
+router.route(resourceUri).get(articleCtrl.getArticles);
 
 
 articleCtrl.getArticle = function(req, res) {
@@ -42,7 +44,7 @@ articleCtrl.getArticle = function(req, res) {
 			}
 		);
 };
-router.route('/api/articles/:id').get(articleCtrl.getArticle);
+router.route(resourceUri + '/:id').get(articleCtrl.getArticle);
 
 
 articleCtrl.getArticleBySlug = function(req, res) {
@@ -64,11 +66,12 @@ articleCtrl.getArticleBySlug = function(req, res) {
 router.route('/api/articles/slug/:slug').get(articleCtrl.getArticleBySlug);
 
 
+//protected resource
 articleCtrl.createArticle = function(req, res) {
 	articleSvc.createArticle(req.body)
 	.then(
 		function ok(article) {
-			article.resourceUri = '/api/articles/' + article._id;
+			article.resourceUri = resourceUri + '/' + article._id;
 			res.status(201).json(article);
 		},
 		function err(e) {
@@ -76,9 +79,10 @@ articleCtrl.createArticle = function(req, res) {
 		}
 	)
 };
-router.route('/api/articles').post(articleCtrl.createArticle);
+router.route(resourceUri).post(authCtrl.isAuthenticated, articleCtrl.createArticle);
 
 
+//protected resource
 articleCtrl.updateArticle = function(req, res) {
 	articleSvc.updateArticle(req.params.id, req.body)
 	.then(
@@ -90,7 +94,7 @@ articleCtrl.updateArticle = function(req, res) {
 		}
 	);
 };
-router.route('/api/articles/:id').put(articleCtrl.updateArticle);
+router.route(resourceUri + '/:id').put(authCtrl.isAuthenticated, articleCtrl.updateArticle);
 
 
 articleCtrl.appreciateArticle = function(req, res) {	
@@ -104,9 +108,10 @@ articleCtrl.appreciateArticle = function(req, res) {
 		}
 	);
 };
-router.route('/api/articles/:id/appreciate').post(articleCtrl.appreciateArticle);
+router.route(resourceUri + '/:id/appreciate').post(articleCtrl.appreciateArticle);
 
 
+//protected resource
 articleCtrl.batchRemoveArticles = function(req, res) {
 	if(req.body && _.isArray(req.body.ids) && req.body.ids.length > 0) {
 		articleSvc.batchRemoveArticles(req.body.ids)
@@ -123,9 +128,10 @@ articleCtrl.batchRemoveArticles = function(req, res) {
 		res.status(404).end();
 	}
 };
-router.route('/api/articles').delete(articleCtrl.batchRemoveArticles);
+router.route(resourceUri).delete(authCtrl.isAuthenticated, articleCtrl.batchRemoveArticles);
 
 
+//protected resource
 articleCtrl.removeArticle = function(req, res) {
 	articleSvc.removeArticle(req.params.id)
 	.then(
@@ -138,5 +144,5 @@ articleCtrl.removeArticle = function(req, res) {
 		}
 	);
 };
-router.route('/api/articles/:id').delete(articleCtrl.removeArticle);
+router.route(resourceUri + '/:id').delete(authCtrl.isAuthenticated, articleCtrl.removeArticle);
 

@@ -3,13 +3,16 @@ var contactSvc = require('./contacts-svc'),
 	Contact = mongoose.model('Contact'),
 	router = require('express').Router(),
 	Q = require('q'),
-	_ = require('lodash');
+	_ = require('lodash'),
+	authCtrl = require('../auth/auth-ctrl');
 
 
 var contactCtrl = exports;
 contactCtrl.router = router;
 
+const resourceUri = '/api/contacts';
 
+//protected resource
 contactCtrl.getContacts = function(req, res) {
 	contactSvc.getContacts(req.params.page, req.params.limit)
 	.then(
@@ -21,7 +24,7 @@ contactCtrl.getContacts = function(req, res) {
 		}
 	)
 };
-router.route('/api/contacts').get(contactCtrl.getContacts);
+router.route(resourceUri).get(authCtrl.isAuthenticated, contactCtrl.getContacts);
 
 
 contactCtrl.createContact = function(req, res) {
@@ -36,4 +39,4 @@ contactCtrl.createContact = function(req, res) {
 		}
 	);
 };
-router.route('/api/contacts').post(contactCtrl.createContact);
+router.route(resourceUri).post(contactCtrl.createContact);

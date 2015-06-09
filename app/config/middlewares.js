@@ -7,7 +7,8 @@ var express = require('express'),
 	paginate = require('express-paginate'),
 	helmet = require('helmet'),
 	expressJwt = require('express-jwt'),
-	env = require('./env');
+	env = require('./env'),
+	passport = require('passport');
 
 
 //mirror browser console to node console
@@ -41,20 +42,7 @@ app.use(bodyParser.json({
 // parse application/json
 app.use(bodyParser.json());
 
-
-// app.use('/api',
-// 	expressJwt({secret: 'meow'})
-// );
-
-//handle above unauthorized responses
-app.use(function (err, req, res, next) {
-	if (err.name === 'UnauthorizedError') {
-		res.status(401).json({message: 'Invalid token, unauthorized.'});
-	}
-	else {
-		next();
-	}
-});
+app.use(passport.initialize());
 
 
 //app.use(express.favicon(config.root + '/public/img/favicon.ico'));

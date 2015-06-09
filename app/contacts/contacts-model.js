@@ -6,9 +6,18 @@ var mongoose = require('mongoose'),
 
 
 var ContactSchema = new Schema({
-	name: String,
-	email: String,
-	message: String
+	name: {
+		type: String,
+		required: true
+	},
+	email: {
+		type: String,
+		required: true
+	},
+	message: {
+		type: String,
+		required: true
+	}
 });
 
 ContactSchema.plugin(mongoosePaginate);
