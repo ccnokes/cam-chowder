@@ -4,8 +4,8 @@ function makeConfig(opts) {
 	var config = {
 
 		entry: {
-			app: './public/scripts/main.js',
-			vendor: ['react', 'react-router', 'react/lib/ReactCSSTransitionGroup', 'reqwest', 'd3', 'lodash']
+			app: ['./public/scripts/main.js', 'reqwest', 'd3'],
+			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router']
 		},
 
 		stats: {
@@ -16,18 +16,14 @@ function makeConfig(opts) {
 		output: {
 			devtool: (opts.env === 'dev' ? '#eval-source-map' : ''),
 			path: 'dist/scripts',
-			filename: 'bundle.js'
+			filename: '[name].bundle.js'
 		},
 
 		plugins: [
 			new webpack.DefinePlugin({
 				ENV: opts.env
 			}),
-			
-			new webpack.optimize.CommonsChunkPlugin(
-				/* chunkName= */ 'vendor',
-				/* filename= */ 'vendor.bundle.js'
-			)
+			new webpack.optimize.CommonsChunkPlugin('vendor.bundle.js')
 		],
 
 		module: {
