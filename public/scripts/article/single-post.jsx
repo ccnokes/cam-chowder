@@ -79,7 +79,10 @@ var SinglePost = React.createClass({
 					<div className="blog-post-header mg-btm">
 						<h1>{post.title}</h1>
 						<div className="blog-post-meta small">
-							<p>Published: {filters.formatDate(post.createdDate)}</p>
+							<span>Published: {filters.formatDate(post.createdDate)}</span>
+							<div className="blog-post-meta-appreciates">
+								<div className="shape-heart"></div>&nbsp;<span className="heart-text">{post.appreciates}</span>
+							</div>
 						</div>
 					</div>
 

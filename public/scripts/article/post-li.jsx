@@ -38,7 +38,9 @@ var PostLI = React.createClass({
 		return (			
 			<Link to="single-post" params={post} className={className}>
 				<div>
-					<small className="list-group-item-small">{this.state.postDate}</small>
+					<small className="list-group-item-small">
+						{this.state.postDate}
+					</small>
 				</div>
 				<p className="list-group-item-heading">{post.title}</p>
 			</Link>

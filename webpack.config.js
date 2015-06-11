@@ -4,8 +4,8 @@ function makeConfig(opts) {
 	var config = {
 
 		entry: {
-			app: ['./public/scripts/main.js', 'reqwest', 'd3'],
-			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router']
+			app: ['./public/scripts/main.js'],
+			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router', 'reqwest', 'd3']
 		},
 
 		stats: {

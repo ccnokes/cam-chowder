@@ -13,9 +13,11 @@ var BlogPage = React.createClass({
 		var posts = this.state.posts.map(function(post) {
 			return (
 				<div className="blog-post-summary" key={post._id}>
-					
 					<div className="blog-post-meta small">
 						<span>{filters.formatDate(post.createdDate)}</span>
+						<div className="blog-post-meta-appreciates">
+							<div className="shape-heart"></div>&nbsp;<span className="heart-text">{post.appreciates}</span>
+						</div>
 					</div>
 
 					<h3>

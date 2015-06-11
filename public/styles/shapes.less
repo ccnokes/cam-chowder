@@ -1,0 +1,53 @@
+//thanks CSS tricks
+
+@heartColor: #F2C9C6;
+
+.heart(@size:20px, @color:red) {
+    display: inline-block;
+    position: relative;
+    width: @size;
+    height: @size*0.9;
+    &:before,
+    &:after {
+        position: absolute;
+        content: "";
+        left: @size/2;
+        top: 0;
+        width: @size/2;
+        height: @size*0.8;
+        background: @color;
+        -moz-border-radius: @size/2 @size/2 0 0;
+        border-radius: @size/2 @size/2 0 0;
+        -webkit-transform: rotate(-45deg);
+           -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+             -o-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+        -webkit-transform-origin: 0 100%;
+           -moz-transform-origin: 0 100%;
+            -ms-transform-origin: 0 100%;
+             -o-transform-origin: 0 100%;
+                transform-origin: 0 100%;
+    }
+    &:after {
+        left: 0;
+        -webkit-transform: rotate(45deg);
+           -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+             -o-transform: rotate(45deg);
+                transform: rotate(45deg);
+        -webkit-transform-origin: 100% 100%;
+           -moz-transform-origin: 100% 100%;
+            -ms-transform-origin: 100% 100%;
+             -o-transform-origin: 100% 100%;
+                transform-origin :100% 100%;
+    }
+}
+
+.shape-heart {
+    .heart(12px, @heartColor);
+}
+
+.heart-text {
+    color: darken(@heartColor, 10%);
+}

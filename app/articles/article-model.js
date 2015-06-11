@@ -54,9 +54,11 @@ ArticleSchema.pre('save', function(next) {
 	}
 	this.modifiedDate = this.createdDate = new Date().toISOString();
 
-	if(!this.teaser) {
-		this.teaser = this.text.split(' ').splice(0, 160).join(' ') + '...';
-	}
+	//insert auto-generated teaser 
+	//this creates problems if there's markdown in it
+	// if(!this.teaser) {
+	// 	this.teaser = this.text.split(' ').splice(0, 160).join(' ') + '...';
+	// }
 
 	//ensure there are no duplicate slugs created
 	this.constructor.findOne({slug: this.slug}, function(err, article) {        
