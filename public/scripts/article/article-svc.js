@@ -4,32 +4,16 @@ var request = require('reqwest'),
 function ArticleSvc() {
 
 	var resourceUrl = appConst.apiUrl + 'articles';
-	var cache;
 
 	return {
 		
 		getAll: function() {
-			if(cache){
-				//TODO
-				//fake out immediately resolved promise here
-				return {
-					then: function(cb) {
-						return cb(cache);
-					}
-				};
-			}
-			else {
-				return request({
-					url: resourceUrl,
-					type: 'json',
-					method: 'get',
-					contentType: 'application/json'
-				})
-				.then(function(data) {
-					cache = data;
-					return data;
-				});
-			}
+			return request({
+				url: resourceUrl,
+				type: 'json',
+				method: 'get',
+				contentType: 'application/json'
+			});
 		},
 
 		getArticleBySlug: function(slug) {

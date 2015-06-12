@@ -61,7 +61,7 @@ var App = React.createClass({
 
 				<footer className="footer">
 					<div className="page-container">
-						&copy; 2015 Cameron Nokes
+						&copy; { (new Date).getFullYear() } Cameron Nokes
 					</div>
 				</footer>
 

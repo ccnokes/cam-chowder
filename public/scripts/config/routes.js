@@ -8,5 +8,7 @@ module.exports = (
 		<Route name="single-post" handler={require('../article/single-post.jsx')} path="/blog/:slug"></Route>
 		<Route name="contact" handler={require('../contact/contact-page.jsx')} path="/contact"></Route>
 		<Route name="about" handler={require('../about/about-page.jsx')} path="/about"></Route>
+		
+		<Route name="admin" handler={require('../admin/admin-page.jsx')} path="/cn-admin"></Route>
 	</Route>
 );

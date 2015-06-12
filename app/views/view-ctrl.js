@@ -19,5 +19,6 @@ router.route([
 	'/', 
 	'/blog/*', 
 	'/contact',
-	'/about'
+	'/about',
+	'/cn-admin*'
 ]).all(viewCtrl.render);

@@ -1,8 +1,10 @@
 var passport = require('passport'),
 	BasicStrategy = require('passport-http').BasicStrategy,
-	User = require('../user/user-model');
+	User = require('../user/user-model'),
+	router = require('express').Router();
 
 var authCtrl = exports;
+authCtrl.router = router;
 
 passport.use(new BasicStrategy(
 	function(username, password, callback) {
@@ -35,6 +37,10 @@ passport.use(new BasicStrategy(
 ));
 
 authCtrl.isAuthenticated = passport.authenticate('basic', { session : false });
+
+router.route('/api/authenticate').post(authCtrl.isAuthenticated, function(req, res) {
+	res.send(200);
+});
 
 
 // authCtrl.getToken = function(req, res) {

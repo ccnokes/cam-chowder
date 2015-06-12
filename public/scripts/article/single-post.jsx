@@ -81,7 +81,7 @@ var SinglePost = React.createClass({
 						<div className="blog-post-meta small">
 							<span>Published: {filters.formatDate(post.createdDate)}</span>
 							<div className="blog-post-meta-appreciates">
-								<div className="shape-heart"></div>&nbsp;<span className="heart-text">{post.appreciates}</span>
+								<div className="shape-heart"></div>&nbsp;<span className="heart-text">{this.state.appreciateCount}</span>
 							</div>
 						</div>
 					</div>

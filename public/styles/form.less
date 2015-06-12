@@ -3,6 +3,7 @@
 	width: 80%;
 
 	input[type="text"],
+	input[type="password"],
 	input[type="email"],
 	textarea {
 		font-weight: normal;
@@ -11,9 +12,11 @@
 	}
 	
 	input[type="text"],
+	input[type="password"],
 	input[type="email"],
 	textarea,
 	input[type="text"]:focus,
+	input[type="password"]:focus,
 	input[type="email"]:focus,
 	textarea:focus {
 		border: 0;
@@ -56,6 +59,7 @@
 		//border-color: darken(@activeColor, 10%);
 		
 		input[type="text"],
+		input[type="password"],
 		input[type="email"], 
 		textarea {
 			background: @activeColor;
