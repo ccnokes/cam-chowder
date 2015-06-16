@@ -1,16 +1,14 @@
-var React = require('react'),
-	Hider = require('../core/hider.jsx'),
-	validators = require('../../../app/utilities/validators'),
-	ContactSvc = require('./contact-svc'),
-	formComponents = require('../form/form-components.jsx'),
-	Input = formComponents.Input,
-	TextArea = formComponents.TextArea;
-
+import React from 'react';
+import Hider from '../core/hider.jsx';
+import validators from '../../../app/utilities/validators';
+import ContactSvc from './contact-svc';
+import formComponents, { Input, TextArea, FormMixin } from '../form/form-components.jsx';
 
 
 var ContactForm = React.createClass({
-	
-	getInitialState: function () {
+	mixins: [FormMixin],
+
+	getInitialState() {
 		return {
 			isValid: true,
 			submitAttempts: 0,
@@ -18,42 +16,42 @@ var ContactForm = React.createClass({
 		};
 	},
 
-	onFormSubmit: function(event) {
-		var formVals = {};
+	onFormSubmit(event) {
 		event.preventDefault();
-		
 		this.setState({ submitAttempts: this.state.submitAttempts + 1 });
 
-		var len = Object.keys(this.refs).length;
-		var validCount = 0;
+		if(this.isValid()) {
+			let formVal = this.getFormValue();
 
-		for(var key in this.refs) {
-			var ref = this.refs[key];
-			//if it's valid, add to the formVals object
-			if(ref.isValid()) {
-				validCount++;
-				formVals[key] = ref.getValue();
-			}
-		}
-
-		//all valid
-		if(validCount === len) {
 			this.setState({
 				isValid: true,
 				submitted: true
 			});
 
-			ContactSvc.postContact(formVals);
+			ContactSvc.postContact(formVal);
 		}
-		//invalid
 		else {
 			this.setState({
 				isValid: false
 			});
+			
+			//show input help on invalids
+			this.getInvalids().forEach((control) => {
+				control.showHelp();
+			});
 		}
 	},
 
-	render: function() {
+	render() {
+		
+		let renderInvalids = function() {
+			return this.getInvalids().map((control, i) => {
+				return(
+					<li key={i}>{control.label}</li>
+				);
+			});
+		}.bind(this);
+
 		return (
 			<div>
 				<Hider show={!this.state.submitted}>
@@ -75,7 +73,10 @@ var ContactForm = React.createClass({
 						
 						<Hider show={!this.state.isValid}>
 							<div className="form-error">
-								<span>Please make sure everything is filled out correctly.</span>
+								<p>Please make sure everything is filled out correctly. These fields might be wrong:</p>
+								<ul>
+									{renderInvalids()}
+								</ul>
 							</div>
 						</Hider>
 
@@ -95,4 +96,5 @@ var ContactForm = React.createClass({
 
 });
 
-module.exports = ContactForm;
+export default ContactForm;
+

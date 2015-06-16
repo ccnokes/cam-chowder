@@ -6,9 +6,5 @@ require('./ga.js');
 
 
 Router.run(routes, Router.HistoryLocation, function (Handler, state) {
-	//track pageviews in GA
-	if('ga' in window) {
-		ga('send', 'pageview');
-	}
 	React.render(<Handler/>, document.getElementById('appRoot'));
 });

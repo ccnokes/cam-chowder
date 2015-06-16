@@ -1,4 +1,5 @@
 var React = require('react'),
+	Navigation = require('react-router').Navigation,
 	articleSvc = require('./article-svc'),
 	filters = require('../config/filters'),
 	PostList = require('./post-list.jsx'),
@@ -6,6 +7,7 @@ var React = require('react'),
 
 
 var SinglePost = React.createClass({
+	mixins: [Navigation],
 
 	appreciate: function() {
 		this.setState({ 
@@ -35,7 +37,8 @@ var SinglePost = React.createClass({
 			}.bind(this),
 			function err(e) {
 				console.error(e);
-			}
+				this.transitionTo('not-found');
+			}.bind(this)
 		);
 	},
 

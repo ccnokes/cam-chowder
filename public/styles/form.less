@@ -1,3 +1,8 @@
+legend {
+	font-weight: bold;
+	border-bottom: 0;
+}
+
 .infield-form {
 	margin-bottom: @stdSpace;
 	width: 80%;
@@ -33,8 +38,14 @@
 	}
 }
 
+.infield-form--full {
+	&:extend(.infield-form all);
+	width: 100%;
+}
+
 .infield-form-inner {
 	border: 1px solid @borderColor;
+	border-bottom: 0;
 	padding: 0 15px 0 15px; //for BS
 }
 
@@ -43,7 +54,7 @@
 	border-bottom: 1px solid;
 	border-color: @borderColor;
 	padding: 0.5em;
-	margin-bottom: -1px;
+	//margin-bottom: -1px;
 	
 	&:first-child {
 		border-right: 1px solid;
@@ -83,7 +94,8 @@
 	right: 0.5em;
 	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
 	padding: 0.5em;
-	font-size: 85%;
+	font-size: 90%;
+	font-weight: bold;
 
 	@color: #FFF3CB;
 	background: @color;
@@ -94,7 +106,7 @@
 	margin-top: @stdSpace;
 	padding: 1em;
 	border-radius: 1px;
-	@color: #FFC9C9;
+	@color: #FFE7E7;
 	background: @color;
-	color: darken(@color, 50%);	
+	color: darken(@color, 60%);	
 }

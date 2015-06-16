@@ -10,7 +10,7 @@ var articleSvc = exports;
 articleSvc.getArticles = function(page, limit) {
 	var dfd = Q.defer();
 	
-	Article.paginate({}, page, limit, function(error, pageCount, paginatedResults, itemCount) {			
+	Article.paginate({ status: 'active' }, page, limit, function(error, pageCount, paginatedResults, itemCount) {			
 		if(error) {
 			dfd.reject(error);
 		}

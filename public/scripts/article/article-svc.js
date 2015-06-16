@@ -1,40 +1,74 @@
-var request = require('reqwest'),
-	appConst = require('../config/constants');
+import request from 'reqwest';
+import appConst from '../config/constants';
+import * as adminSvc from '../admin/admin-svc';
 
-function ArticleSvc() {
 
-	var resourceUrl = appConst.apiUrl + 'articles';
+const resourceUrl = appConst.apiUrl + 'articles';
 
-	return {
-		
-		getAll: function() {
-			return request({
-				url: resourceUrl,
-				type: 'json',
-				method: 'get',
-				contentType: 'application/json'
-			});
-		},
 
-		getArticleBySlug: function(slug) {
-			return request({
-				url: resourceUrl + '/slug/' + slug,
-				type: 'json',
-				method: 'get',
-				contentType: 'application/json'
-			});
-		},
+export default {
+	
+	getAll() {
+		return request({
+			url: resourceUrl,
+			type: 'json',
+			method: 'get',
+			contentType: 'application/json'
+		});
+	},
 
-		appreciateArticle: function(id) {
-			return request({
-				url: resourceUrl + '/' + id + '/appreciate',
-				type: 'json',
-				method: 'post',
-				contentType: 'application/json'
-			});
-		}
+	/**
+	 * @param  {String} slug
+	 * @return {Promise}
+	 */
+	getArticleBySlug(slug) {
+		return request({
+			url: `${resourceUrl}/slug/${slug}`,
+			type: 'json',
+			method: 'get',
+			contentType: 'application/json'
+		});
+	},
 
-	};
-}
+	/**
+	 * @param  {String} id
+	 * @return {Promise}
+	 */
+	appreciateArticle(id) {
+		return request({
+			url: `${resourceUrl}/${id}/appreciate`,
+			type: 'json',
+			method: 'post',
+			contentType: 'application/json'
+		});
+	},
 
-module.exports = ArticleSvc();
+	/**
+	 * @param  {Object} articleObj
+	 * @return {Promise}
+	 */
+	createArticle(articleObj) {
+		return adminSvc.authRequest({
+			url: resourceUrl,
+			method: 'post',
+			type: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(articleObj)
+		});
+	},
+
+	/**
+	 * @param  {Object} articleObj
+	 * @return {Promise}
+	 */
+	updateArticle(articleObj) {
+		return adminSvc.authRequest({
+			url: `resourceUrl/${articleObj._id}`,
+			method: 'put',
+			type: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(articleObj)
+		});
+	}
+
+};

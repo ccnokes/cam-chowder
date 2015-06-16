@@ -42,9 +42,9 @@ console.log('\nBuilding environment: ' + ENV + '\n');
 
 
 
-var webpackConfig = require('./webpack.config')({
-	env: ENV
-});
+// var webpackConfig = require('./webpack.config')({
+// 	env: ENV
+// });
 
 
 var paths = {

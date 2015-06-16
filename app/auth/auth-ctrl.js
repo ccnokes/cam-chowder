@@ -39,7 +39,7 @@ passport.use(new BasicStrategy(
 authCtrl.isAuthenticated = passport.authenticate('basic', { session : false });
 
 router.route('/api/authenticate').post(authCtrl.isAuthenticated, function(req, res) {
-	res.sendStatus(200);
+	res.json({authenticated: true});
 });
 
 

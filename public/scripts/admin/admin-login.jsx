@@ -1,4 +1,5 @@
 var React = require('react'),
+	Navigation = require('react-router').Navigation,
 	validators = require('../../../app/utilities/validators'),
 	formComponents = require('../form/form-components.jsx'),
 	Input = formComponents.Input,
@@ -7,14 +8,15 @@ var React = require('react'),
 	adminSvc = require('./admin-svc.js');
 
 
-var AdminPage = React.createClass({
+var AdminLogin = React.createClass({
 
-	mixins: [formComponents.FormMixin],
+	mixins: [Navigation, formComponents.FormMixin],
 
 	getInitialState: function () {
 		return {
 			isValid: true,
-			submitted: false
+			submitted: false,
+			authFailed: false
 		};
 	},
 
@@ -27,7 +29,18 @@ var AdminPage = React.createClass({
 				submitted: true
 			});
 
-			adminSvc.authenticate(this.getFormValue());
+			var formVal = this.getFormValue();
+
+			adminSvc.authenticate(formVal)
+			.then(
+				function ok() {
+					this.transitionTo('admin-main', {user: formVal});
+				}.bind(this),
+				function err(e) {
+					console.error(arguments);
+					this.setState({ authFailed: true });
+				}.bind(this)
+			);
 		}
 		else {
 			this.setState({
@@ -73,6 +86,12 @@ var AdminPage = React.createClass({
 					</div>
 				</Hider>
 
+				<Hider show={this.state.authFailed}>
+					<div className="form-error">
+						<span>Username or password is incorrect.</span>
+					</div>
+				</Hider>
+
 			</section>
 		);
 	}
@@ -80,4 +99,4 @@ var AdminPage = React.createClass({
 });
 
 
-module.exports = AdminPage;
+module.exports = AdminLogin;

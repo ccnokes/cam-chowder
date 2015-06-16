@@ -1,16 +1,17 @@
-var React = require('react'),
-	Hider = require('../core/hider.jsx');
+import React from 'react';
+import Hider from '../core/hider.jsx';
 
-var formComponents = exports;
 
 
 //generic functionality for a form
 //assumes all form elements implement the FormControlMixin API below
-formComponents.FormMixin = {
+let FormMixin = {
 	
-	//generic iterator of each control
-	//cb args: (control obj, control ref name, index)
-	forEachControl: function(cb) {
+	/**
+	 * generic iterator of each control
+	 * cb args: control {Object}, control ref name {String}, index {Number}
+	 */
+	forEachControl(cb) {
 		var i = 0;
 		for(var key in this.refs) {
 			//break if cb returns false
@@ -20,8 +21,11 @@ formComponents.FormMixin = {
 		}
 	},
 
-	//returns array of invalid controls
-	getInvalids: function() {
+	/**
+	 * returns invalid controls
+	 * @return {Array}
+	 */
+	getInvalids() {
 		var invalids = [];
 		this.forEachControl(function(control) {
 			if(!control.isValid()) {
@@ -31,8 +35,11 @@ formComponents.FormMixin = {
 		return invalids;
 	},
 
-	//returns all values of form in object keyed by control name
-	getFormValue: function() {
+	/**
+	 * Returns all values of form in object keyed by control name
+	 * @return {Object}
+	 */
+	getFormValue() {
 		var formVals = {};
 		this.forEachControl(function(control, controlKey) {
 			formVals[controlKey] = control.getValue();
@@ -40,11 +47,14 @@ formComponents.FormMixin = {
 		return formVals;
 	},
 
-	isValid: function() {
+	/**
+	 * @return {Boolean}
+	 */
+	isValid() {
 		var formIsValid = true;
 
 		this.forEachControl(function(control) {
-			if(!control.isValid()) {
+			if(!control.isValid() && !control.props.optional) {
 				formIsValid = false;
 				return false;
 			}
@@ -57,32 +67,38 @@ formComponents.FormMixin = {
 
 
 //mixin of functionalities for a field in a form
-formComponents.FormControlMixin = {
+let FormControlMixin = {
 	propTypes: {
 		validators: React.PropTypes.array,
 		errorMessage: React.PropTypes.string,
 		label: React.PropTypes.string,
 		name: React.PropTypes.string,
-		type: React.PropTypes.string
+		type: React.PropTypes.string,
+		optional: React.PropTypes.bool
 	},
 
-	getDefaultProps: function() {
+	getDefaultProps() {
 		return {
 			type: 'text',
 			errorMessage: 'This field is invalid.'
 		};
 	},
 
-	getInitialState: function() {
+	getInitialState() {
 		return {
-			isValid: false,
+			isPristine: true,
+			isValid: (this.props.optional ? true : false), //false by default, true if optional
 			isFocused: false,
 			isComplete: false, //valid and blurred
-			value: ''
+			value: '' //value of the control
 		}	
 	},
 
-	getContainerClass: function() {
+	/**
+	 * returns CSS class based on component's state
+	 * @return {String}
+	 */
+	getContainerClass() {
 		var classes = [this.props.className, 'infield-group'];
 		if(this.state.isFocused) {
 			classes.push('is-active');
@@ -96,7 +112,12 @@ formComponents.FormControlMixin = {
 		return classes.join(' ');
 	},
 
-	validate: function(val) {
+	/**
+	 * Validate the input's value. Will not run if no validators defined
+	 * @param  {*} val - should be the input's value attribute
+	 * @return {Boolean}
+	 */
+	validate(val) {
 		var validators = this.props.validators;
 		if(validators && validators.length > 0) {
 			return validators.every(function(validator) {
@@ -108,34 +129,48 @@ formComponents.FormControlMixin = {
 		}
 	},
 
-	shouldShowHelp: function() {
-		return (!this.state.isValid && this.state.value.length > 0);
+	/**
+	 * shows help if the input is invalid and has been touched
+	 * @return {Boolean}
+	 */
+	shouldShowHelp() {
+		return (!this.state.isValid && !this.state.isPristine);
 	},
 
-	onInteract: function(event) {
-		var self = this;
+	/**
+	 * Called in response to onChange event usually
+	 * sets components value, runs validation
+	 */
+	onInteract(event) {
 		var val = event.target.value;
 		var isValid = this.validate(val);
 
 		this.setState({
+			isPristine: false, //it's been touched now
 			isValid: isValid,
 			value: val
-		});		
-	},
-
-	onFocus: function(event) {
-		this.setState({
-			isFocused: true,
-			isComplete: false
 		});
 	},
 
-	onBlur: function() {
+	/**
+	 * called on focus event
+	 */
+	onFocus(event) {
+		this.setState({
+			isFocused: true,
+			isComplete: false //complete = valid & blurred
+		});
+	},
+
+	/**
+	 * called on blur event
+	 */
+	onBlur() {
 		this.setState({
 			isFocused: false
 		});
 
-		if(this.state.isValid) {
+		if(this.isValid()) {
 			this.setState({
 				isComplete: true
 			});
@@ -143,27 +178,40 @@ formComponents.FormControlMixin = {
 	},
 
 	//the following are more for external consumers of these components
-	getValue: function() {
+	getValue() {
 		return this.state.value;	
 	},
 
-	isValid: function() {
+	clearValue() {
+		this.setState({
+			value: ''
+		});
+	},
+
+	isValid() {
 		return this.state.isValid;	
+	},
+
+	showHelp() {
+		this.setState({
+			isPristine: false
+		});
 	}
 };
 
 
 //implement above in an <input>
-formComponents.Input = React.createClass({
+let Input = React.createClass({
 
-	mixins: [formComponents.FormControlMixin],
+	mixins: [FormControlMixin],
 
-	render: function() {
+	render() {
 		return (
 			<div className={this.getContainerClass()}>
 				<label htmlFor={this.props.name}>
 					{this.props.label}
 					<input 
+						value={this.state.value}
 						className="form-control" 
 						name={this.props.name} 
 						type={this.props.type} 
@@ -183,15 +231,16 @@ formComponents.Input = React.createClass({
 
 
 //implement above in an <textarea>
-formComponents.TextArea = React.createClass({
-	mixins: [formComponents.FormControlMixin],
+let TextArea = React.createClass({
+	mixins: [FormControlMixin],
 	
-	render: function() {
+	render() {
 		return (
 			<div className={this.getContainerClass()}>
 				<label htmlFor={this.props.name}>
 					{this.props.label}
 					<textarea 
+						value={this.state.value}
 						className="form-control" 
 						name={this.props.name} 
 						onChange={this.onInteract} 
@@ -207,4 +256,7 @@ formComponents.TextArea = React.createClass({
 		);
 	}
 });
+
+
+export { FormMixin, FormControlMixin, Input, TextArea };
 

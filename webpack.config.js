@@ -4,7 +4,7 @@ function makeConfig(opts) {
 	var config = {
 
 		entry: {
-			app: './public/scripts/main.js',
+			app: ['webpack/hot/only-dev-server', './public/scripts/main.js'],
 			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router', 'reqwest', 'd3']
 		},
 
@@ -16,7 +16,8 @@ function makeConfig(opts) {
 		output: {
 			devtool: (opts.env === 'dev' ? '#eval-source-map' : ''),
 			path: 'dist/scripts',
-			filename: '[name].bundle.js'
+			filename: '[name].bundle.js',
+			publicPath: '/assets/'
 		},
 
 		plugins: [
@@ -28,7 +29,9 @@ function makeConfig(opts) {
 
 		module: {
 			loaders: [
-				{ test: /\.jsx?$/, loader: 'jsx-loader' }
+				//{ test: /\.jsx?$/, loader: 'jsx-loader' },
+				{ test: /\.js.*$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+            	{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
 			]
 		}
 	};
@@ -43,4 +46,4 @@ function makeConfig(opts) {
 	return config;
 }
 
-module.exports = makeConfig;
+module.exports = makeConfig({env: 'dev'});

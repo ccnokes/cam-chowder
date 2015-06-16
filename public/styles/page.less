@@ -46,10 +46,13 @@ body {
 
 		&:hover, &:focus {
 			background: transparent;
+			color: #FCA152;
 		}
 
 		&.active {
 			border-bottom: 2px solid #4d4d4d;
+			color: inherit;
+			font-weight: bold;
 		}
 	}
 }
@@ -68,6 +71,7 @@ body {
 	top: 0;
 	left: 0;
 	opacity: 0.1;
+	z-index: -1;
 }
 
 .header-graphic-bar {
