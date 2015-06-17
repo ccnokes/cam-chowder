@@ -2,7 +2,6 @@ import React from 'react';
 import validators from '../../../app/utilities/validators';
 import formComponents, { Input, TextArea, FormMixin } from '../form/form-components.jsx';
 import Hider from '../core/hider.jsx';
-import adminSvc from './admin-svc.js';
 import articleSvc from '../article/article-svc';
 
 
@@ -57,7 +56,7 @@ export default React.createClass({
 		let renderInvalids = function() {
 			return this.getInvalids().map((control, i) => {
 				return(
-					<li key={i}>{control.label}</li>
+					<li key={i}>{control.props.label}</li>
 				);
 			});
 		}.bind(this);

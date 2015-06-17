@@ -1,23 +1,27 @@
-var request = require('reqwest'),
-	appConst = require('../config/constants');
+import request from 'reqwest';
+import appConst from '../config/constants';
+import * as adminSvc from '../admin/admin-svc';
 
-function ContactSvc() {
+const resourceUrl = appConst.apiUrl + 'contacts';
 
-	var resourceUrl = appConst.apiUrl + 'contacts';
-
-	return {
+export default {
 		
-		postContact: function(contactObj) {
-			return request({
-					url: resourceUrl,
-					type: 'json',
-					method: 'post',
-					contentType: 'application/json',
-					data: JSON.stringify(contactObj)
-				});
-		}
+	postContact(contactObj) {
+		return request({
+				url: resourceUrl,
+				type: 'json',
+				method: 'post',
+				contentType: 'application/json',
+				data: JSON.stringify(contactObj)
+			});
+	},
 
-	};
-}
+	getContacts() {
+		return adminSvc.authRequest({
+				url: resourceUrl,
+				method: 'get',
+				contentType: 'application/json'
+			});
+	}
 
-module.exports = ContactSvc();
+};

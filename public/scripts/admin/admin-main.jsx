@@ -1,19 +1,33 @@
-var React = require('react'),
-	validators = require('../../../app/utilities/validators'),
-	formComponents = require('../form/form-components.jsx'),
-	Input = formComponents.Input,
-	TextArea = formComponents.TextArea,
-	Hider = require('../core/hider.jsx'),
-	adminSvc = require('./admin-svc.js'),
-	CreateArticle = require('./create-article.jsx');
+import React from 'react';
+//import formComponents as { Input, TextArea } from '../form/form-components.jsx';	
+import contactSvc from '../contact/contact-svc';
+import CreateArticle from './create-article.jsx';
+import ViewContacts from './view-contacts.jsx';
 
 
 export default React.createClass({
 	
+	getInitialState() {
+		return {
+			contacts: {}
+		};
+	},
+
+	componentDidMount() {
+		contactSvc.getContacts()
+		.then( (data) => {
+			this.setState({
+				contacts: data
+			});
+		});
+	},
+
 	render() {
 		return(
 			<div>
 				<CreateArticle />
+				<hr className="big-hr" />
+				<ViewContacts contacts={this.state.contacts} />
 			</div>
 		);
 	}

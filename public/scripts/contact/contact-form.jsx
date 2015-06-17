@@ -47,7 +47,7 @@ var ContactForm = React.createClass({
 		let renderInvalids = function() {
 			return this.getInvalids().map((control, i) => {
 				return(
-					<li key={i}>{control.label}</li>
+					<li key={i}>{control.props.label}</li>
 				);
 			});
 		}.bind(this);

@@ -18,9 +18,16 @@ var ContactSchema = new Schema({
 		type: String,
 		required: true
 	}
+},{
+	toObject: { virtuals: true },
+	toJSON: { virtuals: true }
 });
 
 ContactSchema.plugin(mongoosePaginate);
+
+ContactSchema.virtual('date').get(function() {
+	return this._id.getTimestamp();
+});
 
 var Contact = mongoose.model('Contact', ContactSchema);
 

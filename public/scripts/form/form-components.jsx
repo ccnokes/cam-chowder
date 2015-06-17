@@ -170,7 +170,7 @@ let FormControlMixin = {
 			isFocused: false
 		});
 
-		if(this.isValid()) {
+		if(this.isValid() && this.state.value) {
 			this.setState({
 				isComplete: true
 			});
@@ -212,6 +212,7 @@ let Input = React.createClass({
 					{this.props.label}
 					<input 
 						value={this.state.value}
+						id={this.props.name}
 						className="form-control" 
 						name={this.props.name} 
 						type={this.props.type} 
@@ -241,7 +242,8 @@ let TextArea = React.createClass({
 					{this.props.label}
 					<textarea 
 						value={this.state.value}
-						className="form-control" 
+						id={this.props.name}
+						className="form-control"
 						name={this.props.name} 
 						onChange={this.onInteract} 
 						rows="8" 
