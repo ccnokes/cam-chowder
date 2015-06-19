@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start-prod": "NODE_ENV=production nvm run 0.12.4 --harmony index.js",
+    "start-prod": "NODE_ENV=prod forever start -c \"node --harmony\" index.js",
     "start": "nodemon --harmony index.js --watch app",
-    "build": "gulp build --env prod"
+    "build": "gulp build --env prod",
+    "hot-dev-server": "webpack-dev-server --config webpack-dev.config.js --hot --progress --colors --inline"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -14,6 +15,7 @@
     "ejs": "^2.3.1",
     "express": "^4.9.4",
     "express-paginate": "0.0.8",
+    "forever": "^0.14.1",
     "glob": "^5.0.5",
     "graceful-fs": "^3.0.7",
     "helmet": "^0.8.0",

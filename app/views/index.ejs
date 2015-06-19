@@ -17,12 +17,20 @@
 		<!--[if lt IE 8]>
       		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       	<![endif]-->
+      	<noscript>Javascript is required to view this site.</noscript>
 
 		<main id="appRoot" role="main"></main>
 	</body>
 
-	<!-- <script type="text/javascript" src="/scripts/vendor.bundle.js"></script> -->
-	<!-- <script type="text/javascript" src="/scripts/app.bundle.js?v=<%= version %>"></script> -->
-	<script type="text/javascript" src="http://localhost:8080/assets/vendor.bundle.js?v=<%= version %>"></script>
+	<% if(env === 'dev') { %>
+	
+	<script type="text/javascript" src="http://localhost:8080/assets/vendor.bundle.js"></script>
 	<script type="text/javascript" src="http://localhost:8080/assets/app.bundle.js?v=<%= version %>"></script>
+
+	<% } else { %>
+
+	<script type="text/javascript" src="/scripts/vendor.bundle.js"></script>
+	<script type="text/javascript" src="/scripts/app.bundle.js?v=<%= version %>"></script>
+
+	<% } %>
 </html>

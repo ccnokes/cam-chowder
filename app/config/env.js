@@ -1,13 +1,13 @@
-var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'dev';
 
 var config = {
-	development: {
+	'dev': {
 		scheme: 'http:',
 		hostname: 'localhost',
 		port: 9003,
 		db: 'mongodb://localhost/local'
 	},
-	production: {
+	'prod': {
 		scheme: 'http:',
 		port: 8080,
 		hostname: '127.0.0.1',

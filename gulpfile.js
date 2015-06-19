@@ -42,9 +42,9 @@ console.log('\nBuilding environment: ' + ENV + '\n');
 
 
 
-// var webpackConfig = require('./webpack.config')({
-// 	env: ENV
-// });
+var webpackConfig = require('./make-webpack-config')({
+	env: ENV
+});
 
 
 var paths = {
@@ -62,6 +62,7 @@ var paths = {
 };
 
 
+//in development, prefer using the hot dev server script in package.json
 gulp.task('webpack', ['cleanScripts'], function(done) {
 	webpack(webpackConfig, function(err, stats) {
         if(err) {
@@ -104,27 +105,19 @@ gulp.task('less', function() {
 });
 
 
-
-
 gulp.task('watch', function() {
-	watch([paths.src.scripts, paths.src.main + '/scripts/**/*.jsx'], function() {
-		runSequence(['webpack']);
-	});
-
 	watch(paths.src.styles, function() {
 		runSequence(['less']);
 	});
 });
 
 
-gulp.task('default', [
-	'less',
-	'webpack',
-	'watch'
-]);
+
+var baseTasks = ['less', 'webpack'];
 
 
-gulp.task('build', [
-	'less',
-	'webpack'
-]);
+gulp.task('default', baseTasks.concat(['watch']));
+
+
+gulp.task('build', baseTasks);
+

@@ -1,10 +1,20 @@
 var webpack = require('webpack');
 
 function makeConfig(opts) {
+		
+	//set app entry array
+	var appEntry = [];
+
+	if(opts.env === 'dev') {
+		appEntry.push('webpack/hot/only-dev-server');
+	}
+	appEntry.push('./public/scripts/main.js');
+
+
 	var config = {
 
 		entry: {
-			app: ['webpack/hot/only-dev-server', './public/scripts/main.js'],
+			app: appEntry,
 			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router', 'reqwest', 'd3']
 		},
 
@@ -29,13 +39,13 @@ function makeConfig(opts) {
 
 		module: {
 			loaders: [
-				//{ test: /\.jsx?$/, loader: 'jsx-loader' },
 				{ test: /\.js.*$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
             	{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
 			]
 		}
 	};
 
+	//add prod only plugins
 	if(opts.env === 'prod') {
 		config.plugins.push(
 			new webpack.optimize.UglifyJsPlugin(),
@@ -46,4 +56,4 @@ function makeConfig(opts) {
 	return config;
 }
 
-module.exports = makeConfig({env: 'dev'});
+module.exports = makeConfig;
