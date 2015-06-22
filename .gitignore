@@ -4,6 +4,8 @@ components
 
 dist
 
+uploads/**/*
+
 *.log
 *.zip
 *.out

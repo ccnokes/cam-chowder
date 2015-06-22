@@ -8,7 +8,7 @@ import Hider from '../core/hider.jsx';
 let FormMixin = {
 	
 	/**
-	 * generic iterator of each control
+	 * generic iterator of each control. **Assumes you want all refs to be managed by the FormMixin**
 	 * cb args: control {Object}, control ref name {String}, index {Number}
 	 */
 	forEachControl(cb) {
@@ -45,6 +45,15 @@ let FormMixin = {
 			formVals[controlKey] = control.getValue();
 		});
 		return formVals;
+	},
+
+	/**
+	 * calls clearValue() on each control
+	 */
+	clearAllControls() {
+		this.forEachControl(function(control) {
+			control.clearValue();
+		});
 	},
 
 	/**
@@ -184,7 +193,9 @@ let FormControlMixin = {
 
 	clearValue() {
 		this.setState({
-			value: ''
+			value: '',
+			isComplete: false,
+			isPristine: true
 		});
 	},
 

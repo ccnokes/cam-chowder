@@ -1,12 +1,10 @@
 var express = require('express'),
 	bodyParser = require('body-parser'),
 	responseTime = require('response-time'),
-	compression = require('compression'),
 	appConstants = require('./app-constants'),
 	app = require('./app-boot'),
 	paginate = require('express-paginate'),
 	helmet = require('helmet'),
-	expressJwt = require('express-jwt'),
 	env = require('./env'),
 	passport = require('passport');
 
@@ -19,19 +17,12 @@ if(appConstants.env === 'dev') {
 //adds response time header to response
 app.use(responseTime());
 
-//enable gzip compression on responses > 512b
-app.use(compression({
-	threshold: 512
-}));
 
-//serve public as web root
+//static paths
 app.use(express.static(appConstants.distPath));
+//virtual "mount path" for uploads so not all served from root
+app.use('/uploads', express.static(appConstants.uploadsPath));
 
-//lock down access to current domain only
-// app.use(function(req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', env.scheme + '//' + env.hostname);
-// 	next();
-// });
 
 //parse application/json
 app.use(bodyParser.json({
@@ -55,16 +46,16 @@ app.use(helmet.frameguard());
 app.use(helmet.noSniff());
 
 //CSP
-app.use(helmet.contentSecurityPolicy({
-	defaultSrc: ["'self'"],
-	scriptSrc: ["'self'", "'unsafe-eval'", 'www.google-analytics.com'],
-	styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-	fontSrc: ["'self'", 'fonts.gstatic.com'],
-	imgSrc: ["'self'", 'data:', 'www.google-analytics.com'],
-	connectSrc: ["'self'", "ws:"],
-	reportUri: '/csp-violation',
-	setAllHeaders: false // set to true if you want to set all headers (X-Webkit-Content-Security-Policy, etc...)
-}));
+// app.use(helmet.contentSecurityPolicy({
+// 	defaultSrc: ["'self'"],
+// 	scriptSrc: ["'self'", "'unsafe-eval'", 'www.google-analytics.com', 'localhost:8080'],
+// 	styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+// 	fontSrc: ["'self'", 'fonts.gstatic.com'],
+// 	imgSrc: ["'self'", 'data:', 'www.google-analytics.com'],
+// 	connectSrc: ["'self'", "ws:"],
+// 	reportUri: '/csp-violation',
+// 	setAllHeaders: false // set to true if you want to set all headers (X-Webkit-Content-Security-Policy, etc...)
+// }));
 
 //fake latency for testing
 // app.use(function(req, res, next) {

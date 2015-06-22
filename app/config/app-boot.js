@@ -47,17 +47,19 @@ autoload('**/*-ctrl.js', function(mod, file) {
 //register backup routes, 404s and such. These must come last
 var router = express.Router();
 
-router.use(function(req, res) {
+router.use(function(req, res, next) {
 	//if expecting JSON, send that
 	if(req.headers['content-type'] === 'application/json') {
 		res.status(404).json({
 			message: 'Resource does not exist.'
 		});
 	} 
+
+	next();
 	//otherwise send 404.html
-	else {
-		res.status(404).render('404', { title: '404 :(' });
-	}
+	// else {
+	// 	res.status(404).render('404', { title: '404 :(' });
+	// }
 });
 
 //mount the router in the app

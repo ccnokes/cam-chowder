@@ -42,7 +42,7 @@ var Admin = React.createClass({
 						</Link>
 					</header>
 
-					<h1>Admin</h1>
+					<h1>Site Admin</h1>
 					<br />
 
 					<TransitionGroup transitionName="admin">

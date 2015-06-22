@@ -10,7 +10,8 @@ export default React.createClass({
 
 	getInitialState() {
 		return {
-			isValid: true
+			isValid: true,
+			showCreated: false
 		};
 	},
 
@@ -22,9 +23,7 @@ export default React.createClass({
 
 			articleSvc.createArticle(formVal)
 			.then(() => {
-				this.forEachControl(function(field) {
-					field.clearValue();
-				});
+				this.clearAllControls();
 				
 				this.setState({
 					isValid: true,

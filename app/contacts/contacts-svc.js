@@ -47,3 +47,10 @@ contactSvc.createContact = function(contactObj) {
 	});
 	return dfd.promise;
 };
+
+
+contactSvc.removeContact = function(id) {
+	return Contact.remove({ _id: id }).exec();
+};
+
+

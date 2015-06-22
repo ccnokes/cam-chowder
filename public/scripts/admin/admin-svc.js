@@ -16,7 +16,7 @@ export function isAuthenticated() {
 /**
  * @return {String|Null}
  */
-function getToken() {
+export function getToken() {
 	return sessionStorage.getItem(storageKey);
 }
 
@@ -25,10 +25,11 @@ function getToken() {
  * @param  {Object|String} input
  * @return {String} base64 encoded
  */
-function makeAuthHeader(input) {
+export function makeAuthHeader(input) {
 	if(typeof input === 'object') {
 		return btoa(input.username + ':' + input.password);
 	}
+	//assume this means it's from storage and already in the above format
 	else if(typeof input === 'string') {
 		return input;
 	}

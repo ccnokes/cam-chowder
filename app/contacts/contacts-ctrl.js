@@ -40,3 +40,19 @@ contactCtrl.createContact = function(req, res) {
 	);
 };
 router.route(resourceUri).post(contactCtrl.createContact);
+
+
+//protected resource
+contactCtrl.removeContact = function(req, res) {
+	contactSvc.removeContact(req.params.id)
+	.then(
+		function ok(contact) {
+			res.json({message: 'Contact removed.'});
+		},
+		function err(e) {
+			res.status(404).end();
+		}
+	);
+};
+router.route(resourceUri + '/:id').delete(authCtrl.isAuthenticated, contactCtrl.removeContact);
+
