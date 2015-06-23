@@ -1,7 +1,6 @@
 var express = require('express'),
 	mongoose = require('mongoose'),
 	path = require('path'),
-	vhost = require('vhost'),
 	env = require('./env'),
 	autoload = require('./auto-load');
 
