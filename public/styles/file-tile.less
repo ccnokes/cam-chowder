@@ -1,14 +1,19 @@
 .file-tile-container {
 	display: flex;
 	flex-direction: row wrap;
+	flex-wrap: wrap;
 }
 
 .file-tile {
-	max-width: 200px;
+	width: 23%;
 	padding: 1em;
 	margin: 0 1em 1em 0;
 	border: 1px solid #ebebeb;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+	&:last-child {
+		margin-right: 0;
+	}
 
 	img {
 		max-height: 100px;

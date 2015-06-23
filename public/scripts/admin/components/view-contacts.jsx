@@ -1,6 +1,6 @@
 import React from 'react';
-import filters from '../config/filters';
-import Hider from '../core/hider.jsx';
+import filters from '../../config/filters';
+import Hider from '../../core/hider.jsx';
 
 export default React.createClass({
 

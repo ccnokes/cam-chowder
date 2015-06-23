@@ -1,8 +1,8 @@
 import React from 'react';
-import validators from '../../../app/utilities/validators';
-import formComponents, { Input, TextArea, FormMixin } from '../form/form-components.jsx';
-import Hider from '../core/hider.jsx';
-import articleSvc from '../article/article-svc';
+import validators from '../../../../app/utilities/validators'; //TODO this filepath is ridiculous
+import formComponents, { Input, TextArea, FormMixin } from '../../form/form-components.jsx';
+import Hider from '../../core/hider.jsx';
+import articleSvc from '../../article/article-svc';
 
 
 export default React.createClass({

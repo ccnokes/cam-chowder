@@ -4,7 +4,8 @@ var path = require('path'),
 	router = require('express').Router(),
 	authCtrl = require('../auth/auth-ctrl'),
 	multiparty = require('multiparty'),
-	glob = require('glob');
+	glob = require('glob'),
+	Q = require('q');
 
 const resourceUri = '/api/media';
 const appConstants = require('../config/app-constants');
@@ -14,8 +15,6 @@ mediaCtrl.router = router;
 
 
 
-
-//protected
 mediaCtrl.handleUpload = function(req, res) {
 	var uploadUri;
 
@@ -32,14 +31,15 @@ mediaCtrl.handleUpload = function(req, res) {
 		if(part.filename) {
 			//generate dir name
 			var d = new Date();
-			var dir = '' + d.getFullYear() + '-' + d.getMonth() + 1;
+			var dir = '' + d.getFullYear() + '-' + (d.getMonth() + 1);
+			var filename = part.filename.replace(/\s/g, '-');
 
 			//make the directory
 			mkdirp(path.join(appConstants.uploadsPath, dir), function() {
-				uploadUri = path.join('uploads', dir, part.filename);
+				uploadUri = path.join('uploads', dir, filename);
 				
 				//direct filestream into it
-				part.pipe(fs.createWriteStream( path.join(appConstants.uploadsPath, dir, part.filename) ));
+				part.pipe(fs.createWriteStream( path.join(appConstants.uploadsPath, dir, filename) ));
 			});
 
 			part.on('error', function(err) {
@@ -51,7 +51,7 @@ mediaCtrl.handleUpload = function(req, res) {
 
 	// Close emitted after form parsed 
 	form.on('close', function() {
-		res.json({fileUrl: uploadUri, message: 'Success!!!'});
+		res.json({fileUrl: uploadUri});
 	});
 	
 	form.parse(req);
@@ -59,7 +59,6 @@ mediaCtrl.handleUpload = function(req, res) {
 router.route(resourceUri).post(authCtrl.isAuthenticated, mediaCtrl.handleUpload);
 
 
-//protected
 mediaCtrl.getUploads = function(req, res) {
 	glob( appConstants.uploadsPath + '/**/*', {nodir: true}, function(err, files) {
 		
@@ -71,13 +70,16 @@ mediaCtrl.getUploads = function(req, res) {
 			var splitArr = file.split('/');
 			
 			var filename = splitArr.slice(splitArr.length - 1)[0];
+			var filenameNoExt = filename.replace(/\.\w+/g, '');
+			var ext = filename.match(/\.\w+/g).pop().replace('.', '');
 			var uploadsIndex = splitArr.indexOf('uploads');
 			var uri = splitArr.slice(uploadsIndex, splitArr.length).join('/');
-			var filenameNoExt = filename.replace(/\.\w+/g, '');
+			
 
 			return {
 				uri: uri,
 				filename: filename,
+				ext: ext,
 				md: '![' + filenameNoExt + '](' + uri + ')' //example markdown syntax
 			};
 		});
@@ -87,4 +89,22 @@ mediaCtrl.getUploads = function(req, res) {
 	});
 };
 router.route(resourceUri).get(authCtrl.isAuthenticated, mediaCtrl.getUploads);
+
+
+mediaCtrl.removeUpload = function(req, res) {
+	//construct the filepath
+	//filepath should include 'uploads', so we construct against root
+	var filepath = path.join(appConstants.rootPath, req.params.filepath);
+	
+	Q.nfcall(fs.unlink, filepath)
+	.then(
+		function ok() {
+			res.status(200).end();
+		}, 
+		function err() {
+			res.status(404).end();
+		}
+	);
+};
+router.route(resourceUri + '/:filepath').delete(authCtrl.isAuthenticated, mediaCtrl.removeUpload);
 

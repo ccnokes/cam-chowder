@@ -6,28 +6,34 @@ const resourceUrl = appConst.apiUrl + 'media';
 
 export default {
 
-	upload(formData) {
+	upload(formData, cb) {
 		let authHeader = adminSvc.makeAuthHeader( adminSvc.getToken() );
 
 		let fd = new FormData();
 		fd.append('test', formData);
 
 		let xhr = new XMLHttpRequest();
-		xhr.upload.addEventListener('progress', function(e) {
-			if (e.lengthComputable) {
-				var percentComplete = (e.loaded / e.total) * 100;
-				console.log(percentComplete + '% uploaded');
-			}
+		// xhr.upload.addEventListener('progress', function(e) {
+		// 	if (e.lengthComputable) {
+		// 		var percentComplete = (e.loaded / e.total) * 100;
+		// 		console.log(percentComplete + '% uploaded');
+		// 	}
+		// });
+	
+		xhr.addEventListener('readystatechange', function(e) {
+		 	if(xhr.readyState === 4 && xhr.status === 200) {
+		 		cb(null, JSON.parse(xhr.response));
+		 	}
+		 	else if(xhr.readyState === 4 && xhr.status !== 200) {
+		 		cb(new Error('upload failed'), null);
+		 	}
 		});
 
 		xhr.open('POST', resourceUrl, true);
 		xhr.setRequestHeader('Authorization', 'Basic ' + authHeader);
 
-		//console.log(formData, fd, xhr);
 
 		xhr.send(fd);
-
-		//return some promise like object here
 	},
 
 	getUploads() {
@@ -35,6 +41,14 @@ export default {
 			url: resourceUrl,
 			type: 'json',
 			method: 'get'
+		});
+	},
+
+	removeUpload(uri) {
+		return adminSvc.authRequest({
+			url: `${resourceUrl}/${encodeURIComponent(uri)}`,
+			type: 'json',
+			method: 'delete'
 		});
 	}
 
