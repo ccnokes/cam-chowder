@@ -25,9 +25,18 @@ let UploadTile = React.createClass({
 
 	render() {
 		let upload = this.props.upload;
+		
+		function imgPreview(upload) {
+			if(upload.ext === 'png' || upload.ext === 'jpeg' || upload.ext === 'jpg' || upload.ext === 'gif' || upload.ext === 'svg') {
+				return (
+					<img src={upload.uri} />
+				);
+			}
+		}
+
 		return (
 			<Hider show={!this.state.hide} className="file-tile">
-				<img src={upload.uri} />
+				{ imgPreview(upload) }
 				<div><strong>{upload.filename}</strong></div>
 				<small><input type="text" readOnly value={upload.md} /></small>
 				<hr />
