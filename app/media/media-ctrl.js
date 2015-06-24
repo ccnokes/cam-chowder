@@ -101,8 +101,8 @@ mediaCtrl.removeUpload = function(req, res) {
 		function ok() {
 			res.status(200).end();
 		}, 
-		function err() {
-			console.log(err);
+		function err(e) {
+			console.log(e);
 			res.status(404).end();
 		}
 	);
