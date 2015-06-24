@@ -23,7 +23,8 @@ const constants = {
 	publicPath: path.join(root, 'public'),
 	distPath: path.join(root, 'dist'),
 	viewsPath: path.join(root, 'app/views'),
-	uploadsPath: path.join(root, 'uploads')
+	uploadsPath: path.join(root, 'uploads'),
+	logsPath: path.join(root, 'logs')
 };
 
 module.exports = constants;

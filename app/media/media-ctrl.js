@@ -5,7 +5,8 @@ var path = require('path'),
 	authCtrl = require('../auth/auth-ctrl'),
 	multiparty = require('multiparty'),
 	glob = require('glob'),
-	Q = require('q');
+	Q = require('q'),
+	errLog = require('../config/logger.js').errorLog;
 
 const resourceUri = '/api/media';
 const appConstants = require('../config/app-constants');
@@ -102,6 +103,7 @@ mediaCtrl.removeUpload = function(req, res) {
 			res.status(200).end();
 		}, 
 		function err(e) {
+			errLog.error(e);
 			res.status(404).end();
 		}
 	);

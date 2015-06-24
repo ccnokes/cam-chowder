@@ -16,6 +16,7 @@
     "event-emitter": "^0.3.3",
     "express": "^4.9.4",
     "express-paginate": "0.0.8",
+    "express-winston": "^0.3.1",
     "forever": "^0.14.1",
     "glob": "^5.0.10",
     "graceful-fs": "^3.0.7",
@@ -33,7 +34,8 @@
     "react": "^0.13.2",
     "react-router": "^0.13.3",
     "remarkable": "^1.6.0",
-    "response-time": "^2.1.0"
+    "response-time": "^2.1.0",
+    "winston": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^5.5.7",

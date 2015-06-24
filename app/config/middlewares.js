@@ -6,7 +6,9 @@ var express = require('express'),
 	paginate = require('express-paginate'),
 	helmet = require('helmet'),
 	env = require('./env'),
-	passport = require('passport');
+	passport = require('passport'),
+	logger = require('./logger'),
+	expressWinston = require('express-winston');
 
 
 //mirror browser console to node console
@@ -44,6 +46,12 @@ app.use(paginate.middleware());
 app.use(helmet.xssFilter());
 app.use(helmet.frameguard());
 app.use(helmet.noSniff());
+
+
+app.use(expressWinston.logger({
+	winstonInstance: logger.errorLog
+}));
+
 
 //CSP
 // app.use(helmet.contentSecurityPolicy({

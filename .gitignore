@@ -3,9 +3,11 @@ bower_components
 /components
 
 dist
+logs/
 
 uploads/**/*
 
 *.log
 *.zip
 *.out
+.vagrant
