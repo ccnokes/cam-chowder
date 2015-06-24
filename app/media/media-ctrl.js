@@ -94,7 +94,7 @@ router.route(resourceUri).get(authCtrl.isAuthenticated, mediaCtrl.getUploads);
 mediaCtrl.removeUpload = function(req, res) {
 	//construct the filepath
 	//filepath should include 'uploads', so we construct against root
-	var filepath = path.join(appConstants.rootPath, req.params.filepath);
+	var filepath = path.join(appConstants.rootPath, decodeURIComponent(req.params.filepath));
 	
 	Q.nfcall(fs.unlink, filepath)
 	.then(
@@ -102,7 +102,6 @@ mediaCtrl.removeUpload = function(req, res) {
 			res.status(200).end();
 		}, 
 		function err(e) {
-			console.log(e);
 			res.status(404).end();
 		}
 	);
