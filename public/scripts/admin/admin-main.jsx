@@ -17,13 +17,14 @@ export default React.createClass({
 		};
 	},
 
-	componentDidMount() {
+	componentWillMount() {
 		//make sure user is authenticated
 		if(!adminSvc.isAuthenticated()) {
 			this.transitionTo('admin-login');
-			return;
 		}
+	},
 
+	componentDidMount() {
 		contactSvc.getContacts()
 		.then( (data) => {
 			this.setState({

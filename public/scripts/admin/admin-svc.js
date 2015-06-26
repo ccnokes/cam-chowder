@@ -4,20 +4,21 @@ import appConst from '../config/constants';
 
 
 const resourceUrl = appConst.apiUrl;
-const storageKey = 'cn.token'; //not really a "token" per se
+var token; //not really a "token"
+
 
 /**
  * @return {Boolean}
  */
 export function isAuthenticated() {
-	return !!( sessionStorage.getItem(storageKey) );
+	return !!(token);
 }
 
 /**
  * @return {String|Null}
  */
 export function getToken() {
-	return sessionStorage.getItem(storageKey);
+	return token;
 }
 
 /**
@@ -28,8 +29,7 @@ export function getToken() {
 export function makeAuthHeader(input) {
 	if(typeof input === 'object') {
 		return btoa(input.username + ':' + input.password);
-	}
-	//assume this means it's from storage and already in the above format
+	}	
 	else if(typeof input === 'string') {
 		return input;
 	}
@@ -55,7 +55,7 @@ export function authenticate(userObj) {
 	})
 	.then(
 		function ok(res) {
-			sessionStorage.setItem(storageKey, basicHeader);
+			token = basicHeader;
 		}
 	);
 }

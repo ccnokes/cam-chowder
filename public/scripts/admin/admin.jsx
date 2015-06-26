@@ -13,13 +13,7 @@ var Admin = React.createClass({
 	
 	mixins: [Navigation],
 
-	componentDidMount() {
-		//render header
-		headerGraphic({
-			target: '#header-graphic'
-		})
-		.render();
-
+	componentWillMount() {
 		//if not authed, redirect to login page
 		if(!adminSvc.isAuthenticated()) {
 			this.transitionTo('admin-login');
@@ -28,6 +22,14 @@ var Admin = React.createClass({
 		else {
 			this.transitionTo('admin-main');
 		}
+	},
+
+	componentDidMount() {
+		//render header
+		headerGraphic({
+			target: '#header-graphic'
+		})
+		.render();
 	},
 
 	render() {

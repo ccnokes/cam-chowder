@@ -106,7 +106,11 @@ mediaCtrl.removeUpload = function(req, res) {
 			errLog.error(e);
 			res.status(404).end();
 		}
-	);
+	)
+	.fail(function(e) {
+		errLog.error(e);
+		res.status(404).end();
+	});
 };
 router.route(resourceUri + '/:filepath').delete(authCtrl.isAuthenticated, mediaCtrl.removeUpload);
 
