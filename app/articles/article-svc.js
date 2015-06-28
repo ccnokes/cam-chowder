@@ -32,7 +32,7 @@ articleSvc.getArticles = function(page, limit) {
 			status: 'active'
 		}, 
 		{
-			columns: 'title teaser createdDate _id slug', //props that get returned
+			columns: 'title teaser createdDate _id slug appreciates', //props that get returned
 			page: page, 
 			limit: limit,
 			sortBy: {

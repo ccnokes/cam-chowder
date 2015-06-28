@@ -32,7 +32,8 @@ function makeConfig(opts) {
 
 		plugins: [
 			new webpack.DefinePlugin({
-				ENV: opts.env
+				__DEV__: (opts.env === 'dev'),
+				__PROD__: (opts.env === 'prod')
 			}),
 			new webpack.optimize.CommonsChunkPlugin('vendor.bundle.js')
 		],
