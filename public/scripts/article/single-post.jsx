@@ -95,7 +95,10 @@ var SinglePost = React.createClass({
 						
 						<div className="blog-post-footer">
 							<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
-								Appreciate this &nbsp;
+								<div className="shape-heart"></div>
+								&nbsp;
+								Appreciate 
+								&nbsp;
 								<span className="badge">{this.state.appreciateCount}</span>
 							</button>
 							<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>

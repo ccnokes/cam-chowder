@@ -4,9 +4,14 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 var filters = exports;
 
 filters.formatDate = function(date) {
-	//make it a Date if it's not
-	if( !(date instanceof Date) ) {
-		date = new Date(date);
+	if(typeof date != 'undefined') {
+		//make it a Date if it's not
+		if( !(date instanceof Date) ) {
+			date = new Date(date);
+		}
+		return monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 	}
-	return monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+	else {
+		return '';
+	}
 };
