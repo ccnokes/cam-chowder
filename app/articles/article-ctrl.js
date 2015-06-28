@@ -15,7 +15,7 @@ articleCtrl.router = router;
 const resourceUri = '/api/articles';
 
 articleCtrl.getArticles = function(req, res) {	
-	articleSvc.getArticles(req.query.page, req.query.limit)
+	articleSvc.getArticles(req.query.page || 1, req.query.limit || 10)
 	.then(
 		function ok(data) {
 			res.json(data);

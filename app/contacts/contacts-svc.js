@@ -9,7 +9,7 @@ var contactSvc = exports;
 contactSvc.getContacts = function(page, limit) {
 	var dfd = Q.defer();
 	
-	Contact.paginate({}, page, limit, function(error, pageCount, paginatedResults, itemCount) {			
+	var cb = function(error, paginatedResults, pageCount, itemCount) {
 		if(error) {
 			dfd.reject(error);
 		}
@@ -24,10 +24,13 @@ contactSvc.getContacts = function(page, limit) {
 
 			dfd.resolve(returnObj);
 		}
-	}, {
-		//return in descending order (last made come first)
+	};
+
+	Contact.paginate({}, {
+		page: page, 
+		limit: limit,
 		sortBy: { date: -1 }
-	});	
+	}, cb);	
 
 	return dfd.promise;
 };

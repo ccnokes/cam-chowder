@@ -10,7 +10,7 @@ var articleSvc = exports;
 articleSvc.getArticles = function(page, limit) {
 	var dfd = Q.defer();
 	
-	Article.paginate({ status: 'active' }, page, limit, function(error, pageCount, paginatedResults, itemCount) {			
+	var paginateCb = function(error, paginatedResults, pageCount, itemCount) {
 		if(error) {
 			dfd.reject(error);
 		}
@@ -25,10 +25,22 @@ articleSvc.getArticles = function(page, limit) {
 
 			dfd.resolve(returnObj);
 		}
-	}, {
-		//return in descending order (last made come first)
-		sortBy: { createdDate: -1 }
-	});	
+	};
+
+	Article.paginate(
+		{ 
+			status: 'active'
+		}, 
+		{
+			columns: 'title teaser createdDate _id slug', //props that get returned
+			page: page, 
+			limit: limit,
+			sortBy: {
+				createdDate: -1
+			}
+		}, 
+		paginateCb
+	);
 
 	return dfd.promise;
 };
