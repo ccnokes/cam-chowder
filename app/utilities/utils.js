@@ -7,7 +7,7 @@ module.exports = {
 	},
 
 	slugify: function(text, _wordCount) {
-		var wordCount = _wordCount ? _wordCount : 4;
+		var wordCount = _wordCount ? _wordCount : 8;
 		if(text) {
 			var slug = text.toString();
 			
