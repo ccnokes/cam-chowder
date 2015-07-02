@@ -1,22 +1,22 @@
-var React = require('react'),
-	topicSvc = require('./topic-svc');
+import React from 'react';
+import * as topicSvc from './topic-svc';
 
 
 module.exports = React.createClass({
 	
-	getInitialState: function() {
+	getInitialState() {
 		return {
 			topic: topicSvc.getTopic(0)
 		};
 	},
 
-	handleClick: function() {
+	handleClick() {
 		this.setState({
 			topic: topicSvc.getRandomTopic()
 		});
 	},
 
-	render: function() {
+	render() {
 		return (
 			<span className="random-topic" onClick={this.handleClick}>{this.state.topic}</span>
 		);

@@ -1,40 +1,39 @@
-function topicSvc() {
+
+const topics = [
+	'cheesecake',
+	'snake charming',
+	'pro wrestling',
+	'collecting exotic fungi',
+	'ferret grooming',
+	'collecting beanie babies',
+	'becoming a Pokemon master'
+];
+
+let lastUsedIndex = 0;
+
+/**
+ * get a topic randomly, no consecutive dupes
+ * @return {String}
+ */
+export function getRandomTopic() {
+	var i;
+
+	//always run this at least once
+	do {
+		i = Math.floor(Math.random() * topics.length);
+	} 
+	//but prevent consecutive dupes
+	while(i === lastUsedIndex);
 	
-	var topics = [
-		'cheesecake',
-		'snake charming',
-		'pro wrestling',
-		'texting while pooping',
-		'collecting exotic fungi',
-		'ferret grooming'
-	];
-
-	var lastUsedIndex = 0;
-
-	var getRandomTopic = function() {
-		var i;
-
-		//always run this at least once
-		do {
-			i = Math.floor(Math.random() * topics.length);
-		} 
-		//but prevent consecutive dupes
-		while(i === lastUsedIndex);
-		
-		lastUsedIndex = i;
-		return topics[i];
-	};
-
-	//public API
-	return {
-		
-		getRandomTopic: getRandomTopic,
-		
-		getTopic: function(index) {
-			return topics[index];
-		}
-
-	};
+	lastUsedIndex = i;
+	return topics[i];
 }
 
-module.exports = topicSvc();
+/**
+ * get a specific topic by numeric index
+ * @param  {Number} index
+ * @return {String}
+ */
+export function getTopic(index) {
+	return topics[index];
+}

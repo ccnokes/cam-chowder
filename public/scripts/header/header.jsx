@@ -1,14 +1,42 @@
-var React = require('react'),
-	Link = require('react-router').Link,
-	RandomTopic = require('./random-topic.jsx');
+import React from 'react';
+import {Link} from 'react-router';
+import RandomTopic from './random-topic.jsx';
+
+const links = [
+	{
+		label: 'Blog',
+		linkTo: 'post-index'
+	},
+	{
+		label: 'About',
+		linkTo: 'about'
+	},
+	{
+		label: 'Contact',
+		linkTo: 'contact'
+	}
+];
+
 
 module.exports = React.createClass({
 	
+	renderLinks() {
+		return links.map(function(link) {
+			return(
+				<li className="nav__link" key={link.label}>
+					<Link className="nav__anchor" to={link.linkTo}>
+						{link.label}
+					</Link>
+				</li>
+			);
+		});
+	},
+
 	render() {
 		return(
 			
 			<header className="header row">
-				<div className="col-md-6">
+				<div className="col-sm-6">
 					<h2 className="header-title">
 						<Link to="post-index" className="nolinkstyle">
 							Cameron Nokes
@@ -18,23 +46,9 @@ module.exports = React.createClass({
 						<small>A website about front-end web development, UX, and <RandomTopic/>.</small>
 					</p>
 				</div>
-				<nav className="collapse navbar-collapse col-md-6 pull-right">
+				<nav className="nav-container col-sm-6">
 					<ul className="nav navbar-nav">
-						<li>
-							<Link to="post-index">
-								Blog
-							</Link>
-						</li>
-						<li>
-							<Link to="about">
-								About
-							</Link>
-						</li>
-						<li>
-							<Link to="contact">
-								Contact
-							</Link>
-						</li>
+						{ this.renderLinks() }
 					</ul>
 				</nav>
 			</header>		

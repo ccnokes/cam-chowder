@@ -37,29 +37,68 @@ img {
 	margin-bottom: @stdSpace;
 }
 
-.nav {
-	
-	li:last-child {
-		a {
-			margin-right: 0;
+.nav__link {
+	@media(min-width: @screen-sm-min) {
+		padding: 0 20px;
+	}
+}
+
+.nav__anchor {
+	//TODO maybe don't use bootstrap classes in conjuction with this one as it requires a lot of !importants
+	color: inherit !important;
+
+	&:last-child {
+		margin-right: 0;
+	}
+
+	&.active {
+		color: inherit;
+		font-weight: bold;
+		outline: none;
+		&:hover {
+			border-color: @terColor;
 		}
 	}
 
-	li a {
-		color: inherit;
-		padding: 5px;
+	&:hover, &:focus {
+		background: transparent !important;
+	}
+
+	//small devices -> down
+	@media(max-width: @screen-sm-min) {
+		&:hover {
+			color: @terColor !important;
+		}
+	}
+
+	//small devices -> up
+	@media(min-width: @screen-sm-min) {
+		padding: 5px !important;
 		margin-right: 2em;
 
-		&:hover, &:focus {
-			background: transparent;
-			color: #FCA152;
+		&:hover {
+			color: @terColor !important;
 		}
 
 		&.active {
 			border-bottom: 2px solid #4d4d4d;
-			color: inherit;
-			font-weight: bold;
 		}
+	}
+
+}
+
+.nav {
+
+	//small devices -> down, do this
+	@media(max-width: @screen-sm-min) {
+		//border: 1px solid #bababa;
+		background: fade(#ebebeb, 50%);
+		padding: 1em;
+	}
+
+	//small devices -> up, go to the right
+	@media(min-width: @screen-sm-min) {
+		float: right;	
 	}
 }
 
