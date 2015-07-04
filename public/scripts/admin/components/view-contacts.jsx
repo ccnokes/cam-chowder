@@ -1,6 +1,7 @@
 import React from 'react';
 import filters from '../../config/filters';
-import Hider from '../../core/hider.jsx';
+import ToggleDisplay from 'react-toggle-display';
+
 
 export default React.createClass({
 
@@ -28,7 +29,7 @@ export default React.createClass({
 
 		return (
 			<div>
-				<Hider show={showTable}>
+				<ToggleDisplay show={showTable}>
 					<table className="table table-striped">
 						<legend>Contact requests</legend>
 						<thead>
@@ -43,10 +44,10 @@ export default React.createClass({
 							{ renderRow() }
 						</tbody>
 					</table>
-				</Hider>
-				<Hider show={!showTable}>
+				</ToggleDisplay>
+				<ToggleDisplay show={!showTable}>
 					<h4 className="muted">No contact requests yet.</h4>
-				</Hider>
+				</ToggleDisplay>
 			</div>
 		);
 	}

@@ -34,6 +34,7 @@
     "react": "^0.13.2",
     "react-document-title": "^1.0.2",
     "react-router": "^0.13.3",
+    "react-toggle-display": "0.0.2",
     "remarkable": "^1.6.0",
     "response-time": "^2.1.0",
     "winston": "^1.0.0"

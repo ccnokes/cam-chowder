@@ -1,7 +1,7 @@
 import React from 'react';
 import mediaSvc from '../media-svc.js';
 import adminEvents from '../admin-events';
-import Hider from '../../core/hider.jsx';
+import ToggleDisplay from 'react-toggle-display';
 
 
 let UploadTile = React.createClass({
@@ -35,14 +35,14 @@ let UploadTile = React.createClass({
 		}
 
 		return (
-			<Hider show={!this.state.hide} className="file-tile">
+			<ToggleDisplay show={!this.state.hide} className="file-tile">
 				{ imgPreview(upload) }
 				<div><strong>{upload.filename}</strong></div>
 				<small><input type="text" readOnly value={upload.md} /></small>
 				<hr />
 				<button className="btn btn-link btn-xs" onClick={this.remove}>Delete</button>
 				<a href={upload.uri} target="_blank" className="btn btn-default btn-xs pull-right">View</a>
-			</Hider>
+			</ToggleDisplay>
 		);
 	}
 });
@@ -92,15 +92,15 @@ export default React.createClass({
 
 		return (
 			<section>
-				<Hider show={files.length > 0}>
+				<ToggleDisplay show={files.length > 0}>
 					<div className="file-tile-container">
 						{files}
 					</div>
-				</Hider>
+				</ToggleDisplay>
 				
-				<Hider show={files.length === 0}>
+				<ToggleDisplay show={files.length === 0}>
 					<h4 className="muted">No uploads yet.</h4>
-				</Hider>
+				</ToggleDisplay>
 			</section>
 		);
 	}

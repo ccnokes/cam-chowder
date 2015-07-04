@@ -1,5 +1,5 @@
 import React from 'react';
-import Hider from '../core/hider.jsx';
+import ToggleDisplay from 'react-toggle-display';
 import validators from '../../../app/utilities/validators';
 import ContactSvc from './contact-svc';
 import formComponents, { Input, TextArea, FormMixin } from '../form/form-components.jsx';
@@ -44,17 +44,17 @@ var ContactForm = React.createClass({
 
 	render() {
 		
-		let renderInvalids = function() {
+		let renderInvalids = () => {
 			return this.getInvalids().map((control, i) => {
 				return(
 					<li key={i}>{control.props.label}</li>
 				);
 			});
-		}.bind(this);
+		};
 
 		return (
 			<div>
-				<Hider show={!this.state.submitted}>
+				<ToggleDisplay show={!this.state.submitted}>
 					<form className="infield-form" onSubmit={this.onFormSubmit} noValidate>
 						
 						<div className="infield-form-inner mg-btm">
@@ -71,24 +71,24 @@ var ContactForm = React.createClass({
 							<input className="btn btn-primary btn-contact" type="submit" value="Send Message" />
 						</div>
 						
-						<Hider show={!this.state.isValid}>
+						<ToggleDisplay show={!this.state.isValid}>
 							<div className="form-error">
 								<p>Please make sure everything is filled out correctly. These fields might be wrong:</p>
 								<ul>
 									{renderInvalids()}
 								</ul>
 							</div>
-						</Hider>
+						</ToggleDisplay>
 
 					</form>
-				</Hider>
+				</ToggleDisplay>
 
-				<Hider show={this.state.isValid && this.state.submitted}>
+				<ToggleDisplay show={this.state.isValid && this.state.submitted}>
 					<div className="well">
 						<h3>Thanks!</h3>
 						<p>I'll get in touch with you shortly.</p>
 					</div>
-				</Hider>
+				</ToggleDisplay>
 
 			</div>
 		);

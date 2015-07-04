@@ -36,7 +36,7 @@ module.exports = React.createClass({
 		return(
 			
 			<header className="header row">
-				<div className="col-sm-6">
+				<div className="col-sm-7">
 					<h2 className="header-title">
 						<Link to="post-index" className="nolinkstyle">
 							Cameron Nokes
@@ -46,7 +46,7 @@ module.exports = React.createClass({
 						<small>A website about front-end web development, UX, and <RandomTopic/>.</small>
 					</p>
 				</div>
-				<nav className="nav-container col-sm-6">
+				<nav className="nav-container col-sm-5">
 					<ul className="nav navbar-nav">
 						{ this.renderLinks() }
 					</ul>

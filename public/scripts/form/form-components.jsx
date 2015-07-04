@@ -1,5 +1,5 @@
 import React from 'react';
-import Hider from '../core/hider.jsx';
+import ToggleDisplay from 'react-toggle-display';
 
 
 
@@ -232,9 +232,9 @@ let Input = React.createClass({
 						onBlur={this.onBlur}
 					/>
 				</label>
-				<Hider show={this.shouldShowHelp()} className="form-help">
+				<ToggleDisplay show={this.shouldShowHelp()} className="form-help">
 					<span>{this.props.errorMessage}</span>
-				</Hider>
+				</ToggleDisplay>
 			</div>
 		);
 	}
@@ -262,9 +262,9 @@ let TextArea = React.createClass({
 						onBlur={this.onBlur}
 					/>
 				</label>
-				<Hider show={this.shouldShowHelp()} className="form-help">
+				<ToggleDisplay show={this.shouldShowHelp()} className="form-help">
 					<span>{this.props.errorMessage}</span>
-				</Hider>
+				</ToggleDisplay>
 			</div>
 		);
 	}

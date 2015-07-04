@@ -4,7 +4,7 @@ var React = require('react'),
 	formComponents = require('../form/form-components.jsx'),
 	Input = formComponents.Input,
 	TextArea = formComponents.TextArea,
-	Hider = require('../core/hider.jsx'),
+	ToggleDisplay = require('react-toggle-display'),
 	adminSvc = require('./admin-svc.js');
 
 
@@ -37,7 +37,6 @@ var AdminLogin = React.createClass({
 					this.transitionTo('admin-main', {user: formVal});
 				}.bind(this),
 				function err(e) {
-					console.error(arguments);
 					this.setState({ authFailed: true });
 				}.bind(this)
 			);
@@ -80,17 +79,17 @@ var AdminLogin = React.createClass({
 					</div>
 				</form>
 				
-				<Hider show={!this.state.isValid}>
+				<ToggleDisplay show={!this.state.isValid}>
 					<div className="form-error">
 						<span>Please make sure everything is filled out correctly.</span>
 					</div>
-				</Hider>
+				</ToggleDisplay>
 
-				<Hider show={this.state.authFailed}>
+				<ToggleDisplay show={this.state.authFailed}>
 					<div className="form-error">
 						<span>Username or password is incorrect.</span>
 					</div>
-				</Hider>
+				</ToggleDisplay>
 
 			</section>
 		);

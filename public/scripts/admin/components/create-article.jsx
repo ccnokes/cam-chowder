@@ -1,7 +1,7 @@
 import React from 'react';
 import validators from '../../../../app/utilities/validators'; //TODO this filepath is ridiculous
 import formComponents, { Input, TextArea, FormMixin } from '../../form/form-components.jsx';
-import Hider from '../../core/hider.jsx';
+import ToggleDisplay from 'react-toggle-display';
 import articleSvc from '../../article/article-svc';
 
 
@@ -36,6 +36,10 @@ export default React.createClass({
 						showCreated: false
 					})
 				}, 3000);
+			}, (err) => {
+				if(err.message) {
+					alert(err.message); //TODO don't alert stuff
+				}
 			});
 		}
 		else {
@@ -78,20 +82,20 @@ export default React.createClass({
 
 				</form>
 
-				<Hider show={!this.state.isValid}>
+				<ToggleDisplay show={!this.state.isValid}>
 					<div className="form-error">
 						<p>The following fields look problematic:</p>
 						<ul>
 							{renderInvalids()}
 						</ul>
 					</div>
-				</Hider>
+				</ToggleDisplay>
 
-				<Hider show={this.state.showCreated}>
+				<ToggleDisplay show={this.state.showCreated}>
 					<div className="form-success">
 						<span>Post created!</span>
 					</div>
-				</Hider>
+				</ToggleDisplay>
 
 			</div>
 		);
