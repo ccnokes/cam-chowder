@@ -14,6 +14,7 @@ module.exports = React.createClass({
 		this.setState({
 			topic: topicSvc.getRandomTopic()
 		});
+		ga('send', 'event', 'randomTopic', 'click');
 	},
 
 	render() {

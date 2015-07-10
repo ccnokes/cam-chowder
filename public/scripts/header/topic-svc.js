@@ -3,10 +3,10 @@ const topics = [
 	'cheesecake',
 	'snake charming',
 	'pro wrestling',
-	'collecting exotic fungi',
 	'ferret grooming',
 	'collecting beanie babies',
-	'becoming a Pokemon master'
+	'becoming a Pokemon master',
+	'falconry'
 ];
 
 let lastUsedIndex = 0;
