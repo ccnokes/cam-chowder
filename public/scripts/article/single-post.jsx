@@ -72,12 +72,13 @@ var SinglePost = React.createClass({
 
 		return (
 			<DocTitle pageTitle={post.title}>
-				<div className="row">
-					<div className="sidebar col-md-4">
+				<div className="flex-md-row">
+
+					<div className="sidebar flex-md-4">
 						<PostList></PostList>
 					</div>
 
-					<article className="blog-post col-md-8">
+					<article className="blog-post flex-md-8">
 					
 						<Loader show={this.state.loading}></Loader>
 

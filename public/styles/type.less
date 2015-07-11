@@ -36,7 +36,9 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .list-group {
-	border-right: 1px solid #bababa;
+	@media(min-width: @screen-sm-min) {
+		border-right: 1px solid #bababa;
+	}
 }
 
 .list-group-item {
