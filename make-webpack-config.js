@@ -15,7 +15,7 @@ function makeConfig(opts) {
 
 		entry: {
 			app: appEntry,
-			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router', 'reqwest', 'd3']
+			vendor: ['lodash', 'react', 'react/lib/ReactCSSTransitionGroup', 'react-router', 'reqwest', 'd3', 'react-toggle-display']
 		},
 
 		stats: {
