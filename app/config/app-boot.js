@@ -2,7 +2,8 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	path = require('path'),
 	env = require('./env'),
-	autoload = require('./auto-load');
+	autoload = require('./auto-load'),
+	logger = require('./logger');
 
 //boom
 var app = express();
@@ -19,6 +20,25 @@ var db = mongoose.connection;
 db.on('error', function () {
 	throw new Error('unable to connect to database at ' + env.db);
 });
+
+
+function exitHandler(err) {
+    if (err) {
+    	logger.errorLog(err);
+    }
+
+    mongoose.disconnect();
+    process.exit();
+}
+
+//handles ctrl+c event
+process.on('SIGINT', exitHandler);
+
+//handles termination signal
+process.on('SIGTERM', exitHandler);
+
+//handles uncaught exceptions
+process.on('uncaughtException', exitHandler);
 
 
 //set some global vars

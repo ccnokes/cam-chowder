@@ -17,15 +17,10 @@ if(appConstants.env === 'dev') {
 }
 
 //handle robots.txt requests
-app.use(function(req, res, next) {
-	if(req.url === '/robots.txt') {
-		var robots = 'User-agent: *' + '\n' + 'Disallow: /admin';
-		res.type('text/plain');
-		res.send(robots);
-	} 
-	else {
-		next();
-	}
+app.get('/robots.txt', function(req, res) {	
+	var robots = 'User-agent: *' + '\n' + 'Disallow: /admin';
+	res.type('text/plain');
+	res.send(robots);
 });
 
 
