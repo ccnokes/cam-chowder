@@ -16,6 +16,19 @@ if(appConstants.env === 'dev') {
 	require('node-monkey').start();	
 }
 
+//handle robots.txt requests
+app.use(function(req, res, next) {
+	if(req.url === '/robots.txt') {
+		var robots = 'User-agent: *' + '\n' + 'Disallow: /admin';
+		res.type('text/plain');
+		res.send(robots);
+	} 
+	else {
+		next();
+	}
+})
+
+
 //adds response time header to response
 app.use(responseTime());
 
