@@ -26,7 +26,7 @@ app.use(function(req, res, next) {
 	else {
 		next();
 	}
-})
+});
 
 
 //adds response time header to response
