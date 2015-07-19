@@ -3,7 +3,8 @@ var express = require('express'),
 	path = require('path'),
 	env = require('./env'),
 	autoload = require('./auto-load'),
-	logger = require('./logger');
+	logger = require('./logger'),
+	appConstants = require('./app-constants');
 
 //boom
 var app = express();
@@ -65,6 +66,7 @@ autoload('**/*-ctrl.js', function(mod, file) {
 
 //register backup routes, 404s and such. These must come last
 var router = express.Router();
+var viewCtrl = require('../views/view-ctrl');
 
 router.use(function(req, res, next) {
 	//if expecting JSON, send that
@@ -73,12 +75,13 @@ router.use(function(req, res, next) {
 			message: 'Resource does not exist.'
 		});
 	} 
-
-	next();
-	//otherwise send 404.html
-	// else {
-	// 	res.status(404).render('404', { title: '404 :(' });
-	// }
+	//otherwise send 404 html
+	else {
+		res.status(404);
+		//this is a little strange and an unfortunate side effect of auto-loading all controllers
+		//and embedding routers in each controller
+		viewCtrl.render(req, res);
+	}
 });
 
 //mount the router in the app
