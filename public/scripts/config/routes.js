@@ -17,7 +17,7 @@ module.exports = (
 			<Route name="contact" handler={require('../contact/contact-page.jsx')} path="/contact"></Route>
 			<Route name="about" handler={require('../about/about-page.jsx')} path="/about"></Route>
 
-			<NotFoundRoute name="404" path="/404" handler={require('../not-found.jsx')} />
+			<NotFoundRoute name="404" handler={require('../not-found.jsx')} />
 		</Route>
 
 	</Route>

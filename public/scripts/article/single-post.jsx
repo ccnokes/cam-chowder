@@ -38,7 +38,7 @@ var SinglePost = React.createClass({
 			}.bind(this),
 			function err(e) {
 				console.error(e);
-				this.transitionTo('404');
+				this.transitionTo('/404');
 			}.bind(this)
 		);
 	},
