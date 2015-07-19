@@ -7,7 +7,7 @@ var React = require('react'),
 	DocTitle = require('../core/doc-title.jsx');
 
 
-var SinglePost = React.createClass({
+var BlogPost = React.createClass({
 	mixins: [Navigation],
 
 	appreciate: function() {
@@ -72,45 +72,38 @@ var SinglePost = React.createClass({
 
 		return (
 			<DocTitle pageTitle={post.title}>
-				<div className="flex-md-row">
+				<article className="blog-post flex-md-8">
+				
+					<Loader show={this.state.loading}></Loader>
 
-					<div className="sidebar flex-md-4">
-						<PostList></PostList>
-					</div>
-
-					<article className="blog-post flex-md-8">
-					
-						<Loader show={this.state.loading}></Loader>
-
-						<div className="blog-post-header mg-btm">
-							<h1>{post.title}</h1>
-							<div className="blog-post-meta small">
-								<span>Published: {filters.formatDate(post.createdDate)}</span>
-								<div className="blog-post-meta-appreciates">
-									<div className="shape-heart"></div>&nbsp;<span className="heart-text">{this.state.appreciateCount}</span>
-								</div>
+					<div className="blog-post-header mg-btm">
+						<h1>{post.title}</h1>
+						<div className="blog-post-meta small">
+							<span>Published: {filters.formatDate(post.createdDate)}</span>
+							<div className="blog-post-meta-appreciates">
+								<div className="shape-heart"></div>&nbsp;<span className="heart-text">{this.state.appreciateCount}</span>
 							</div>
 						</div>
+					</div>
 
-						<div className="blog-post-body mg-btm" dangerouslySetInnerHTML={html()}></div>
-						
-						<div className="blog-post-footer">
-							<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
-								<div className="shape-heart"></div>
-								&nbsp;
-								Appreciate 
-								&nbsp;
-								<span className="badge">{this.state.appreciateCount}</span>
-							</button>
-							<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
-						</div>
-					</article>
-
-				</div>
+					<div className="blog-post-body mg-btm" dangerouslySetInnerHTML={html()}></div>
+					
+					<div className="blog-post-footer">
+						<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
+							<div className="shape-heart"></div>
+							&nbsp;
+							Appreciate 
+							&nbsp;
+							<span className="badge">{this.state.appreciateCount}</span>
+						</button>
+						<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
+					</div>
+					
+				</article>
 			</DocTitle>
 		);
 	}
 
 });
 
-module.exports = SinglePost;
+module.exports = BlogPost;
