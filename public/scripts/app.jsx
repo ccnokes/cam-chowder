@@ -1,4 +1,4 @@
-var React = require('react'),
+let React = require('react'),
 	Router = require('react-router'),
 	RouteHandler = Router.RouteHandler,
 	Link = require('react-router').Link,
@@ -8,13 +8,16 @@ var React = require('react'),
 	DocTitle = require('./core/doc-title.jsx');
 
 
-var App = React.createClass({
+let App = React.createClass({
 
 	componentDidMount() {
-		headerGraphic({
+		headerGraphic.makeGraphic({
 			target: '#header-graphic'
-		})
-		.render();
+		});
+	},
+
+	componentWillUnmount() {
+		headerGraphic.destroy();
 	},
 
 	render() {

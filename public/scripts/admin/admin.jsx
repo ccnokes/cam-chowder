@@ -26,10 +26,13 @@ var Admin = React.createClass({
 
 	componentDidMount() {
 		//render header
-		headerGraphic({
+		headerGraphic.makeGraphic({
 			target: '#header-graphic'
-		})
-		.render();
+		});
+	},
+
+	componentWillUnmount() {
+		headerGraphic.destroy();
 	},
 
 	render() {
