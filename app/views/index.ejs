@@ -11,6 +11,14 @@
 		<!-- <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"> -->
 		<link rel="stylesheet" type="text/css" href="/styles/main.css?v=<%= version %>">
 		<link href='//fonts.googleapis.com/css?family=Hind:400,300,600|Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+		<% if(env !== 'dev') { %>
+		<!-- ClickTale Top part -->
+		<script type="text/javascript">
+		var WRInitTime=(new Date()).getTime();
+		</script>
+		<!-- ClickTale end of Top part -->
+		<% } %>
 	</head>
 
 	<body>
@@ -21,17 +29,27 @@
       	<noscript>Javascript is required to view this site.</noscript>
 
 		<main id="appRoot" role="main"></main>
+
+
+		<% if(env === 'dev') { %>
+		
+		<script type="text/javascript" src="http://localhost:8080/assets/vendor.bundle.js"></script>
+		<script type="text/javascript" src="http://localhost:8080/assets/app.bundle.js?v=<%= version %>"></script>
+
+		<% } else { %>
+
+		<script type="text/javascript" src="/scripts/vendor.bundle.js"></script>
+		<script type="text/javascript" src="/scripts/app.bundle.js?v=<%= version %>"></script>
+
+		<!-- ClickTale -->
+		<script type='text/javascript'>
+		document.write(unescape("%3Cscript%20src='"+
+		(document.location.protocol=='https:'?
+		"https://cdnssl.clicktale.net/www02/ptc/0888c9fa-6d70-433d-bcec-887bd75f400a.js":
+		"http://cdn.clicktale.net/www02/ptc/0888c9fa-6d70-433d-bcec-887bd75f400a.js")+"'%20type='text/javascript'%3E%3C/script%3E"));
+		</script>
+
+		<% } %>
+
 	</body>
-
-	<% if(env === 'dev') { %>
-	
-	<script type="text/javascript" src="http://localhost:8080/assets/vendor.bundle.js"></script>
-	<script type="text/javascript" src="http://localhost:8080/assets/app.bundle.js?v=<%= version %>"></script>
-
-	<% } else { %>
-
-	<script type="text/javascript" src="/scripts/vendor.bundle.js"></script>
-	<script type="text/javascript" src="/scripts/app.bundle.js?v=<%= version %>"></script>
-
-	<% } %>
 </html>
