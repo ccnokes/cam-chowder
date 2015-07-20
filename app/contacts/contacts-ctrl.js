@@ -4,7 +4,9 @@ var contactSvc = require('./contacts-svc'),
 	router = require('express').Router(),
 	Q = require('q'),
 	_ = require('lodash'),
-	authCtrl = require('../auth/auth-ctrl');
+	authCtrl = require('../auth/auth-ctrl'),
+	notifier = require('../notifications/notifier'),
+	logger = require('../config/logger');
 
 
 var contactCtrl = exports;
@@ -20,6 +22,7 @@ contactCtrl.getContacts = function(req, res) {
 			res.json(data);
 		},
 		function err(e) {
+			logger.errorLog(e);
 			res.status(404).end();
 		}
 	)
@@ -31,10 +34,13 @@ contactCtrl.createContact = function(req, res) {
 	contactSvc.createContact(req.body)
 	.then(
 		function ok(contact) {
+			//send notification to my phone
+			notifier.sendContactNotification(contact._doc);
+
 			res.status(201).json(contact);
 		},
 		function err(e) {
-			console.log(e);
+			logger.errorLog(e);
 			res.status(404).end();
 		}
 	);
@@ -50,6 +56,7 @@ contactCtrl.removeContact = function(req, res) {
 			res.json({message: 'Contact removed.'});
 		},
 		function err(e) {
+			logger.errorLog(e);
 			res.status(404).end();
 		}
 	);

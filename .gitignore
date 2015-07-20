@@ -4,7 +4,7 @@ bower_components
 
 dist
 logs/
-
+app/secrets.js
 uploads/**/*
 
 *.log

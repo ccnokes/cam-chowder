@@ -37,6 +37,7 @@
     "react-toggle-display": "0.1.0",
     "remarkable": "^1.6.0",
     "response-time": "^2.1.0",
+    "twilio": "^2.2.1",
     "winston": "^1.0.0"
   },
   "devDependencies": {
