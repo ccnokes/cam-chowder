@@ -1,1 +1,1 @@
-This is my personal site (http://www.cameronnokes.com) re-write using Node.js, Mongo, and React. 
+This is my personal site (http://cameronnokes.com) re-write using Node.js, Mongo, and React. 

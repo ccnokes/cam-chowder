@@ -9,7 +9,7 @@ var ContactPage = React.createClass({
 			<DocTitle pageTitle="Contact">
 				<div>
 					<h1>Contact</h1>
-					<p>Send me a message and let me know what's on your mind. I'll get back to you shortly.</p>
+					<p>Send me a message and let me know what's on your mind. I'll get back to you shortly. I'm available for freelance work.</p>
 					<ContactForm></ContactForm>	
 				</div>
 			</DocTitle>
