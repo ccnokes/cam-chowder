@@ -9,14 +9,17 @@ p {
 	margin: 0 0 1em 0;
 }
 
-// h1 + p, 
-// h2 + p, 
-// h3 + p,
-// h4 + p, 
-// h5 + p, 
-// h6 + p {
-// 	margin-bottom: 2em;
-// }
+//space headers further away from body content
+ul + h1,
+ul + h2,
+ul + h3,
+ul + h4,
+p + h1,
+p + h2,
+p + h3,
+p + h4 {
+	margin-top: 1.2em;
+}
 
 .no-list {	
 	margin: 0;
@@ -33,6 +36,13 @@ h1, h2, h3, h4, h5, h6,
 	margin-top: 0;
 	color: #333;
 	margin-bottom: 10px;
+}
+
+blockquote {
+	border-left: 5px solid #BDBDBD;
+	background-color: #EDF7FF;
+	font-style: italic;
+	color: rgb(103, 103, 103);
 }
 
 .list-group {
