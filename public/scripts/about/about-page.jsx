@@ -1,5 +1,6 @@
 import React from 'react';
 import DocTitle from '../core/doc-title.jsx';
+import appConstants from '../config/constants';
 
 export default React.createClass({
 	render() {
@@ -16,10 +17,10 @@ export default React.createClass({
 
 							<h3>Stalk Me</h3>
 							<ul>
-								<li><a href="http://www.linkedin.com/pub/cameron-nokes/2a/47b/251" target="_blank">LinkedIn</a></li>
-								<li><a href="https://github.com/ccnokes" target="_blank">Github</a></li>
-								<li><a href="http://stackoverflow.com/users/1397311/ccnokes?tab=profile">StackOverflow</a></li>
-								<li><a href="https://twitter.com/@ccnokes" target="_blank">Twitter</a></li>
+								<li><a href={appConstants.linkedin} target="_blank">LinkedIn</a></li>
+								<li><a href={appConstants.github} target="_blank">Github</a></li>
+								<li><a href={appConstants.stackOverflow}>StackOverflow</a></li>
+								<li><a href={appConstants.twitter} target="_blank">Twitter</a></li>
 							</ul>
 
 							<h3>About this site</h3>

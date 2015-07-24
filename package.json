@@ -20,6 +20,8 @@
     "forever": "^0.14.1",
     "glob": "^5.0.10",
     "graceful-fs": "^3.0.7",
+    "gulp-svgmin": "^1.2.0",
+    "gulp-svgstore": "^5.0.3",
     "helmet": "^0.8.0",
     "highlight.js": "^8.5.0",
     "lodash": "^2.4.1",

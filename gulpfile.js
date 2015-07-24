@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 var gulp = require('gulp');
 var webpack = require('webpack');
 var watch = require('gulp-watch');
@@ -10,6 +11,8 @@ var del = require('del');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var argv = require('yargs').argv;
+var svgmin = require('gulp-svgmin');
+var svgstore = require('gulp-svgstore');
 
 
 
@@ -17,7 +20,7 @@ var argv = require('yargs').argv;
  * for running blocks of code only in the matching environments
  * usage: if(envIs('stage', 'prod')) { doStuff(); }
  * @param {String} strings of environments to run code in
- * @return {Boolean} 
+ * @return {Boolean}
  */
 function envIs() {
 	var args = [].slice.call(arguments);
@@ -52,9 +55,10 @@ var paths = {
 		main: 'public',
 		scripts: 'public/scripts/**/*.js',
 		stylesMain: 'public/styles/main.less',
-		styles: 'public/styles/**/*.less'
+		styles: 'public/styles/**/*.less',
+		svgs: 'public/images/svg/*.svg'
 	},
-	
+
 	dist: {
 		scripts: 'dist/scripts/',
 		styles: 'dist/styles/'
@@ -67,7 +71,7 @@ gulp.task('webpack', ['cleanScripts'], function(done) {
 	webpack(webpackConfig, function(err, stats) {
         if(err) {
         	console.error(err);
-        	throw new gutil.PluginError('webpack', err);	
+        	throw new gutil.PluginError('webpack', err);
         }
         else {
         	done();
@@ -91,8 +95,8 @@ gulp.task('lint', function() {
 
 
 gulp.task('less', function() {
-	
-	var stream = 
+
+	var stream =
 		gulp.src(paths.src.stylesMain)
 		.pipe(less())
 		.pipe(autoprefixer());
@@ -102,6 +106,26 @@ gulp.task('less', function() {
 	}
 
 	return stream.pipe( gulp.dest(paths.dist.styles) );
+});
+
+
+//outputs an svg that we just paste into index.ejs
+//TODO make this dynamically inserted somehow
+gulp.task('svg', function() {
+	return gulp.src(paths.src.svgs)
+		.pipe(svgmin(function (file) {
+			var prefix = path.basename(file.relative, path.extname(file.relative));
+			return {
+				plugins: [{
+					cleanupIDs: {
+						prefix: prefix + '-',
+						minify: true
+					}
+				}]
+			}
+		}))
+		.pipe(svgstore({ inlineSvg: true }))
+		.pipe(gulp.dest('dist/images/svg'));
 });
 
 
@@ -120,4 +144,3 @@ gulp.task('default', baseTasks.concat(['watch']));
 
 
 gulp.task('build', baseTasks);
-
