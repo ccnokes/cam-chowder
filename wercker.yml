@@ -26,9 +26,14 @@ build:
     - npm-install
     # A step that executes `npm test` command
     # - npm-test
-    - npm run build
 
+    # A custom script step, name value is used in the UI
+    # and the code value contains the command that get executed
+    - script:
+        name: gulp build
+        code: |
+          npm run build
 
-# deploy:
-#   steps:
-#     - forever restartall
+deploy:
+  steps:
+    - forever restartall
