@@ -24,7 +24,7 @@ mediaCtrl.handleUpload = function(req, res) {
 	});
 
 	form.on('error', function(err) {
-		console.log('Error parsing form: ' + err.stack);
+		errLog('Error parsing form: ' + err.stack);
 		res.status(400).end();
 	});
 
@@ -103,12 +103,12 @@ mediaCtrl.removeUpload = function(req, res) {
 			res.status(200).end();
 		}, 
 		function err(e) {
-			errLog.error(e);
+			errLog(e);
 			res.status(404).end();
 		}
 	)
 	.fail(function(e) {
-		errLog.error(e);
+		errLog(e);
 		res.status(404).end();
 	});
 };

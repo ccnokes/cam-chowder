@@ -11,6 +11,7 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.8.3",
+    "bootstrap": "^3.3.4",
     "d3": "^3.5.5",
     "ejs": "^2.3.1",
     "event-emitter": "^0.3.3",
@@ -34,8 +35,9 @@
     "react": "^0.13.2",
     "react-document-title": "^1.0.2",
     "react-router": "^0.13.3",
-    "react-toggle-display": "0.1.0",
+    "react-toggle-display": "^1.0.0",
     "remarkable": "^1.6.0",
+    "reqwest": "^1.1.5",
     "response-time": "^2.1.0",
     "twilio": "^2.2.1",
     "winston": "^1.0.0"
@@ -43,7 +45,6 @@
   "devDependencies": {
     "babel-core": "^5.5.7",
     "babel-loader": "^5.1.4",
-    "bootstrap": "^3.3.4",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.3.0",
@@ -62,7 +63,6 @@
     "react-hot-loader": "^1.2.7",
     "react-tools": "^0.13.2",
     "reactify": "^1.1.0",
-    "reqwest": "^1.1.5",
     "run-sequence": "^1.1.0",
     "webpack": "^1.8.9",
     "webpack-dev-server": "^1.9.0",
