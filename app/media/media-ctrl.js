@@ -6,7 +6,7 @@ var path = require('path'),
 	multiparty = require('multiparty'),
 	glob = require('glob'),
 	Q = require('q'),
-	errLog = require('../config/logger.js').errorLog;
+	errorLog = require('../config/logger').errorLog;
 
 const resourceUri = '/api/media';
 const appConstants = require('../config/app-constants');
@@ -24,7 +24,7 @@ mediaCtrl.handleUpload = function(req, res) {
 	});
 
 	form.on('error', function(err) {
-		errLog('Error parsing form: ' + err.stack);
+		errorLog.error('Error parsing form: ' + err.stack);
 		res.status(400).end();
 	});
 
@@ -103,12 +103,12 @@ mediaCtrl.removeUpload = function(req, res) {
 			res.status(200).end();
 		}, 
 		function err(e) {
-			errLog(e);
+			errorLog.error(e);
 			res.status(404).end();
 		}
 	)
 	.fail(function(e) {
-		errLog(e);
+		errorLog.error(e);
 		res.status(404).end();
 	});
 };

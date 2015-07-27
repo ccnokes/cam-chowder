@@ -1,7 +1,8 @@
 var passport = require('passport'),
 	BasicStrategy = require('passport-http').BasicStrategy,
 	User = require('../user/user-model'),
-	router = require('express').Router();
+	router = require('express').Router(),
+	errorLog = require('../config/logger').errorLog;
 
 var authCtrl = exports;
 authCtrl.router = router;
@@ -15,17 +16,20 @@ passport.use(new BasicStrategy(
 
 			// No user found with that username
 			if (!user) { 
+				errorLog.error('invalid user: ', user);
 				return callback(null, false); 
 			}
 
 			// Make sure the password is correct
 			user.verifyPassword(password, function(err, isMatch) {
 				if (err) { 
+					errorLog.error(err);
 					return callback(err); 
 				}
 
 				// Password did not match
 				if (!isMatch) { 
+					errorLog.error('invalid password for: ', user);
 					return callback(null, false); 
 				}
 

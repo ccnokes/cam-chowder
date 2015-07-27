@@ -39,7 +39,7 @@ export default {
 	getUploads() {
 		return adminSvc.authRequest({
 			url: resourceUrl,
-			type: 'json',
+			contentType: 'application/json',
 			method: 'get'
 		});
 	},
@@ -47,7 +47,7 @@ export default {
 	removeUpload(uri) {
 		return adminSvc.authRequest({
 			url: `${resourceUrl}/${encodeURIComponent(uri)}`,
-			type: 'json',
+			contentType: 'application/json',
 			method: 'delete'
 		});
 	}
