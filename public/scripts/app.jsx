@@ -38,6 +38,13 @@ let Footer = React.createClass({
 });
 
 
+// let tags = [
+// 	{'twitter:card': 'summary'},
+// 	{'twitter:site': '@ccnokes'},
+// 	{'twitter:creator': '@ccnokes'}
+// ];
+
+
 let App = React.createClass({
 
 	componentDidMount() {

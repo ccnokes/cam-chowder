@@ -3,7 +3,7 @@ var express = require('express'),
 	path = require('path'),
 	env = require('./env'),
 	autoload = require('./auto-load'),
-	logger = require('./logger'),
+	errorLog = require('./logger').errorLog,
 	appConstants = require('./app-constants');
 
 //boom
@@ -25,7 +25,7 @@ db.on('error', function () {
 
 function exitHandler(err) {
     if (err) {
-    	logger.errorLog(err);
+    	errorLog.error(err);
     }
 
     mongoose.disconnect();

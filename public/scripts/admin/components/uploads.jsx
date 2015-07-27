@@ -19,7 +19,7 @@ let UploadTile = React.createClass({
 				hide: true
 			});	
 		}, (e) => {
-			console.log(e);
+			console.error(e);
 		});
 	},
 

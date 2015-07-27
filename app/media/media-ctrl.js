@@ -97,6 +97,9 @@ mediaCtrl.removeUpload = function(req, res) {
 	//filepath should include 'uploads', so we construct against root
 	var filepath = path.join(appConstants.rootPath, decodeURIComponent(req.params.filepath));
 	
+	//when you just .end() a response, it uses a default response type. We want it as JSON even though the responses are empty
+	res.set('Content-Type', 'application/json');
+
 	Q.nfcall(fs.unlink, filepath)
 	.then(
 		function ok() {
