@@ -7,9 +7,9 @@ class SinglePostPage extends React.Component {
 	render() {
 		return (
 			<div className="flex-md-row">
-				<div className="sidebar flex-md-4">
+				<aside role="complementary" itemScope itemType="http://schema.org/WPSideBar" className="sidebar flex-md-4">
 					<PostList></PostList>
-				</div>
+				</aside>
 				<BlogPost {...this.props} />
 			</div>
 		);

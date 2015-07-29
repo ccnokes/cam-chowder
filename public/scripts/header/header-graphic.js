@@ -108,7 +108,7 @@ function render(opts) {
 		});
 
 	animateOnScroll();
-	handleResize();
+	//handleResize();
 }
 
 
@@ -134,11 +134,11 @@ function animateOnScroll() {
 }
 
 
-function handleResize() {
-	components['removeResizeListener'] = listenTo('resize', function() {
-		components.target.node().style.width = document.documentElement.offsetWidth + 'px';
-	});
-}
+// function handleResize() {
+// 	components['removeResizeListener'] = listenTo('resize', function() {
+// 		components.target.node().style.width = document.documentElement.offsetWidth + 'px';
+// 	});
+// }
 
 
 export function destroy() {

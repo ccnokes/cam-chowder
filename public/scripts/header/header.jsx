@@ -36,7 +36,7 @@ module.exports = React.createClass({
 		return(
 			
 			<header className="header row">
-				<div className="col-sm-7">
+				<hgroup className="col-sm-7" itemScope itemType="http://schema.org/Organization" role="banner">
 					<h2 className="header-title">
 						<Link to="post-index" className="nolinkstyle">
 							Cameron Nokes
@@ -45,8 +45,8 @@ module.exports = React.createClass({
 					<p className="header-sub">
 						<small>A website about front-end web development, UX, and <RandomTopic/>.</small>
 					</p>
-				</div>
-				<nav className="nav-container col-sm-5">
+				</hgroup>
+				<nav className="nav-container col-sm-5" itemScope itemType="http://schema.org/SiteNavigationElement" role="navigation">
 					<ul className="nav navbar-nav">
 						{ this.renderLinks() }
 					</ul>
