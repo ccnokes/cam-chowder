@@ -4,7 +4,8 @@ let React = require('react'),
 	filters = require('../config/filters'),
 	PostList = require('./post-list.jsx'),
 	Loader = require('../core/loader.jsx'),
-	DocTitle = require('../core/doc-title.jsx');
+	DocTitle = require('../core/doc-title.jsx'),
+	DocMeta = require('react-doc-meta');
 
 
 let BlogPost = React.createClass({
@@ -69,38 +70,47 @@ let BlogPost = React.createClass({
 		let html = function() {
 			return { __html: post.html || '' };
 		};
+		
+		let metaTags = [];
+		if(post.metaDescription) {
+			metaTags.push({
+				name: 'description',
+				content: post.metaDescription
+			});
+		}
 
 		return (
-			<DocTitle pageTitle={post.title}>
-				<main className="blog-post flex-md-8" role="main" itemScope itemType="http://schema.org/BlogPosting" itemProp="blogPost">
+			<main className="blog-post flex-md-8" role="main" itemScope itemType="http://schema.org/BlogPosting" itemProp="blogPost">
 				
-					<Loader show={this.state.loading}></Loader>
+				<DocTitle pageTitle={post.title} />
+				<DocMeta tags={metaTags} />
 
-					<header className="blog-post-header mg-btm">
-						<h1 itemScope itemProp="headline">{post.title}</h1>
-						<div className="blog-post-meta small">
-							<span>Published: <time itemProp="datePublished" dateTime={post.createdDate}>{filters.formatDate(post.createdDate)}</time></span>
-							<div className="blog-post-meta-appreciates">
-								<div className="shape-heart"></div>&nbsp;<span className="heart-text">{this.state.appreciateCount}</span>
-							</div>
+				<Loader show={this.state.loading}></Loader>
+
+				<header className="blog-post-header mg-btm">
+					<h1 itemScope itemProp="headline">{post.title}</h1>
+					<div className="blog-post-meta small">
+						<span>Published: <time itemProp="datePublished" dateTime={post.createdDate}>{filters.formatDate(post.createdDate)}</time></span>
+						<div className="blog-post-meta-appreciates">
+							<div className="shape-heart"></div>&nbsp;<span className="heart-text">{this.state.appreciateCount}</span>
 						</div>
-					</header>
+					</div>
+				</header>
 
-					<article itemProp="text" className="blog-post-body mg-btm" dangerouslySetInnerHTML={html()}></article>
-					
-					<footer className="blog-post-footer">
-						<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
-							<div className="shape-heart"></div>
-							&nbsp;
-							Appreciate 
-							&nbsp;
-							<span className="badge">{this.state.appreciateCount}</span>
-						</button>
-						<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
-					</footer>
-					
-				</main>
-			</DocTitle>
+				<article itemProp="text" className="blog-post-body mg-btm" dangerouslySetInnerHTML={html()}></article>
+				
+				<footer className="blog-post-footer">
+					<button onClick={this.appreciate} disabled={this.state.disableAppreciate} className="btn btn-primary">
+						<div className="shape-heart"></div>
+						&nbsp;
+						Appreciate 
+						&nbsp;
+						<span className="badge">{this.state.appreciateCount}</span>
+					</button>
+					<span className={this.state.disableAppreciate ? '': 'hidden'}>Thanks!</span>
+				</footer>
+				
+			</main>
 		);
 	}
 

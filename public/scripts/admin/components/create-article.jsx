@@ -72,6 +72,7 @@ export default React.createClass({
 						<div className="row">
 							<Input ref="title" className="col-md-12" label="Title" name="title" errorMessage="Title can't be empty." validators={[validators.isNotEmptyString]} />
 							<Input ref="teaser" className="col-md-12" label="Teaser" name="teaser" optional={true} validators={[validators.isNotEmptyString]} />
+							<Input ref="metaDescription" className="col-md-12" label="Meta Description" name="metaDescription" optional={true} validators={[validators.isNotEmptyString]} />
 							<TextArea ref="text" className="col-md-12" label="Body" name="text" errorMessage="Body can't be empty." validators={[validators.isNotEmptyString]} />
 						</div>
 					</div>

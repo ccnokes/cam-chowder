@@ -30,6 +30,7 @@ var ArticleSchema = new Schema({
 		required: true
 	},
 	teaser: String,
+	metaDescription: String,
 	modifiedDate: Date,
 	createdDate: {
 		type: Date,
@@ -53,6 +54,8 @@ ArticleSchema.pre('save', function(next) {
 		this.slug = slugify(this.title);
 	}
 	this.modifiedDate = this.createdDate = new Date().toISOString();
+
+	this.title = this.title.trim();
 
 	//insert auto-generated teaser 
 	//this creates problems if there's markdown in it
