@@ -2,7 +2,9 @@ var passport = require('passport'),
 	BasicStrategy = require('passport-http').BasicStrategy,
 	User = require('../user/user-model'),
 	router = require('express').Router(),
-	errorLog = require('../config/logger').errorLog;
+	logger = require('../config/logger'),
+	errorLog = logger.errorLog,
+	miscLog = logger.miscLog;
 
 var authCtrl = exports;
 authCtrl.router = router;
@@ -34,6 +36,7 @@ passport.use(new BasicStrategy(
 				}
 
 				// Success
+				miscLog.info(user.username + ' logged in');
 				return callback(null, user);
 			});
 		});

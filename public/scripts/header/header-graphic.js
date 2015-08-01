@@ -143,7 +143,7 @@ function animateOnScroll() {
 
 export function destroy() {
 	components.removeScrollListener();
-	components.removeResizeListener();
+	//components.removeResizeListener();
 	components = {};
 }
 

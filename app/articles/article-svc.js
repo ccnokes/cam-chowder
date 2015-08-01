@@ -2,14 +2,16 @@ var mongoose = require('mongoose'),
 	Article = mongoose.model('Article'),
 	utils = require('../utilities/utils.js'),
 	Q = require('q'),
-	mongoosePaginate = require('mongoose-paginate');
+	mongoosePaginate = require('mongoose-paginate'),
+	_ = require('lodash');
 
 
 var articleSvc = exports;
 
-articleSvc.getArticles = function(page, limit) {
+articleSvc.getArticles = function(page, limit, cols) {
 	var dfd = Q.defer();
-	
+	var columns = _.isArray(cols) ? cols : ['title', 'teaser', 'createdDate', '_id', 'slug', 'appreciates'];
+
 	var paginateCb = function(error, paginatedResults, pageCount, itemCount) {
 		if(error) {
 			dfd.reject(error);
@@ -32,7 +34,7 @@ articleSvc.getArticles = function(page, limit) {
 			status: 'active'
 		}, 
 		{
-			columns: 'title teaser createdDate _id slug appreciates', //props that get returned
+			columns: columns.join(' '), //props that get returned
 			page: page, 
 			limit: limit,
 			sortBy: {

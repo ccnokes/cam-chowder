@@ -13,7 +13,7 @@ var express = require('express'),
 
 //mirror browser console to node console
 if(appConstants.env === 'dev') {
-	require('node-monkey').start();	
+	require('node-monkey').start({silent: true});	
 }
 
 //handle robots.txt requests

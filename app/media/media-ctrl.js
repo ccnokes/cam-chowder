@@ -6,7 +6,9 @@ var path = require('path'),
 	multiparty = require('multiparty'),
 	glob = require('glob'),
 	Q = require('q'),
-	errorLog = require('../config/logger').errorLog;
+	logger = require('../config/logger'),
+	errorLog = logger.errorLog,
+	miscLog = logger.miscLog;
 
 const resourceUri = '/api/media';
 const appConstants = require('../config/app-constants');
@@ -44,7 +46,7 @@ mediaCtrl.handleUpload = function(req, res) {
 			});
 
 			part.on('error', function(err) {
-				console.error(err);
+				errorLog.error(err);
 				res.status(500).end();
 			});
 		}
@@ -103,6 +105,7 @@ mediaCtrl.removeUpload = function(req, res) {
 	Q.nfcall(fs.unlink, filepath)
 	.then(
 		function ok() {
+			miscLog.info(filepath + ' deleted');
 			res.status(200).end();
 		}, 
 		function err(e) {
