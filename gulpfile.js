@@ -10,7 +10,6 @@ var less = require('gulp-less');
 var del = require('del');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
-var argv = require('yargs').argv;
 var svgmin = require('gulp-svgmin');
 var svgstore = require('gulp-svgstore');
 
@@ -37,7 +36,7 @@ function envIs() {
 //environment var, dev by default
 //usage: gulp build --env dev|stage|prod
 var validEnvs = ['dev', 'stage', 'prod'];
-var ENV = (argv.env || 'dev').toLowerCase();
+var ENV = (process.env.NODE_ENV || 'dev').toLowerCase();
 if(validEnvs.indexOf(ENV) === -1) {
 	throw new Error('Invalid environment: ' + ENV + '. ENV must equal one of these: ' + validEnvs.join(', ') + '.');
 }

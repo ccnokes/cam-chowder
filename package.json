@@ -5,7 +5,7 @@
   "scripts": {
     "start-prod": "NODE_ENV=prod forever start -c \"node --harmony\" index.js",
     "start": "nodemon --harmony index.js --watch app",
-    "build": "gulp build --env prod",
+    "build": "NODE_ENV=prod gulp build",
     "hot-dev-server": "webpack-dev-server --config webpack-dev.config.js --hot --progress --colors --inline"
   },
   "dependencies": {
@@ -67,7 +67,6 @@
     "reactify": "^1.1.0",
     "run-sequence": "^1.1.0",
     "webpack": "^1.8.9",
-    "webpack-dev-server": "^1.9.0",
-    "yargs": "^3.10.0"
+    "webpack-dev-server": "^1.9.0"
   }
 }
