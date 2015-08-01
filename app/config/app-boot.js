@@ -50,17 +50,21 @@ app.set('view engine', 'ejs');
 require('./middlewares');
 
 
-//do some auto-loading
+//do some auto-loading (TODO: this was a bad idea)
 //path is relative to app/
 autoload('**/*-model.js');
 //mount router defined in controllers to app
 autoload('**/*-ctrl.js', function(mod, file) {
 	//*note: this means that controller routers should not be order dependent
 	if(mod.router) {
+		//console.log(mod.router.stack);
 		app.use(mod.router);
 	}
 });
 
+
+//create initial sitemap on server start
+require('../utilities/sitemap-generator.js').renderSitemap();
 
 
 

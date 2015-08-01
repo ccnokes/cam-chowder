@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
 	md = require('../utilities/md');
 
 
-
 /**
  * Schema
  */
@@ -57,18 +56,9 @@ ArticleSchema.pre('save', function(next) {
 
 	this.title = this.title.trim();
 
-	//insert auto-generated teaser 
-	//this creates problems if there's markdown in it
-	// if(!this.teaser) {
-	// 	this.teaser = this.text.split(' ').splice(0, 160).join(' ') + '...';
-	// }
-
 	//ensure there are no duplicate slugs created
 	this.constructor.findOne({slug: this.slug}, function(err, article) {        
-		if(article) {
-			//presumably, adding this would be enough to eliminate the possibility of dupe slugs
-			//self.slug += '-' + count++;
-			
+		if(article) {			
 			//throw error
 			next(new Error('No duplicate slugs allowed'));
 		}
@@ -76,6 +66,13 @@ ArticleSchema.pre('save', function(next) {
 			next();
 		}
 	});
+});
+
+//update sitemap when new post added
+ArticleSchema.post('save', function() {
+	//can't require this above because it eventually relies on this file,
+	//which creates a weird circular dependency
+	require('../utilities/sitemap-generator').renderSitemap();
 });
 
 ArticleSchema.virtual('html').get(function() {
