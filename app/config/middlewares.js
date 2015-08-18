@@ -13,11 +13,11 @@ var express = require('express'),
 
 //mirror browser console to node console
 if(appConstants.env === 'dev') {
-	require('node-monkey').start({silent: true});	
+	require('node-monkey').start();
 }
 
 //handle robots.txt requests
-app.get('/robots.txt', function(req, res) {	
+app.get('/robots.txt', function(req, res) {
 	var robots = 'User-agent: *' + '\n' + 'Disallow: /admin';
 	res.type('text/plain');
 	res.send(robots);

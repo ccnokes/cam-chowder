@@ -1,4 +1,3 @@
-const secrets = require('../secrets');
 var express = require('express'),
 	mongoose = require('mongoose'),
 	path = require('path'),
@@ -16,17 +15,13 @@ module.exports = app;
 app.listen(env.port);
 console.log('server started at: ', env.hostname + ':' + env.port);
 
+
+
 //connect to DB
-var dbOpts = {};
-if(process.env.NODE_ENV === 'prod') {
-	dbOpts.user = secrets.dbUser;
-	dbOpts.pass = secrets.dbPwd;
-}
-mongoose.connect(env.db, dbOpts);
+mongoose.connect(env.db, env.dbOpts);
 var db = mongoose.connection;
-db.on('error', function () {
-	throw new Error('unable to connect to database at ' + env.db);
-});
+
+db.on('error', exitHandler);
 
 
 function exitHandler(err) {
