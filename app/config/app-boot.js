@@ -17,7 +17,12 @@ app.listen(env.port);
 console.log('server started at: ', env.hostname + ':' + env.port);
 
 //connect to DB
-mongoose.connect(env.db, { user: secrets.dbUser, pass: secrets.dbPwd });
+var dbOpts = {};
+if(process.env.NODE_ENV === 'prod') {
+	dbOpts.user = secrets.dbUser;
+	dbOpts.pass = secrets.dbPwd;
+}
+mongoose.connect(env.db, dbOpts);
 var db = mongoose.connection;
 db.on('error', function () {
 	throw new Error('unable to connect to database at ' + env.db);
