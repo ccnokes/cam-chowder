@@ -5,6 +5,7 @@ bower_components
 dist
 logs/
 app/secrets.js
+app/config/auth-secret.json
 uploads/**/*
 
 *.log

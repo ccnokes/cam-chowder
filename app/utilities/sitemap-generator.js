@@ -21,15 +21,14 @@ function getPosts() {
 	return articleSvc.getArticles(1, 99999, ['slug', 'modifiedDate'])
 	.then(
 		function ok(data) {
-			return data.content.reduce(function(aggr, model) {
+			return data.content.map(function(model) {
 				var doc = model.toObject(); //convert to plain JS object from mongoose class
-				aggr.push({
+				return {
 					loc: blogUrl + doc.slug,
 					lastmod: (new Date(doc.modifiedDate).toISOString().slice(0,10)),
 					changefreq: 'monthly' //hardcode this for now....
-				});
-				return aggr;
-			}, []);
+				};
+			});
 		}
 	);
 }

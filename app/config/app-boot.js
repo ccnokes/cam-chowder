@@ -1,3 +1,4 @@
+const secrets = require('../secrets');
 var express = require('express'),
 	mongoose = require('mongoose'),
 	path = require('path'),
@@ -16,7 +17,7 @@ app.listen(env.port);
 console.log('server started at: ', env.hostname + ':' + env.port);
 
 //connect to DB
-mongoose.connect(env.db);
+mongoose.connect(env.db, { user: secrets.dbUser, pass: secrets.dbPwd });
 var db = mongoose.connection;
 db.on('error', function () {
 	throw new Error('unable to connect to database at ' + env.db);
@@ -78,7 +79,7 @@ router.use(function(req, res, next) {
 		res.status(404).json({
 			message: 'Resource does not exist.'
 		});
-	} 
+	}
 	//otherwise send 404 html
 	else {
 		res.status(404);
