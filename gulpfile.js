@@ -12,57 +12,57 @@ var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var svgmin = require('gulp-svgmin');
 var svgstore = require('gulp-svgstore');
+var rev = require('gulp-rev');
+var plumber = require('gulp-plumber');
+var minifyHTML = require('gulp-minify-html');
+var ejs = require('gulp-ejs');
 
-
-
-/**
- * for running blocks of code only in the matching environments
- * usage: if(envIs('stage', 'prod')) { doStuff(); }
- * @param {String} strings of environments to run code in
- * @return {Boolean}
- */
-function envIs() {
-	var args = [].slice.call(arguments);
-	var isEnv = false;
-	args.some(function(item) {
-		if(item === ENV) {
-			isEnv = true;
-			return true; //break out of fn
-		}
-	});
-	return isEnv;
-}
-
-//environment var, dev by default
-//usage: gulp build --env dev|stage|prod
-var validEnvs = ['dev', 'stage', 'prod'];
-var ENV = (process.env.NODE_ENV || 'dev').toLowerCase();
-if(validEnvs.indexOf(ENV) === -1) {
-	throw new Error('Invalid environment: ' + ENV + '. ENV must equal one of these: ' + validEnvs.join(', ') + '.');
-}
-console.log('\nBuilding environment: ' + ENV + '\n');
-
+var env = require('./gulp-tasks/env');
+var paths = require('./gulp-tasks/paths');
+var pkg = require('./package.json');
 
 
 var webpackConfig = require('./make-webpack-config')({
-	env: ENV
+	env: env.ENV
 });
 
 
-var paths = {
-	src: {
-		main: 'public',
-		scripts: 'public/scripts/**/*.js',
-		stylesMain: 'public/styles/main.less',
-		styles: 'public/styles/**/*.less',
-		svgs: 'public/images/svg/*.svg'
-	},
-
-	dist: {
-		scripts: 'dist/scripts/',
-		styles: 'dist/styles/'
-	}
+//dev defaults
+var htmlAssets = {
+	mainCSS: paths.dist.styles + 'main.css',
+	app: paths.dist.scripts + 'app.bundle.js',
+	vendor: paths.dist.scripts + 'vendor.bundle.js'
 };
+
+
+gulp.task('index', ['webpack', 'less'], function() {
+	var version = pkg.version;
+
+	if(env.is('prod')) {
+		//get file names
+		var webpackStats = JSON.parse(fs.readFileSync('./dist/stats.json'));
+		var revManifest = JSON.parse(fs.readFileSync('./dist/rev-manifest.json'));
+		
+		//overwrite it
+		htmlAssets.mainCSS = paths.dist.styles + revManifest['main.css'];
+		htmlAssets.app = paths.dist.scripts + webpackStats.app;
+		htmlAssets.vendor = paths.dist.scripts + webpackStats.vendor;
+	}
+
+	var stream = gulp.src(paths.src.mainView)
+		.pipe(plumber())
+		.pipe( ejs({
+			env: env.ENV,
+			version: version,
+			assets: htmlAssets
+		}));
+
+	if(!env.is('dev')) {
+		stream.pipe(minifyHTML());
+	}
+
+	return stream.pipe(gulp.dest(paths.dist.root));
+});
 
 
 //in development, prefer using the hot dev server script in package.json
@@ -85,7 +85,7 @@ gulp.task('cleanScripts', function(done) {
 
 
 gulp.task('lint', function() {
-	var stream = gulp.src(paths.src.main + '/scripts/**/*.js');
+	var stream = gulp.src(paths.src.root + '/scripts/**/*.js');
 	stream.pipe(jshint())
 		.pipe(jshint.reporter(stylish));
 
@@ -95,16 +95,26 @@ gulp.task('lint', function() {
 
 gulp.task('less', function() {
 
-	var stream =
-		gulp.src(paths.src.stylesMain)
+	var stream = gulp.src(paths.src.stylesMain)
+		.pipe(plumber())
 		.pipe(less())
 		.pipe(autoprefixer());
 
-	if(envIs('prod')) {
-		stream.pipe(minifyCSS());
+	if(env.is('prod')) {
+		stream.pipe(rev())
+		.pipe(minifyCSS());
 	}
 
-	return stream.pipe( gulp.dest(paths.dist.styles) );
+	//write the CSS
+	stream.pipe( gulp.dest(paths.dist.styles) );
+
+	//now create the manifest, if in prod
+	if(env.is('prod')) {
+		stream.pipe(rev.manifest())
+		.pipe( gulp.dest(paths.dist.root) );
+	}
+
+	return stream;
 });
 
 
@@ -130,7 +140,8 @@ gulp.task('svg', function() {
 
 gulp.task('watch', function() {
 	watch(paths.src.styles, function() {
-		runSequence(['less']);
+		//runSequence(['less']);
+		gulp.start('less');
 	});
 });
 

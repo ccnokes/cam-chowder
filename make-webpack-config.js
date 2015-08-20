@@ -1,7 +1,8 @@
-var webpack = require('webpack');
+var webpack = require('webpack'),
+	path = require('path');
 
 function makeConfig(opts) {
-		
+
 	//set app entry array
 	var appEntry = [];
 
@@ -26,7 +27,8 @@ function makeConfig(opts) {
 		output: {
 			devtool: (opts.env === 'dev' ? '#eval-source-map' : ''),
 			path: 'dist/scripts',
-			filename: '[name].bundle.js',
+			//filenames have hashes only in prod
+			filename: (opts.env === 'dev' ? '[name].bundle.js' : '[name].[hash].bundle.js'),
 			publicPath: '/assets/'
 		},
 
@@ -50,7 +52,15 @@ function makeConfig(opts) {
 	if(opts.env === 'prod') {
 		config.plugins.push(
 			new webpack.optimize.UglifyJsPlugin(),
-			new webpack.optimize.DedupePlugin()
+			new webpack.optimize.DedupePlugin(),
+			//write manifest file with hashed filenames
+			function() {
+				this.plugin('done', function(stats) {
+					require('fs').writeFileSync(
+						path.join(__dirname, 'dist', 'stats.json'),
+						JSON.stringify(stats.toJson().assetsByChunkName, null, 4));
+					});
+			}
 		);
 	}
 
