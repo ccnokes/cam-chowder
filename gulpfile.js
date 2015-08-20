@@ -22,6 +22,9 @@ var paths = require('./gulp-tasks/paths');
 var pkg = require('./package.json');
 
 
+env.checkEnv();
+
+
 var webpackConfig = require('./make-webpack-config')({
 	env: env.ENV
 });
@@ -38,11 +41,11 @@ var htmlAssets = {
 gulp.task('index', ['webpack', 'less'], function() {
 	var version = pkg.version;
 
-	if(env.is('prod')) {
+	if(env.is('production')) {
 		//get file names
-		var webpackStats = JSON.parse(fs.readFileSync('./dist/stats.json'));
-		var revManifest = JSON.parse(fs.readFileSync('./dist/rev-manifest.json'));
-		
+		var webpackStats = require('./dist/stats.json');
+		var revManifest = require('./dist/rev-manifest.json');
+
 		//overwrite it
 		htmlAssets.mainCSS = paths.dist.styles + revManifest['main.css'];
 		htmlAssets.app = paths.dist.scripts + webpackStats.app;
@@ -100,7 +103,7 @@ gulp.task('less', function() {
 		.pipe(less())
 		.pipe(autoprefixer());
 
-	if(env.is('prod')) {
+	if(env.is('production')) {
 		stream.pipe(rev())
 		.pipe(minifyCSS());
 	}
@@ -109,7 +112,7 @@ gulp.task('less', function() {
 	stream.pipe( gulp.dest(paths.dist.styles) );
 
 	//now create the manifest, if in prod
-	if(env.is('prod')) {
+	if(env.is('production')) {
 		stream.pipe(rev.manifest())
 		.pipe( gulp.dest(paths.dist.root) );
 	}

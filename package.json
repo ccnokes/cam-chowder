@@ -3,9 +3,9 @@
   "version": "0.0.3",
   "private": true,
   "scripts": {
-    "start-prod": "NODE_ENV=prod forever start -c \"node --harmony\" index.js",
+    "start-prod": "NODE_ENV=production forever start -c \"node --harmony\" index.js",
     "start": "nodemon --harmony index.js --watch app",
-    "build": "NODE_ENV=prod gulp build",
+    "build": "NODE_ENV=production gulp build",
     "hot-dev-server": "webpack-dev-server --config webpack-dev.config.js --hot --progress --colors --inline"
   },
   "dependencies": {

@@ -35,7 +35,7 @@ function makeConfig(opts) {
 		plugins: [
 			new webpack.DefinePlugin({
 				__DEV__: (opts.env === 'dev'),
-				__PROD__: (opts.env === 'prod')
+				__PROD__: (opts.env === 'production')
 			}),
 			new webpack.optimize.CommonsChunkPlugin('vendor.bundle.js')
 		],
@@ -49,7 +49,7 @@ function makeConfig(opts) {
 	};
 
 	//add prod only plugins
-	if(opts.env === 'prod') {
+	if(opts.env === 'production') {
 		config.plugins.push(
 			new webpack.optimize.UglifyJsPlugin(),
 			new webpack.optimize.DedupePlugin(),

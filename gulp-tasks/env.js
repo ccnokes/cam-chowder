@@ -5,7 +5,7 @@
  //environment constant, dev by default
  const ENV = (process.env.NODE_ENV || 'dev').toLowerCase();
  //make sure only valid environments are allowed
- const validEnvs = ['dev', 'stage', 'prod'];
+ const validEnvs = ['dev', 'stage', 'production'];
 
 /**
  * for running blocks of code only in the matching environments
