@@ -32,24 +32,25 @@ var webpackConfig = require('./make-webpack-config')({
 
 //dev defaults
 var htmlAssets = {
-	mainCSS: paths.dist.styles + 'main.css',
-	app: paths.dist.scripts + 'app.bundle.js',
-	vendor: paths.dist.scripts + 'vendor.bundle.js'
+	mainCSS: paths.getDistPath(paths.dist.styles) + 'main.css',
+	app: paths.getDistPath(paths.dist.scripts) + 'app.bundle.js',
+	vendor: paths.getDistPath(paths.dist.scripts) + 'vendor.bundle.js'
 };
 
 
 gulp.task('index', ['webpack', 'less'], function() {
 	var version = pkg.version;
 
-	if(env.is('production')) {
+	if(env.is('production', 'stage')) {
 		//get file names
 		var webpackStats = require('./dist/stats.json');
 		var revManifest = require('./dist/rev-manifest.json');
+		var webpackManifest = fs.readFileSync('./dist/scripts/chunk-manifest.json');
 
 		//overwrite it
-		htmlAssets.mainCSS = paths.dist.styles + revManifest['main.css'];
-		htmlAssets.app = paths.dist.scripts + webpackStats.app;
-		htmlAssets.vendor = paths.dist.scripts + webpackStats.vendor;
+		htmlAssets.mainCSS = paths.getDistPath(paths.dist.styles) + revManifest['main.css'];
+		htmlAssets.app = paths.getDistPath(paths.dist.scripts) + webpackStats.app;
+		htmlAssets.vendor = paths.getDistPath(paths.dist.scripts) + webpackStats.vendor;
 	}
 
 	var stream = gulp.src(paths.src.mainView)
@@ -57,7 +58,8 @@ gulp.task('index', ['webpack', 'less'], function() {
 		.pipe( ejs({
 			env: env.ENV,
 			version: version,
-			assets: htmlAssets
+			assets: htmlAssets,
+			manifest: webpackManifest
 		}));
 
 	if(!env.is('dev')) {
@@ -103,7 +105,7 @@ gulp.task('less', function() {
 		.pipe(less())
 		.pipe(autoprefixer());
 
-	if(env.is('production')) {
+	if(env.is('production', 'stage')) {
 		stream.pipe(rev())
 		.pipe(minifyCSS());
 	}
@@ -112,7 +114,7 @@ gulp.task('less', function() {
 	stream.pipe( gulp.dest(paths.dist.styles) );
 
 	//now create the manifest, if in prod
-	if(env.is('production')) {
+	if(env.is('production', 'stage')) {
 		stream.pipe(rev.manifest())
 		.pipe( gulp.dest(paths.dist.root) );
 	}

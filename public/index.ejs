@@ -31,9 +31,13 @@
 		<script type="text/javascript" src="http://localhost:8080/assets/app.bundle.js"></script>
 
 		<% } else { %>
-
-		<script type="text/javascript" src="<%= assets.app %>"></script>
+		<script>
+		//<![CDATA[
+		window.webpackManifest = <%- manifest %>;
+		//]]>
+		</script>
 		<script type="text/javascript" src="<%= assets.vendor %>"></script>
+		<script type="text/javascript" src="<%= assets.app %>"></script>
 
 		<% } %>
 

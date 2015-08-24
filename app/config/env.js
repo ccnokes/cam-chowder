@@ -13,7 +13,19 @@ const config = {
 			pass: 'admin'
 		}
 	},
-	prod: {
+
+	stage: {
+		scheme: 'http:',
+		hostname: 'localhost',
+		port: 8080,
+		db: 'mongodb://localhost/personal-site-local',
+		dbOpts: {
+			user: 'badmin',
+			pass: 'admin'
+		}
+	},
+
+	production: {
 		scheme: 'http:',
 		hostname: '127.0.0.1',
 		port: 8080,

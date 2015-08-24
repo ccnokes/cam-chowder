@@ -26,7 +26,7 @@ db.on('error', exitHandler);
 
 function exitHandler(err) {
     if (err) {
-    	errorLog.error(err);
+    	errorLog.error(err.message);
     }
 
     mongoose.disconnect();

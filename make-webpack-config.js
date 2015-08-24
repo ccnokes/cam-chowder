@@ -1,5 +1,18 @@
 var webpack = require('webpack'),
-	path = require('path');
+	path = require('path'),
+	ManifestPlugin = require('webpack-manifest-plugin'),
+	ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+
+
+//write manifest file with hashed filenames
+function writeManifestPlugin() {
+	this.plugin('done', function(stats) {
+		require('fs').writeFileSync(
+			path.join(__dirname, 'dist', 'stats.json'),
+			JSON.stringify(stats.toJson().assetsByChunkName, null, 4));
+		});
+}
+
 
 function makeConfig(opts) {
 
@@ -28,16 +41,21 @@ function makeConfig(opts) {
 			devtool: (opts.env === 'dev' ? '#eval-source-map' : ''),
 			path: 'dist/scripts',
 			//filenames have hashes only in prod
-			filename: (opts.env === 'dev' ? '[name].bundle.js' : '[name].[hash].bundle.js'),
+			filename: (opts.env === 'dev' ? '[name].bundle.js' : '[name].[chunkhash].bundle.js'),
 			publicPath: '/assets/'
 		},
 
 		plugins: [
 			new webpack.DefinePlugin({
 				__DEV__: (opts.env === 'dev'),
+				__STAGE__: (opts.env === 'stage'),
 				__PROD__: (opts.env === 'production')
 			}),
-			new webpack.optimize.CommonsChunkPlugin('vendor.bundle.js')
+			new webpack.optimize.CommonsChunkPlugin({
+				name: 'vendor',
+				filename: (opts.env === 'dev' ? '[name].bundle.js' : '[name].[chunkhash].bundle.js'),
+				minChunks: Infinity
+			})
 		],
 
 		module: {
@@ -52,15 +70,19 @@ function makeConfig(opts) {
 	if(opts.env === 'production') {
 		config.plugins.push(
 			new webpack.optimize.UglifyJsPlugin(),
-			new webpack.optimize.DedupePlugin(),
-			//write manifest file with hashed filenames
-			function() {
-				this.plugin('done', function(stats) {
-					require('fs').writeFileSync(
-						path.join(__dirname, 'dist', 'stats.json'),
-						JSON.stringify(stats.toJson().assetsByChunkName, null, 4));
-					});
-			}
+			new webpack.optimize.DedupePlugin()
+		);
+	}
+
+	if(opts.env === 'stage' || opts.env === 'production') {
+		config.plugins.push(
+			//new ManifestPlugin(),
+			new ChunkManifestPlugin({
+				filename: path.join('chunk-manifest.json'),
+				manifestVariable: 'webpackManifest'
+			}),
+			writeManifestPlugin,
+			new webpack.optimize.OccurenceOrderPlugin()
 		);
 	}
 
