@@ -8,7 +8,8 @@ var express = require('express'),
 	env = require('./env'),
 	passport = require('passport'),
 	logger = require('./logger'),
-	expressWinston = require('express-winston');
+	expressWinston = require('express-winston'),
+	serveStatic = require('serve-static');
 
 
 //mirror browser console to node console
@@ -29,7 +30,20 @@ app.use(responseTime());
 
 
 //static paths
-app.use(express.static(appConstants.distPath));
+//app.use(express.static(appConstants.distPath));
+// app.use(function(req, res) {
+// 	if(req.path)
+// })
+
+//static paths
+app.use(serveStatic(appConstants.distPath, {
+	index: false,
+	lastModified: false,
+	setHeaders: function(res, path) {
+		res.setHeader('Cache-Control', 'public, max-age=2592000');
+	}
+}));
+
 //virtual "mount path" for uploads so not all served from root
 app.use('/uploads', express.static(appConstants.uploadsPath));
 

@@ -78,7 +78,7 @@ function makeConfig(opts) {
 		config.plugins.push(
 			//new ManifestPlugin(),
 			new ChunkManifestPlugin({
-				filename: path.join('chunk-manifest.json'),
+				filename: 'chunk-manifest.json',
 				manifestVariable: 'webpackManifest'
 			}),
 			writeManifestPlugin,

@@ -1,33 +1,23 @@
+//dependencies
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var webpack = require('webpack');
-var watch = require('gulp-watch');
-var runSequence = require('run-sequence');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var less = require('gulp-less');
 var del = require('del');
-var autoprefixer = require('gulp-autoprefixer');
-var minifyCSS = require('gulp-minify-css');
-var svgmin = require('gulp-svgmin');
-var svgstore = require('gulp-svgstore');
-var rev = require('gulp-rev');
-var plumber = require('gulp-plumber');
-var minifyHTML = require('gulp-minify-html');
-var ejs = require('gulp-ejs');
+var runSequence = require('run-sequence');
+var stylish = require('jshint-stylish');
 
+//plugins
+var $ = require('gulp-load-plugins')();
+
+//gulp tasks
 var env = require('./gulp-tasks/env');
 var paths = require('./gulp-tasks/paths');
 var pkg = require('./package.json');
+var streamErrNotif = require('./gulp-tasks/stream-err-notif.js');
 
-
+//make sure we're building a valid env
 env.checkEnv();
-
-
-var webpackConfig = require('./make-webpack-config')({
-	env: env.ENV
-});
 
 
 //dev defaults
@@ -45,7 +35,7 @@ gulp.task('index', ['webpack', 'less'], function() {
 		//get file names
 		var webpackStats = require('./dist/stats.json');
 		var revManifest = require('./dist/rev-manifest.json');
-		var webpackManifest = fs.readFileSync('./dist/scripts/chunk-manifest.json');
+		var webpackManifest = fs.readFileSync('./dist/scripts/chunk-manifest.json'); //so it's a string
 
 		//overwrite it
 		htmlAssets.mainCSS = paths.getDistPath(paths.dist.styles) + revManifest['main.css'];
@@ -54,24 +44,23 @@ gulp.task('index', ['webpack', 'less'], function() {
 	}
 
 	var stream = gulp.src(paths.src.mainView)
-		.pipe(plumber())
-		.pipe( ejs({
+		.pipe(streamErrNotif())
+		.pipe( $.ejs({
 			env: env.ENV,
 			version: version,
 			assets: htmlAssets,
 			manifest: webpackManifest
-		}));
-
-	if(!env.is('dev')) {
-		stream.pipe(minifyHTML());
-	}
-
-	return stream.pipe(gulp.dest(paths.dist.root));
+		}))
+		.pipe($.if(!env.is('dev'), $.minifyHtml()))
+		.pipe(gulp.dest(paths.dist.root));
 });
 
 
 //in development, prefer using the hot dev server script in package.json
-gulp.task('webpack', ['cleanScripts'], function(done) {
+gulp.task('webpack', ['clean'], function(done) {
+	var webpackConfig = require('./make-webpack-config')({
+		env: env.ENV
+	});
 	webpack(webpackConfig, function(err, stats) {
         if(err) {
         	console.error(err);
@@ -84,42 +73,36 @@ gulp.task('webpack', ['cleanScripts'], function(done) {
 });
 
 
-gulp.task('cleanScripts', function(done) {
-	del([paths.dist.scripts], done);
+gulp.task('clean', function(done) {
+	del([
+		paths.dist.scripts,
+		paths.dist.styles,
+		path.join(paths.dist.root, 'rev-manifest.json'),
+		path.join(paths.dist.root, 'stats.json')
+	], done);
 });
 
 
 gulp.task('lint', function() {
-	var stream = gulp.src(paths.src.root + '/scripts/**/*.js');
-	stream.pipe(jshint())
-		.pipe(jshint.reporter(stylish));
-
-	return stream;
+	return gulp.src(paths.src.root + '/scripts/**/*.js')
+		.pipe($.jshint())
+		.pipe($.jshint.reporter(stylish));
 });
 
 
 gulp.task('less', function() {
 
-	var stream = gulp.src(paths.src.stylesMain)
-		.pipe(plumber())
-		.pipe(less())
-		.pipe(autoprefixer());
-
-	if(env.is('production', 'stage')) {
-		stream.pipe(rev())
-		.pipe(minifyCSS());
-	}
-
-	//write the CSS
-	stream.pipe( gulp.dest(paths.dist.styles) );
-
-	//now create the manifest, if in prod
-	if(env.is('production', 'stage')) {
-		stream.pipe(rev.manifest())
-		.pipe( gulp.dest(paths.dist.root) );
-	}
-
-	return stream;
+	return gulp.src(paths.src.stylesMain)
+		.pipe(streamErrNotif())
+		.pipe($.less())
+		.pipe($.autoprefixer())
+		.pipe($.if(env.is('production', 'stage'), $.rev()))
+		.pipe($.if(env.is('production', 'stage'), $.minifyCss()))
+		//write the CSS
+		.pipe( gulp.dest(paths.dist.styles) )
+		//now create the manifest, if in prod
+		.pipe($.if(env.is('production', 'stage'), $.rev.manifest()))
+		.pipe($.if(env.is('production', 'stage'), gulp.dest(paths.dist.root)));
 });
 
 
@@ -127,7 +110,7 @@ gulp.task('less', function() {
 //TODO make this dynamically inserted somehow
 gulp.task('svg', function() {
 	return gulp.src(paths.src.svgs)
-		.pipe(svgmin(function (file) {
+		.pipe($.svgmin(function (file) {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
 			return {
 				plugins: [{
@@ -138,14 +121,13 @@ gulp.task('svg', function() {
 				}]
 			}
 		}))
-		.pipe(svgstore({ inlineSvg: true }))
+		.pipe($.svgstore({ inlineSvg: true }))
 		.pipe(gulp.dest('dist/images/svg'));
 });
 
 
 gulp.task('watch', function() {
-	watch(paths.src.styles, function() {
-		//runSequence(['less']);
+	$.watch(paths.src.styles, function() {
 		gulp.start('less');
 	});
 });
@@ -158,4 +140,4 @@ var baseTasks = ['less', 'webpack'];
 gulp.task('default', baseTasks.concat(['watch']));
 
 
-gulp.task('build', baseTasks);
+gulp.task('build', ['index']);
