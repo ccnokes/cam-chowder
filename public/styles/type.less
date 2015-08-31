@@ -1,5 +1,5 @@
 body {
-	font-family: 'Hind', sans-serif;
+	font-family: 'Helvetica', 'Arial', sans-serif;
 	font-size: 16px;
 	color: #4d4d4d;
 }
@@ -7,6 +7,25 @@ body {
 p {
 	line-height: 1.8em;
 	margin: 0 0 1em 0;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: 'Verdana', 'Arial', sans-serif;
+	margin-top: 0;
+	color: #333;
+	margin-bottom: 10px;
+}
+
+.font-Montserrat {
+	h1, h2, h3, h4, h5, h6,
+	.h1, .h2, .h3, .h4, .h5, .h6 {
+		font-family: 'Montserrat';
+	}
+}
+
+.font-Hind {
+	font-family: 'Hind';
 }
 
 //space headers further away from body content
@@ -25,21 +44,12 @@ pre + h4 {
 	margin-top: 1.2em;
 }
 
-.no-list {	
+.no-list {
 	margin: 0;
 	padding: 0;
 	li {
 		list-style: none;
 	}
-}
-
-
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: 'Montserrat', sans-serif;
-	margin-top: 0;
-	color: #333;
-	margin-bottom: 10px;
 }
 
 blockquote {
@@ -65,8 +75,8 @@ blockquote {
 
 	&.active {
 		background: @secColor;
-		
-		&:hover, 
+
+		&:hover,
 		&:focus {
 			background: @secColor;
 		}
