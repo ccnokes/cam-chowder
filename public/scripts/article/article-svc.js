@@ -7,6 +7,7 @@ import axios from 'axios';
 const resourceUrl = appConst.apiUrl + 'articles';
 
 
+//wrap the call in a caching layer
 var getAllArticles = _.memoize(function() {
 	return axios({
 		url: resourceUrl,
@@ -20,6 +21,7 @@ var getAllArticles = _.memoize(function() {
 });
 
 
+//wrap the call in a caching layer
 var getArticle = _.memoize(function(slug) {
 	return axios({
 		url: `${resourceUrl}/slug/${slug}`,
@@ -31,6 +33,19 @@ var getArticle = _.memoize(function(slug) {
 		return res.data;
 	});
 });
+
+
+//make sure only 3 articles are cached
+function manageArticlesCache(slug) {
+	if(getArticle.cache) {
+		let cacheArr = Object.keys(getArticle.cache);
+		if(cacheArr.length >= 3) {
+			//delete oldest entry
+			let oldestEntry = cacheArr.sort().shift();
+			delete getArticle.cache[oldestEntry];
+		}
+	}
+}
 
 
 export default {
@@ -48,6 +63,7 @@ export default {
 	 * @return {Promise}
 	 */
 	getArticleBySlug(slug) {
+		setTimeout(manageArticlesCache.bind(slug), 1); //do this async
 		return getArticle(slug);
 	},
 
