@@ -1,4 +1,4 @@
-import request from 'reqwest';
+import axios from 'axios';
 import _ from 'lodash';
 import appConst from '../config/constants';
 
@@ -29,7 +29,7 @@ export function getToken() {
 export function makeAuthHeader(input) {
 	if(typeof input === 'object') {
 		return btoa(input.username + ':' + input.password);
-	}	
+	}
 	else if(typeof input === 'string') {
 		return input;
 	}
@@ -41,10 +41,10 @@ export function makeAuthHeader(input) {
  * @return {Promise}
  */
 export function authenticate(userObj) {
-	
+
 	let basicHeader = makeAuthHeader(userObj);
 
-	return request({
+	return axios({
 		url: resourceUrl + 'authenticate',
 		type: 'json',
 		method: 'post',
@@ -75,7 +75,5 @@ export function authRequest(reqObj) {
 		}
 	};
 
-	return request(_.extend(authReq, reqObj));
+	return axios(_.extend(authReq, reqObj));
 }
-
-

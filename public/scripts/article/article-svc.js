@@ -1,20 +1,46 @@
-import request from 'reqwest';
 import appConst from '../config/constants';
 import * as adminSvc from '../admin/admin-svc';
+import _ from 'lodash';
+import axios from 'axios';
 
 
 const resourceUrl = appConst.apiUrl + 'articles';
 
 
+var getAllArticles = _.memoize(function() {
+	return axios({
+		url: resourceUrl,
+		type: 'json',
+		method: 'get',
+		contentType: 'application/json'
+	})
+	.then(function(res) {
+		return res.data;
+	});
+});
+
+
+var getArticle = _.memoize(function(slug) {
+	return axios({
+		url: `${resourceUrl}/slug/${slug}`,
+		type: 'json',
+		method: 'get',
+		contentType: 'application/json'
+	})
+	.then(function(res) {
+		return res.data;
+	});
+});
+
+
 export default {
-	
+
+	/**
+	 * Get all articles using default API params. Cache results.
+	 * @return {Promise}
+	 */
 	getAll() {
-		return request({
-			url: resourceUrl,
-			type: 'json',
-			method: 'get',
-			contentType: 'application/json'
-		});
+		return getAllArticles();
 	},
 
 	/**
@@ -22,12 +48,7 @@ export default {
 	 * @return {Promise}
 	 */
 	getArticleBySlug(slug) {
-		return request({
-			url: `${resourceUrl}/slug/${slug}`,
-			type: 'json',
-			method: 'get',
-			contentType: 'application/json'
-		});
+		return getArticle(slug);
 	},
 
 	/**
@@ -35,7 +56,7 @@ export default {
 	 * @return {Promise}
 	 */
 	appreciateArticle(id) {
-		return request({
+		return axios({
 			url: `${resourceUrl}/${id}/appreciate`,
 			type: 'json',
 			method: 'post',

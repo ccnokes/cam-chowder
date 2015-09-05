@@ -1,4 +1,3 @@
-import request from 'reqwest';
 import appConst from '../config/constants';
 import * as adminSvc from '../admin/admin-svc';
 
@@ -19,7 +18,7 @@ export default {
 		// 		console.log(percentComplete + '% uploaded');
 		// 	}
 		// });
-	
+
 		xhr.addEventListener('readystatechange', function(e) {
 		 	if(xhr.readyState === 4 && xhr.status === 200) {
 		 		cb(null, JSON.parse(xhr.response));
@@ -39,15 +38,16 @@ export default {
 	getUploads() {
 		return adminSvc.authRequest({
 			url: resourceUrl,
-			contentType: 'application/json',
 			method: 'get'
-		});
+		})
+		.then(function(res) {
+			return res.data;
+		})
 	},
 
 	removeUpload(uri) {
 		return adminSvc.authRequest({
 			url: `${resourceUrl}/${encodeURIComponent(uri)}`,
-			contentType: 'application/json',
 			method: 'delete'
 		});
 	}

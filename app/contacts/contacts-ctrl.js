@@ -6,7 +6,8 @@ var contactSvc = require('./contacts-svc'),
 	_ = require('lodash'),
 	authCtrl = require('../auth/auth-ctrl'),
 	notifier = require('../notifications/notifier'),
-	logger = require('../config/logger');
+	logger = require('../config/logger'),
+	appConstants = require('../config/app-constants');
 
 
 var contactCtrl = exports;
@@ -35,7 +36,9 @@ contactCtrl.createContact = function(req, res) {
 	.then(
 		function ok(contact) {
 			//send notification to my phone
-			notifier.sendContactNotification(contact._doc);
+			if(appConstants.env !== 'dev') {
+				notifier.sendContactNotification(contact._doc);
+			}
 
 			res.status(201).json(contact);
 		},
@@ -62,4 +65,3 @@ contactCtrl.removeContact = function(req, res) {
 	);
 };
 router.route(resourceUri + '/:id').delete(authCtrl.isAuthenticated, contactCtrl.removeContact);
-
