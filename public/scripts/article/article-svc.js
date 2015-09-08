@@ -89,8 +89,7 @@ export default {
 			url: resourceUrl,
 			method: 'post',
 			type: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(articleObj)
+			data: articleObj
 		});
 	},
 
